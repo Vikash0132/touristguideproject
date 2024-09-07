@@ -1,0 +1,39 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+}
+
+.dashboard-nav {
+  display: flex;
+  justify-content: space-around;
+  background-color: #333;
+  padding: 10px 0;
+}
+
+.tab {
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.active-tab {
+  border-bottom: 2px solid #fff;
+}
+
+.map-container {
+  flex-grow: 1;
+  position: relative;
+}
+
+.map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+}
