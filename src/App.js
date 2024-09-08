@@ -1,3 +1,4 @@
+import ReactDOM from 'react-dom';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
@@ -21,7 +22,6 @@ function App() {
 }
 // index.js or App.js
 
-import ReactDOM from 'react-dom';
 
 
 ReactDOM.render(
