@@ -22,7 +22,6 @@ function App() {
 // index.js or App.js
 
 import ReactDOM from 'react-dom';
-import './app.css';  // Import the global styles
 
 
 ReactDOM.render(
