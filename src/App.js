@@ -19,4 +19,17 @@ function App() {
     </Router>
   );
 }
+// index.js or App.js
+
+import ReactDOM from 'react-dom';
+import './app.css';  // Import the global styles
+import App from './App';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
 export default App;
