@@ -23,7 +23,7 @@ function App() {
 
 import ReactDOM from 'react-dom';
 import './app.css';  // Import the global styles
-import App from './App';
+
 
 ReactDOM.render(
   <React.StrictMode>
