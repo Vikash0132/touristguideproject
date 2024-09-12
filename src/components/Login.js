@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+const [isLoggedIn, setIsLoggedIn] = useState(false);
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -14,6 +15,7 @@ const Login = () => {
         password,
       });
       if (response.data.success) {
+        setIsLoggedIn(true);
         navigate('/dashboard');
       } else {
         alert('Invalid credentials');
