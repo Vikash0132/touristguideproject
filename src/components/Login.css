@@ -46,3 +46,9 @@
 .login-form button:hover {
   background-color: #0056b3;
 }
+.map-wrap {
+  display: none;
+}
+.maplibregl-canvas {
+  display: none; 
+}
