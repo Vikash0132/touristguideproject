@@ -1,20 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import './navbar.css';
-import { LoginContext } from './context/LoginContext'; // Import LoginContext
+import Login from './Login.js'; // Import Login component
 
-export default function Navbar() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const { isLoggedIn } = useContext(LoginContext); // Use context to access login state
+const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Local state for login status
 
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    // Handle the search functionality here.
-    // You may need to pass data or filter results as needed.
-    console.log('Search Query:', searchQuery);
+  const handleLoginSuccess = (loggedIn) => {
+    setIsLoggedIn(loggedIn); // Update local login state
   };
 
   return (
@@ -34,7 +26,10 @@ export default function Navbar() {
             <button type="submit">Search</button>
           </form>
         )}
+        <Login onLoginSuccess={handleLoginSuccess} /> {/* Pass onLoginSuccess prop */}
       </div>
     </nav>
   );
-}
+};
+
+export default Navbar;

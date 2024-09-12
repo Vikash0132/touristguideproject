@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-const [isLoggedIn, setIsLoggedIn] = useState(false);
-const Login = () => {
+
+const Login = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const Login = () => {
         password,
       });
       if (response.data.success) {
-        setIsLoggedIn(true);
+        onLoginSuccess(true); // Call the prop function to update login state
         navigate('/dashboard');
       } else {
         alert('Invalid credentials');
@@ -25,46 +25,7 @@ const Login = () => {
     }
   };
 
-  const containerStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh', // Full viewport height
-    backgroundImage: 'url("/map2.jpeg")',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-  };
-
-  const formStyle = {
-    padding: '20px',
-    borderRadius: '10px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    width: '100%',
-    maxWidth: '400px',
-  };
-
-  const inputStyle = {
-    width: '100%',
-    padding: '10px',
-    marginTop: '5px',
-    marginBottom: '15px',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    boxSizing: 'border-box',
-    backgroundColor: 'rgba(255,255,255,0.5)',
-  };
-
-  const buttonStyle = {
-    width: '100%',
-    padding: '10px',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  };
+  // ... rest of your login component code (styles remain the same)
 
   return (
     <div style={containerStyle}>

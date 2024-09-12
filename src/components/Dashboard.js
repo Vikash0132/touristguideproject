@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Tabs, Tab, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { LoginContext } from './context/LoginContext'; // Import LoginContext
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('home');
+  const { isLoggedIn } = useContext(LoginContext); // Use context to access login state
 
   const handleTabSelect = (key) => {
     setActiveTab(key);
@@ -15,6 +17,11 @@ const Dashboard = () => {
       <Row>
         <Col>
           <h1>Dashboard</h1>
+          {isLoggedIn && ( // Conditionally render search bar based on isLoggedIn
+            <div className="search-bar">
+              {/* Your search bar component */}
+            </div>
+          )}
         </Col>
       </Row>
       <Row>
