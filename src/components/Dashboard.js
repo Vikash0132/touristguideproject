@@ -1,11 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import { Tabs, Tab, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { LoginContext } from './context/LoginContext'; // Import LoginContext
 
-const Dashboard = () => {
+const Dashboard = ({ isLoggedIn }) => {
   const [activeTab, setActiveTab] = useState('home');
-  const { isLoggedIn } = useContext(LoginContext); // Use context to access login state
 
   const handleTabSelect = (key) => {
     setActiveTab(key);
