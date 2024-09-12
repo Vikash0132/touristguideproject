@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Tabs, Tab, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Dashboard = ({ isLoggedIn }) => {
+const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('home');
 
   const handleTabSelect = (key) => {
@@ -15,11 +15,6 @@ const Dashboard = ({ isLoggedIn }) => {
       <Row>
         <Col>
           <h1>Dashboard</h1>
-          {isLoggedIn && ( // Conditionally render search bar based on isLoggedIn
-            <div className="search-bar">
-              {/* Your search bar component */}
-            </div>
-          )}
         </Col>
       </Row>
       <Row>

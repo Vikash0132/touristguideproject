@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
-const Login = ({ onLoginSuccess }) => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -15,7 +14,6 @@ const Login = ({ onLoginSuccess }) => {
         password,
       });
       if (response.data.success) {
-        onLoginSuccess(true); // Call the prop function to update login state
         navigate('/dashboard');
       } else {
         alert('Invalid credentials');
@@ -23,7 +21,9 @@ const Login = ({ onLoginSuccess }) => {
     } catch (error) {
       console.error('There was an error logging in!', error);
     }
-  }; const containerStyle = {
+  };
+
+  const containerStyle = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -63,8 +63,6 @@ const Login = ({ onLoginSuccess }) => {
     borderRadius: '5px',
     cursor: 'pointer',
   };
-
-
 
   return (
     <div style={containerStyle}>
