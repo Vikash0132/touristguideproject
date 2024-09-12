@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
 import './navbar.css';
-import Login from './Login.js'; // Import Login component
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Local state for login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const handleLoginSuccess = (loggedIn) => {
-    setIsLoggedIn(loggedIn); // Update local login state
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    // Handle the search functionality here
+    console.log('Search Query:', searchQuery);
+  };
+
+  // Function to handle login success (you'll need to implement this)
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
   };
 
   return (
@@ -15,7 +26,7 @@ const Navbar = () => {
         <div className="heading">
           <h1>Touristo</h1>
         </div>
-        {isLoggedIn && ( // Conditionally render search bar based on isLoggedIn
+        {isLoggedIn && (
           <form onSubmit={handleSearchSubmit}>
             <input
               type="text"
@@ -26,7 +37,7 @@ const Navbar = () => {
             <button type="submit">Search</button>
           </form>
         )}
-        <Login onLoginSuccess={handleLoginSuccess} /> {/* Pass onLoginSuccess prop */}
+        {/* Login component or button */}
       </div>
     </nav>
   );
