@@ -6,6 +6,12 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  useEffect(() => {
+    // If the user is already logged in, redirect to the dashboard
+    if (localStorage.getItem('authToken')) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,6 +21,7 @@ const Login = () => {
         password,
       });
       if (response.data.success) {
+        localStorage.setItem('authToken', response.data.token)
         navigate('/dashboard');
       } else {
         alert('Invalid credentials');

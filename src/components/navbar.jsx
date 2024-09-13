@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './navbar.css';
 
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -10,9 +12,15 @@ export default function Navbar() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    // Handle the search functionality here.
-    // You may need to pass data or filter results as needed.
     console.log('Search Query:', searchQuery);
+  };
+
+  const handleLogout = () => {
+    // Remove auth token from localStorage
+    localStorage.removeItem('authToken');
+
+    // Redirect to login page
+    navigate('/');
   };
 
   return (
@@ -30,6 +38,7 @@ export default function Navbar() {
           />
           <button type="submit">Search</button>
         </form>
+        <button onClick={handleLogout} className="logout-btn">Logout</button>
       </div>
     </nav>
   );

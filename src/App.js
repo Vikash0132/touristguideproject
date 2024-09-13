@@ -1,32 +1,41 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Navbar from './components/navbar.jsx';
 import Map from './components/map.jsx';
 import './App.css';
 
-function App() {
-  const location = useLocation(); // Get the current route
+const App = () => {
+  // Local state to track if the user is authenticated
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('authToken'));
 
-  return (
-    <div className="App">
-      {/* Conditionally render Navbar and Map based on the current route */}
-      {location.pathname !== '/' && <Navbar />}
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-      {location.pathname !== '/' && <Map />} {/* Show Map only on non-login pages */}
-    </div>
-  );
-}
+  // Re-check authentication when the component mounts
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    setIsAuthenticated(!!token);
+  }, []);
 
-// Wrapping the app in Router for proper navigation
-export default function AppWrapper() {
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    setIsAuthenticated(false);  // Update state after logging out
+  };
+
   return (
     <Router>
-      <App />
+      <div className="App">
+        {isAuthenticated && <Navbar onLogout={handleLogout} />}  {/* Pass logout handler */}
+        <Routes>
+          {/* Redirect to dashboard if already authenticated */}
+          <Route path="/" element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" />} />
+
+          {/* Redirect to login if not authenticated */}
+          <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
+        </Routes>
+        {isAuthenticated && <Map />}
+      </div>
     </Router>
   );
-}
+};
+
+export default App;
