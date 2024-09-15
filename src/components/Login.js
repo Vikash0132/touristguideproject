@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({ setIsAuthenticated }) => {  // Accept setIsAuthenticated as a prop
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    // If the user is already logged in, redirect to the dashboard
+    // Redirect to dashboard if already logged in
     if (localStorage.getItem('authToken')) {
       navigate('/dashboard');
     }
@@ -21,15 +21,34 @@ const Login = ({ setIsAuthenticated }) => {  // Accept setIsAuthenticated as a p
         username,
         password,
       });
-      if (response.data.success) {
+
+      if (response.data && response.data.success) {
+        // Save token in localStorage
         localStorage.setItem('authToken', response.data.token);
-        setIsAuthenticated(true);  // Update authentication state in App.js
-        navigate('/dashboard');  // Redirect to dashboard after successful login
+
+        // Navigate to dashboard
+        navigate('/dashboard');
       } else {
+        // Handle invalid credentials
         alert('Invalid credentials');
       }
     } catch (error) {
-      console.error('There was an error logging in!', error);
+      console.error('There was an error logging in:', error);
+
+      // Check if it's an axios or server error
+      if (error.response) {
+        // Server responded with a status other than 2xx
+        console.error('Server Error:', error.response.data.message);
+        alert(`Error: ${error.response.data.message}`);
+      } else if (error.request) {
+        // Request was made, but no response was received
+        console.error('Network Error:', error.request);
+        alert('Network Error: Please try again.');
+      } else {
+        // Something else happened in setting up the request
+        console.error('Error:', error.message);
+        alert('Error: Please try again.');
+      }
     }
   };
 
@@ -37,7 +56,7 @@ const Login = ({ setIsAuthenticated }) => {  // Accept setIsAuthenticated as a p
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
+    height: '100vh', // Full viewport height
     backgroundImage: 'url("/map2.jpeg")',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
