@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Navbar from './components/navbar.jsx';
@@ -9,7 +9,6 @@ import './App.css';
 const App = () => {
   // Local state to track if the user is authenticated
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('authToken'));
-  const navigate = useNavigate();
 
   // Re-check authentication when the component mounts
   useEffect(() => {
@@ -20,7 +19,6 @@ const App = () => {
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     setIsAuthenticated(false); // Update state after logging out
-    navigate('/'); // Redirect to login after logout
   };
 
   return (

@@ -12,31 +12,33 @@ export default function Navbar() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    // Handle search functionality here
     console.log('Search Query:', searchQuery);
   };
 
   const handleLogout = () => {
-    // Remove auth token from localStorage
+    // Remove the auth token from localStorage
     localStorage.removeItem('authToken');
 
-    // Redirect to login page
+    // Redirect the user to the login page
     navigate('/');
   };
 
   return (
-    <nav>
+    <nav className="navbar">
       <div className="nav-container">
-        <div className="heading">
+        <div className="logo">
           <h1>Touristo</h1>
         </div>
-        <form onSubmit={handleSearchSubmit}>
+        <form className="search-form" onSubmit={handleSearchSubmit}>
           <input
             type="text"
             placeholder="Search..."
             value={searchQuery}
             onChange={handleSearch}
+            className="search-input"
           />
-          <button type="submit">Search</button>
+          <button type="submit" className="search-btn">Search</button>
         </form>
         <button onClick={handleLogout} className="logout-btn">Logout</button>
       </div>
