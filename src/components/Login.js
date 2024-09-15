@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({ setIsAuthenticated }) => {  // Accept setIsAuthenticated as a prop
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
   useEffect(() => {
     // If the user is already logged in, redirect to the dashboard
     if (localStorage.getItem('authToken')) {
@@ -21,8 +22,9 @@ const Login = () => {
         password,
       });
       if (response.data.success) {
-        localStorage.setItem('authToken', response.data.token)
-        navigate('/dashboard');
+        localStorage.setItem('authToken', response.data.token);
+        setIsAuthenticated(true);  // Update authentication state in App.js
+        navigate('/dashboard');  // Redirect to dashboard after successful login
       } else {
         alert('Invalid credentials');
       }
@@ -35,7 +37,7 @@ const Login = () => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh', // Full viewport height
+    height: '100vh',
     backgroundImage: 'url("/map2.jpeg")',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
