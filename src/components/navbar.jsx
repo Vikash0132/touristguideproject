@@ -2,6 +2,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './navbar.css';
 
+// Debounce function to prevent multiple calls within a short time
+const debounce = (func, delay) => {
+  let debounceTimer;
+  return function (...args) {
+    const context = this;
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => func.apply(context, args), delay);
+  };
+};
+
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
@@ -12,33 +22,31 @@ export default function Navbar() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    // Handle search functionality here
     console.log('Search Query:', searchQuery);
   };
 
-  const handleLogout = () => {
-    // Remove the auth token from localStorage
+  const handleLogout = debounce(() => {
+    // Remove auth token from localStorage
     localStorage.removeItem('authToken');
 
-    // Redirect the user to the login page
+    // Redirect to login page
     navigate('/');
-  };
+  }, 300); // Debounced by 300ms
 
   return (
-    <nav className="navbar">
+    <nav>
       <div className="nav-container">
-        <div className="logo">
+        <div className="heading">
           <h1>Touristo</h1>
         </div>
-        <form className="search-form" onSubmit={handleSearchSubmit}>
+        <form onSubmit={handleSearchSubmit}>
           <input
             type="text"
             placeholder="Search..."
             value={searchQuery}
             onChange={handleSearch}
-            className="search-input"
           />
-          <button type="submit" className="search-btn">Search</button>
+          <button type="submit">Search</button>
         </form>
         <button onClick={handleLogout} className="logout-btn">Logout</button>
       </div>

@@ -8,9 +8,9 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Redirect to dashboard if already logged in
+    // Only navigate if the user is not logged in already
     if (localStorage.getItem('authToken')) {
-      navigate('/dashboard');
+      navigate('/dashboard'); // This will not loop thanks to useEffect dependencies
     }
   }, [navigate]);
 
@@ -21,34 +21,14 @@ const Login = () => {
         username,
         password,
       });
-
-      if (response.data && response.data.success) {
-        // Save token in localStorage
+      if (response.data.success) {
         localStorage.setItem('authToken', response.data.token);
-
-        // Navigate to dashboard
         navigate('/dashboard');
       } else {
-        // Handle invalid credentials
         alert('Invalid credentials');
       }
     } catch (error) {
-      console.error('There was an error logging in:', error);
-
-      // Check if it's an axios or server error
-      if (error.response) {
-        // Server responded with a status other than 2xx
-        console.error('Server Error:', error.response.data.message);
-        alert(`Error: ${error.response.data.message}`);
-      } else if (error.request) {
-        // Request was made, but no response was received
-        console.error('Network Error:', error.request);
-        alert('Network Error: Please try again.');
-      } else {
-        // Something else happened in setting up the request
-        console.error('Error:', error.message);
-        alert('Error: Please try again.');
-      }
+      console.error('There was an error logging in!', error);
     }
   };
 
@@ -56,7 +36,7 @@ const Login = () => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh', // Full viewport height
+    height: '100vh',
     backgroundImage: 'url("/map2.jpeg")',
     backgroundSize: 'cover',
     backgroundPosition: 'center',

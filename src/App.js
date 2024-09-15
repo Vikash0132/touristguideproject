@@ -7,24 +7,22 @@ import Map from './components/map.jsx';
 import './App.css';
 
 const App = () => {
-  // Local state to track if the user is authenticated
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('authToken'));
 
-  // Re-check authentication when the component mounts
   useEffect(() => {
     const token = localStorage.getItem('authToken');
-    setIsAuthenticated(!!token);
+    setIsAuthenticated(!!token);  // Set authentication state based on token presence
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
-    setIsAuthenticated(false); // Update state after logging out
+    setIsAuthenticated(false);  // Update state after logging out
   };
 
   return (
     <Router>
       <div className="App">
-        {isAuthenticated && <Navbar onLogout={handleLogout} />} {/* Pass logout handler */}
+        {isAuthenticated && <Navbar onLogout={handleLogout} />}
         <Routes>
           {/* Redirect to dashboard if already authenticated */}
           <Route path="/" element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" />} />
