@@ -2,38 +2,34 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
-import Navbar from './components/navbar.jsx';
-import Map from './components/map.jsx';
+import Navbar from './components/navbar';
+import Map from './components/map';
 import './App.css';
 
 const App = () => {
-  // State to track if the user is authenticated
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('authToken'));
 
-  // Monitor changes in authentication status
+  // Watch for authentication state updates when app loads
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     setIsAuthenticated(!!token);
   }, []);
 
   const handleLogout = () => {
-    // Remove auth token and update the authentication state
     localStorage.removeItem('authToken');
-    setIsAuthenticated(false);  // Ensures UI knows about the logout
+    setIsAuthenticated(false);  // Ensure state is updated after logout
   };
 
   return (
     <Router>
       <div className="App">
-        {isAuthenticated && <Navbar onLogout={handleLogout} />}
+        {isAuthenticated && <Navbar onLogout={handleLogout} />}  {/* Pass the logout function */}
         <Routes>
-          {/* If not authenticated, redirect to login */}
+          {/* Redirect to login if not authenticated */}
           <Route path="/" element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" />} />
-
-          {/* Redirect to login if the user is not authenticated */}
           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
         </Routes>
-        {isAuthenticated && <Map />}
+        {isAuthenticated && <Map />}  {/* Render the Map component only when authenticated */}
       </div>
     </Router>
   );
