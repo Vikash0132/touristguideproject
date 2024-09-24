@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url("/map2.jpeg");
+  background-image: url("/public/map2.jpeg");
   /* Use your image path */
   background-size: cover;
   background-position: center;
