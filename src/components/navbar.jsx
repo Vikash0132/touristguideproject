@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './navbar.css';
 
-export default function Navbar({ onLogout }) {
+export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
@@ -16,9 +16,12 @@ export default function Navbar({ onLogout }) {
   };
 
   const handleLogout = () => {
-    // Trigger logout passed from the parent (App.js)
-    onLogout();
-    navigate('/', { replace: true });  // Use `replace: true` to avoid back navigation to the dashboard
+    // Remove auth token from localStorage
+    localStorage.removeItem('authToken');
+
+    // Force re-render by navigating to the login page after logging out
+    navigate('/', { replace: true });
+    window.location.reload(); // This forces the page to reload to ensure a fresh state
   };
 
   return (
