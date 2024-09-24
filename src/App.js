@@ -7,16 +7,19 @@ import Map from './components/map.jsx';
 import './App.css';
 
 const App = () => {
+  // State to track if the user is authenticated
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('authToken'));
 
+  // Monitor changes in authentication status
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     setIsAuthenticated(!!token);
   }, []);
 
   const handleLogout = () => {
+    // Remove auth token and update the authentication state
     localStorage.removeItem('authToken');
-    setIsAuthenticated(false);  // Update the state after logging out
+    setIsAuthenticated(false);  // Ensures UI knows about the logout
   };
 
   return (
@@ -24,10 +27,10 @@ const App = () => {
       <div className="App">
         {isAuthenticated && <Navbar onLogout={handleLogout} />}
         <Routes>
-          {/* Redirect to login page if not authenticated */}
+          {/* If not authenticated, redirect to login */}
           <Route path="/" element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" />} />
 
-          {/* Dashboard page - visible only if authenticated */}
+          {/* Redirect to login if the user is not authenticated */}
           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
         </Routes>
         {isAuthenticated && <Map />}

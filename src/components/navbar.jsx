@@ -19,9 +19,8 @@ export default function Navbar() {
     // Remove auth token from localStorage
     localStorage.removeItem('authToken');
 
-    // Force re-render by navigating to the login page after logging out
-    navigate('/', { replace: true });
-    window.location.reload(); // This forces the page to reload to ensure a fresh state
+    // Update the state and navigate to login
+    navigate('/', { replace: true }); // Ensures browser history is replaced, preventing going back to the dashboard
   };
 
   return (
