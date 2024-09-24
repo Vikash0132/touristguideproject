@@ -2,16 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './navbar.css';
 
-// Debounce function to prevent multiple calls within a short time
-const debounce = (func, delay) => {
-  let debounceTimer;
-  return function (...args) {
-    const context = this;
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => func.apply(context, args), delay);
-  };
-};
-
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
@@ -25,13 +15,14 @@ export default function Navbar() {
     console.log('Search Query:', searchQuery);
   };
 
-  const handleLogout = debounce(() => {
+  const handleLogout = () => {
     // Remove auth token from localStorage
     localStorage.removeItem('authToken');
 
-    // Redirect to login page
-    navigate('/');
-  }, 300); // Debounced by 300ms
+    // Force re-render by navigating to the login page after logging out
+    navigate('/', { replace: true });
+    window.location.reload(); // This forces the page to reload to ensure a fresh state
+  };
 
   return (
     <nav>

@@ -11,12 +11,12 @@ const App = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
-    setIsAuthenticated(!!token);  // Set authentication state based on token presence
+    setIsAuthenticated(!!token);
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
-    setIsAuthenticated(false);  // Update state after logging out
+    setIsAuthenticated(false);  // Update the state after logging out
   };
 
   return (
@@ -24,10 +24,10 @@ const App = () => {
       <div className="App">
         {isAuthenticated && <Navbar onLogout={handleLogout} />}
         <Routes>
-          {/* Redirect to dashboard if already authenticated */}
+          {/* Redirect to login page if not authenticated */}
           <Route path="/" element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" />} />
 
-          {/* Redirect to login if not authenticated */}
+          {/* Dashboard page - visible only if authenticated */}
           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
         </Routes>
         {isAuthenticated && <Map />}
