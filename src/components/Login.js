@@ -8,9 +8,9 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Only navigate if the user is not logged in already
+    // Redirect to dashboard if already authenticated
     if (localStorage.getItem('authToken')) {
-      navigate('/dashboard'); // This will not loop thanks to useEffect dependencies
+      navigate('/dashboard');
     }
   }, [navigate]);
 
@@ -23,7 +23,7 @@ const Login = () => {
       });
       if (response.data.success) {
         localStorage.setItem('authToken', response.data.token);
-        navigate('/dashboard');
+        navigate('/dashboard', { replace: true });  // Redirect to dashboard after successful login
       } else {
         alert('Invalid credentials');
       }
@@ -40,7 +40,6 @@ const Login = () => {
     backgroundImage: 'url("/map2.jpeg")',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
   };
 
   const formStyle = {
@@ -52,27 +51,6 @@ const Login = () => {
     maxWidth: '400px',
   };
 
-  const inputStyle = {
-    width: '100%',
-    padding: '10px',
-    marginTop: '5px',
-    marginBottom: '15px',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    boxSizing: 'border-box',
-    backgroundColor: 'rgba(255,255,255,0.5)',
-  };
-
-  const buttonStyle = {
-    width: '100%',
-    padding: '10px',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  };
-
   return (
     <div style={containerStyle}>
       <form onSubmit={handleSubmit} style={formStyle}>
@@ -82,16 +60,14 @@ const Login = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Username"
-          style={inputStyle}
         />
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
-          style={inputStyle}
         />
-        <button type="submit" style={buttonStyle}>Login</button>
+        <button type="submit">Login</button>
       </form>
     </div>
   );
