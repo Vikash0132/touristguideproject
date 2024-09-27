@@ -23,7 +23,7 @@ const Dashboard = () => {
             <Tab eventKey="home" title="Home">
               {/* Home tab content */}
               <p>Select the trip destination</p>
-              <input type = "text">
+              <input type = "text"></input>
             </Tab>
             <Tab eventKey="restaurants" title="Restaurants">
               {/* Restaurants tab content */}
