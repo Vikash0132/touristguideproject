@@ -22,7 +22,8 @@ const Dashboard = () => {
           <Tabs activeKey={activeTab} onSelect={handleTabSelect} className="mb-3">
             <Tab eventKey="home" title="Home">
               {/* Home tab content */}
-              <p>Welcome to the home tab!</p>
+              <p>Select the trip destination</p>
+              <input type = "text">
             </Tab>
             <Tab eventKey="restaurants" title="Restaurants">
               {/* Restaurants tab content */}
