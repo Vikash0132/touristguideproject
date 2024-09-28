@@ -2,16 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './navbar.css';
 
-// Debounce function to prevent multiple calls within a short time
-const debounce = (func, delay) => {
-  let debounceTimer;
-  return function (...args) {
-    const context = this;
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => func.apply(context, args), delay);
-  };
-};
-
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
@@ -22,16 +12,13 @@ export default function Navbar() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log('Search Query:', searchQuery);
+    navigate('/search', { state: { query: searchQuery } }); // Navigate to search page with query
   };
 
-  const handleLogout = debounce(() => {
-    // Remove auth token from localStorage
+  const handleLogout = () => {
     localStorage.removeItem('authToken');
-
-    // Redirect to login page
     navigate('/');
-  }, 300); // Debounced by 300ms
+  };
 
   return (
     <nav>
