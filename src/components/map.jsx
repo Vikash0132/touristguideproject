@@ -1,33 +1,47 @@
-import React, { useRef, useEffect } from 'react';
-import * as maptilersdk from '@maptiler/sdk';
-import "@maptiler/sdk/dist/maptiler-sdk.css";
-import './map.css';
+import React, { useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
-export default function Map() {
-  const mapContainer = useRef(null);
-  const map = useRef(null);
-  const srmCoordinates = { lng: 80.0409, lat: 12.8230 }; // SRM coordinates
-  const zoom = 14;
-  maptilersdk.config.apiKey = 'TCsVxUMcJl3mlo6cnAXL';
+// Custom marker icon (optional)
+const customIcon = new L.Icon({
+  iconUrl: require('../path/to/marker-icon.png'), // Replace with your marker icon path
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+});
 
+const MapComponent = ({ searchResults }) => {
   useEffect(() => {
-    if (map.current) return; // stops map from initializing more than once
-
-    map.current = new maptilersdk.Map({
-      container: mapContainer.current,
-      style: maptilersdk.MapStyle.STREETS,
-      center: [srmCoordinates.lng, srmCoordinates.lat],
-      zoom: zoom
-    });
-
-    new maptilersdk.Marker({ color: "#FF0000" })
-      .setLngLat([srmCoordinates.lng, srmCoordinates.lat])
-      .addTo(map.current);
-  }, [srmCoordinates.lng, srmCoordinates.lat, zoom]);
+    // You can use this effect to adjust the map view based on search results
+    if (searchResults.length > 0) {
+      // Example: Fit map bounds to the first search result
+      const { center } = searchResults[0];
+      map.setView(center, 13);
+    }
+  }, [searchResults]);
 
   return (
-    <div className="map-wrap">
-      <div ref={mapContainer} className="map" />
-    </div>
+    <MapContainer center={[51.505, -0.09]} zoom={13} style={{ height: '100vh', width: '100%' }}>
+      <TileLayer
+        url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=TCsVxUMcJl3mlo6cnAXL" // Replace with your MapTiler API key
+        attribution='&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a>'
+      />
+      {searchResults.map((result, index) => (
+        <Marker
+          key={index}
+          position={[result.geometry.coordinates[1], result.geometry.coordinates[0]]}
+          icon={customIcon}
+        >
+          <Popup>
+            <div>
+              <h3>{result.place_name}</h3>
+              <p>{result.text}</p>
+            </div>
+          </Popup>
+        </Marker>
+      ))}
+    </MapContainer>
   );
-}
+};
+
+export default MapComponent;
