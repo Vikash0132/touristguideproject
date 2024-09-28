@@ -16,8 +16,17 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
+<<<<<<< HEAD
     localStorage.removeItem('authToken');
     navigate('/');
+=======
+    // Remove auth token from localStorage
+    localStorage.removeItem('authToken');
+
+    // Force re-render by navigating to the login page after logging out
+    navigate('/', { replace: true });
+    window.location.reload(); // This forces the page to reload to ensure a fresh state
+>>>>>>> 9f51bf05c6f92e243caff2d765cb93461bfb074d
   };
 
   return (
