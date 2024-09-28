@@ -1,12 +1,32 @@
-.map-wrap {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 77px);
-  /* calculate height of the screen minus the heading */
+/* Styles for the side panel */
+.side-panel {
+  width: 20%;
+  background-color: #f7f7f7;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
 }
 
-.map {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+.side-panel h2 {
+  margin-top: 0;
+}
+
+.side-panel ul {
+  list-style: none;
+  padding: 0;
+}
+
+.side-panel li {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.side-panel li:hover {
+  background-color: #e7e7e7;
+}
+
+.marker {
+  cursor: pointer;
 }

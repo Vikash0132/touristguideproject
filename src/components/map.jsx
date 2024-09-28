@@ -1,26 +1,25 @@
 import React, { useEffect, useRef } from 'react';
-import mapboxgl from 'mapbox-gl'; // Import Mapbox GL JS
-import 'mapbox-gl/dist/mapbox-gl.css'; // Import Mapbox GL JS CSS
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import './map.css'; // Import a CSS file for custom styles
 
 mapboxgl.accessToken = 'TCsVxUMcJl3mlo6cnAXL'; // Your MapTiler API key
 
 const Map = ({ searchResults }) => {
-  const mapContainerRef = useRef(null); // Create a ref for the map container
-  const mapRef = useRef(null); // Create a ref for the map instance
+  const mapContainerRef = useRef(null);
+  const mapRef = useRef(null);
 
   useEffect(() => {
-    // Check if the map is already initialized to prevent reinitialization
     if (!mapRef.current) {
       mapRef.current = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: 'https://api.maptiler.com/maps/streets/style.json?key=TCsVxUMcJl3mlo6cnAXL', // Replace key here as well
+        style: 'https://api.maptiler.com/maps/streets/style.json?key=TCsVxUMcJl3mlo6cnAXL',
         center: [77.1025, 28.7041], // Default center position [longitude, latitude]
         zoom: 10,
       });
     }
 
     return () => {
-      // Clean up on component unmount
       if (mapRef.current) mapRef.current.remove();
     };
   }, []);
@@ -39,11 +38,13 @@ const Map = ({ searchResults }) => {
           .setLngLat([location.geometry.coordinates[0], location.geometry.coordinates[1]])
           .addTo(mapRef.current);
 
-        // Create and attach a popup to the marker
+        // Create a popup for each marker
         const popup = new mapboxgl.Popup({ offset: 25 })
-          .setHTML(`<h3>${location.place_name}</h3>`); // Set the HTML content of the popup to the location name
+          .setHTML(`<h3>${location.place_name}</h3>`);
 
-        marker.setPopup(popup);
+        // Show popup on hover
+        marker.getElement().addEventListener('mouseenter', () => popup.addTo(mapRef.current));
+        marker.getElement().addEventListener('mouseleave', () => popup.remove());
       });
 
       // Adjust map to fit all markers
@@ -55,7 +56,26 @@ const Map = ({ searchResults }) => {
     }
   }, [searchResults]);
 
-  return <div ref={mapContainerRef} style={{ width: '100%', height: '100vh' }} />;
+  return (
+    <div style={{ display: 'flex', height: '100vh' }}>
+      <div className="side-panel">
+        <h2>Search Results</h2>
+        {searchResults && searchResults.length > 0 ? (
+          <ul>
+            {searchResults.map((location, index) => (
+              <li key={index}>
+                <h3>{location.place_name}</h3>
+                <p>{location.text}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No results found.</p>
+        )}
+      </div>
+      <div ref={mapContainerRef} style={{ width: '80%', height: '100%' }} />
+    </div>
+  );
 };
 
 export default Map;
