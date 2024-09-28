@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl'; // Import Mapbox GL JS
 import 'mapbox-gl/dist/mapbox-gl.css'; // Import Mapbox GL JS CSS
 
-mapboxgl.accessToken = 'YOUR_MAPTILER_API_KEY'; // Replace with your MapTiler API key
+mapboxgl.accessToken = 'TCsVxUMcJl3mlo6cnAXL'; // Replace with your MapTiler API key
 
 const Map = ({ searchResults }) => {
   const mapContainerRef = useRef(null); // Create a ref for the map container
@@ -13,7 +13,7 @@ const Map = ({ searchResults }) => {
     if (!mapRef.current) {
       mapRef.current = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: 'https://api.maptiler.com/maps/streets/style.json?key=YOUR_MAPTILER_API_KEY',
+        style: 'https://api.maptiler.com/maps/streets/style.json?key=TCsVxUMcJl3mlo6cnAXL',
         center: [77.1025, 28.7041], // Default center position [longitude, latitude]
         zoom: 10,
       });
