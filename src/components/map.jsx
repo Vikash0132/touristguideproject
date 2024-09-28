@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 
 // Custom marker icon (optional)
 const customIcon = new L.Icon({
-  iconUrl: require('../path/to/marker-icon.png'), // Replace with your marker icon path
+  iconUrl: require('/Users/vc041/ReactProjects/my-react-app/tourist-guide-app/public/marker-icon.png'), // Replace with your marker icon path
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
