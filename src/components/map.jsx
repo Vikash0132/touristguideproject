@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl'; // Import Mapbox GL JS
 import 'mapbox-gl/dist/mapbox-gl.css'; // Import Mapbox GL JS CSS
 
-mapboxgl.accessToken = 'TCsVxUMcJl3mlo6cnAXL'; // Replace with your MapTiler API key
+mapboxgl.accessToken = 'TCsVxUMcJl3mlo6cnAXL'; // Your MapTiler API key
 
 const Map = ({ searchResults }) => {
   const mapContainerRef = useRef(null); // Create a ref for the map container
@@ -13,7 +13,7 @@ const Map = ({ searchResults }) => {
     if (!mapRef.current) {
       mapRef.current = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: 'https://api.maptiler.com/maps/streets/style.json?key=TCsVxUMcJl3mlo6cnAXL',
+        style: 'https://api.maptiler.com/maps/streets/style.json?key=TCsVxUMcJl3mlo6cnAXL', // Replace key here as well
         center: [77.1025, 28.7041], // Default center position [longitude, latitude]
         zoom: 10,
       });
@@ -35,10 +35,15 @@ const Map = ({ searchResults }) => {
 
       // Add new markers based on search results
       searchResults.forEach((location) => {
-        new mapboxgl.Marker({ className: 'marker' })
+        const marker = new mapboxgl.Marker({ className: 'marker' })
           .setLngLat([location.geometry.coordinates[0], location.geometry.coordinates[1]])
-          .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(`<h3>${location.place_name}</h3>`))
           .addTo(mapRef.current);
+
+        // Create and attach a popup to the marker
+        const popup = new mapboxgl.Popup({ offset: 25 })
+          .setHTML(`<h3>${location.place_name}</h3>`); // Set the HTML content of the popup to the location name
+
+        marker.setPopup(popup);
       });
 
       // Adjust map to fit all markers
