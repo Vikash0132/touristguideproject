@@ -54,7 +54,7 @@ export default function Map({ locations }) {
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: `https://api.maptiler.com/maps/streets/style.json?key=TCsVxUMcJl3mlo6cnAXL`, // Replace with your MapTiler key
+      style: `https://api.maptiler.com/maps/streets/style.json?key=VET3ydcm5LVgUZPZO2t4`, // Replace with your MapTiler key
       center: [lng, lat],
       zoom: zoom,
     });
