@@ -17,12 +17,19 @@
 }
 
 .nav-container input {
-  padding: 8px;
+  padding: 8px 15px;
+  /* Adjusted padding */
   margin-right: 10px;
-  height: 35px;
+  height: 40px;
+  /* Slightly increased height */
   width: 500px;
   border-radius: 20px;
+  /* This should round the edges */
   border: 1px solid #2d9fd9;
+  overflow: hidden;
+  /* Ensures content stays inside the rounded corners */
+  box-sizing: border-box;
+  /* Makes padding and borders work well together */
 }
 
 .nav-container button {
@@ -30,6 +37,8 @@
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 17px;
-
+  border-radius: 20px;
+  /* Ensures the button also has rounded edges */
+  cursor: pointer;
+  /* Makes it look clickable */
 }
