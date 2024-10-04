@@ -31,7 +31,7 @@ const Dashboard = () => {
             </Tab>
             <Tab eventKey="hotels" title="Hotels">
               {/* Hotels tab content */}
-              <p>Hotels nearyby</p>
+              <p>Hotels nearby</p>
               <input type="text"></input>
             </Tab>
             {/* Add more tabs as needed */}
