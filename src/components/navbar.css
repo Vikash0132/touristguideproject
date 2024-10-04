@@ -1,44 +1,91 @@
-.heading {
-  margin: 0;
-  padding: 0px;
+/* Navbar container */
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
   background-color: black;
   color: white;
+}
+
+/* Heading styles */
+.heading {
+  margin: 0;
+  padding: 0;
   text-align: center;
 }
 
-.heading>h1 {
-  padding: 20px;
+.heading h1 {
   margin: 0;
+  padding: 20px;
 }
 
+/* Search form styles */
 .nav-container form {
   display: flex;
   align-items: center;
 }
 
+/* Search input */
 .nav-container input {
-  padding: 8px 15px;
-  /* Adjusted padding */
+  padding: 10px 20px;
   margin-right: 10px;
   height: 40px;
-  /* Slightly increased height */
   width: 500px;
-  border-radius: 20px;
-  /* This should round the edges */
+  border-radius: 25px;
   border: 1px solid #2d9fd9;
-  overflow: hidden;
-  /* Ensures content stays inside the rounded corners */
   box-sizing: border-box;
-  /* Makes padding and borders work well together */
+  outline: none;
+  transition: border 0.3s ease;
+  font-size: 16px;
 }
 
+/* Focus state for input */
+.nav-container input:focus {
+  border-color: #007bff;
+}
+
+/* Search button */
 .nav-container button {
-  padding: 8px 12px;
+  padding: 8px 20px;
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 20px;
-  /* Ensures the button also has rounded edges */
+  border-radius: 25px;
   cursor: pointer;
-  /* Makes it look clickable */
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+/* Hover effect on search button */
+.nav-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Logout button */
+.logout-btn {
+  padding: 8px 12px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 17px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for logout button */
+.logout-btn:hover {
+  background-color: #c9302c;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .nav-container input {
+    width: 300px;
+  }
+
+  .nav-container button {
+    font-size: 14px;
+    padding: 6px 16px;
+  }
 }
