@@ -68,7 +68,7 @@ export default function Navbar({ onSearch }) {
           `https://api.maptiler.com/geocoding/${encodeURIComponent(searchQuery)}.json`,
           {
             params: {
-              key: 'TCsVxUMcJl3mlo6cnAXL', // Replace with your MapTiler API key
+              key: 'VET3ydcm5LVgUZPZO2t4', // Replace with your MapTiler API key
               proximity: `${userLocation.longitude},${userLocation.latitude}`, // Focus on user's location
               radius, // Limit search results to the given radius
               limit: 10,
