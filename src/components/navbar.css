@@ -21,7 +21,8 @@
   margin-right: 10px;
   height: 35px;
   width: 500px;
-  border-radius: 17px;
+  border-radius: 20px;
+  border: 1px solid #2d9fd9;
 }
 
 .nav-container button {
