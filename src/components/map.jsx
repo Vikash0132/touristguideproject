@@ -1,81 +1,84 @@
-import React, { useEffect, useRef } from 'react';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import './map.css'; // Import a CSS file for custom styles
+import React, { useEffect, useRef, useState } from 'react';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
-mapboxgl.accessToken = 'TCsVxUMcJl3mlo6cnAXL'; // Your MapTiler API key
+export default function Map({ locations }) {
+  const mapContainer = useRef(null);
+  const map = useRef(null);
+  const [lng, setLng] = useState(0);
+  const [lat, setLat] = useState(0);
+  const [zoom, setZoom] = useState(12);
 
-const Map = ({ searchResults }) => {
-  const mapContainerRef = useRef(null);
-  const mapRef = useRef(null);
-
+  // Get live location when component mounts
   useEffect(() => {
-    if (!mapRef.current) {
-      mapRef.current = new mapboxgl.Map({
-        container: mapContainerRef.current,
-        style: 'https://api.maptiler.com/maps/streets/style.json?key=TCsVxUMcJl3mlo6cnAXL',
-        center: [77.1025, 28.7041], // Default center position [longitude, latitude]
-        zoom: 10,
-      });
-    }
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setLng(longitude);
+          setLat(latitude);
 
-    return () => {
-      if (mapRef.current) mapRef.current.remove();
-    };
+          if (map.current) {
+            map.current.setCenter([longitude, latitude]); // Center the map on the user's location
+          }
+        },
+        (error) => {
+          console.error('Error getting location:', error.message); // Log the actual error message
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              console.error('User denied the request for Geolocation.');
+              break;
+            case error.POSITION_UNAVAILABLE:
+              console.error('Location information is unavailable.');
+              break;
+            case error.TIMEOUT:
+              console.error('The request to get user location timed out.');
+              break;
+            case error.UNKNOWN_ERROR:
+              console.error('An unknown error occurred.');
+              break;
+            default:
+              console.error('Error occurred.');
+          }
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
   }, []);
 
+
+  // Initialize the map
   useEffect(() => {
-    if (searchResults && searchResults.length > 0 && mapRef.current) {
-      // Remove existing markers if any
-      const markers = document.getElementsByClassName('marker');
-      while (markers[0]) {
-        markers[0].parentNode.removeChild(markers[0]);
-      }
+    if (map.current) return; // Initialize map only once
 
-      // Add new markers based on search results
-      searchResults.forEach((location) => {
-        const marker = new mapboxgl.Marker({ className: 'marker' })
-          .setLngLat([location.geometry.coordinates[0], location.geometry.coordinates[1]])
-          .addTo(mapRef.current);
+    map.current = new maplibregl.Map({
+      container: mapContainer.current,
+      style: `https://api.maptiler.com/maps/streets/style.json?key=VET3ydcm5LVgUZPZO2t4`, // Replace with your MapTiler key
+      center: [lng, lat],
+      zoom: zoom,
+    });
 
-        // Create a popup for each marker
-        const popup = new mapboxgl.Popup({ offset: 25 })
-          .setHTML(`<h3>${location.place_name}</h3>`);
-
-        // Show popup on hover
-        marker.getElement().addEventListener('mouseenter', () => popup.addTo(mapRef.current));
-        marker.getElement().addEventListener('mouseleave', () => popup.remove());
-      });
-
-      // Adjust map to fit all markers
-      const bounds = new mapboxgl.LngLatBounds();
-      searchResults.forEach((location) => {
-        bounds.extend([location.geometry.coordinates[0], location.geometry.coordinates[1]]);
-      });
-      mapRef.current.fitBounds(bounds, { padding: 50 });
+    // Add user's location marker
+    if (lng && lat) {
+      new maplibregl.Marker({ color: 'red' })
+        .setLngLat([lng, lat])
+        .setPopup(new maplibregl.Popup().setText('You are here')) // Add popup
+        .addTo(map.current);
     }
-  }, [searchResults]);
+  }, [lng, lat, zoom]);
 
-  return (
-    <div style={{ display: 'flex', height: '100vh' }}>
-      <div className="side-panel">
-        <h2>Search Results</h2>
-        {searchResults && searchResults.length > 0 ? (
-          <ul>
-            {searchResults.map((location, index) => (
-              <li key={index}>
-                <h3>{location.place_name}</h3>
-                <p>{location.text}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No results found.</p>
-        )}
-      </div>
-      <div ref={mapContainerRef} style={{ width: '80%', height: '100%' }} />
-    </div>
-  );
-};
+  // Add markers for search locations
+  useEffect(() => {
+    if (locations && map.current) {
+      locations.forEach((location) => {
+        new maplibregl.Marker()
+          .setLngLat(location.geometry.coordinates)
+          .setPopup(new maplibregl.Popup().setText(location.place_name)) // Add a popup with the place name
+          .addTo(map.current);
+      });
+    }
+  }, [locations]);
 
-export default Map;
+  return <div ref={mapContainer} className="map" style={{ width: '100%', height: '100%' }} />;
+}
