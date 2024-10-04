@@ -1,71 +1,57 @@
-/* Navbar container */
+/* Container styling */
 .nav-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #f8f9fa;
   padding: 10px 20px;
-  background-color: black;
-  color: white;
+  border-bottom: 1px solid #dee2e6;
 }
 
-/* Heading styles */
+/* Heading styling */
 .heading {
   margin: 0;
   padding: 0;
+  background-color: black;
+  color: white;
   text-align: center;
 }
 
-.heading h1 {
-  margin: 0;
+.heading>h1 {
   padding: 20px;
+  margin: 0;
 }
 
-/* Search form styles */
+/* Form styling */
 .nav-container form {
   display: flex;
   align-items: center;
 }
 
-/* Search input */
+/* Input styling (Search Bar) */
 .nav-container input {
-  padding: 10px 20px;
+  padding: 8px 15px;
   margin-right: 10px;
-  height: 40px;
+  height: 35px;
   width: 500px;
-  border-radius: 25px;
+  border-radius: 20px;
+  /* This will round the corners */
   border: 1px solid #2d9fd9;
-  box-sizing: border-box;
   outline: none;
-  transition: border 0.3s ease;
-  font-size: 16px;
+  /* Remove default outline on focus */
+  transition: box-shadow 0.3s ease;
+  /* Add smooth transition */
 }
 
-/* Focus state for input */
+/* Add shadow on focus for better UX */
 .nav-container input:focus {
-  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
 }
 
-/* Search button */
+/* Button styling */
 .nav-container button {
-  padding: 8px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 16px;
-}
-
-/* Hover effect on search button */
-.nav-container button:hover {
-  background-color: #0056b3;
-}
-
-/* Logout button */
-.logout-btn {
   padding: 8px 12px;
-  background-color: #d9534f;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 17px;
@@ -73,19 +59,28 @@
   transition: background-color 0.3s ease;
 }
 
-/* Hover effect for logout button */
-.logout-btn:hover {
-  background-color: #c9302c;
+.nav-container button:hover {
+  background-color: #0056b3;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .nav-container input {
-    width: 300px;
-  }
+/* Logout button */
+.logout-btn {
+  padding: 8px 12px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 17px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-  .nav-container button {
-    font-size: 14px;
-    padding: 6px 16px;
-  }
+.logout-btn:hover {
+  background-color: #c82333;
+}
+
+/* Error message styling (optional for error handling in the search) */
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 5px;
 }
