@@ -19,8 +19,8 @@
 .nav-container input {
   padding: 8px;
   margin-right: 10px;
-  height: 10px;
-  width: 35px;
+  height: 35px;
+  width: 100px;
 }
 
 .nav-container button {
