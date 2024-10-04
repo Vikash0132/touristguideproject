@@ -1,113 +1,86 @@
-/* Main Navigation Container */
+/* Container styling */
 .nav-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #f8f9fa;
   padding: 10px 20px;
-  background-color: white;
-  border-bottom: 2px solid #e0e0e0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #dee2e6;
 }
 
-/* Heading/Logo Section */
+/* Heading styling */
 .heading {
   margin: 0;
-  padding: 0px;
+  padding: 0;
   background-color: black;
   color: white;
   text-align: center;
-  padding: 10px 20px;
 }
 
 .heading>h1 {
-  padding: 10px;
+  padding: 20px;
   margin: 0;
 }
 
-/* Form inside the Navbar */
+/* Form styling */
 .nav-container form {
   display: flex;
   align-items: center;
 }
 
-/* Search Input Styling */
+/* Input styling (Search Bar) */
 .nav-container input {
   padding: 8px 15px;
-  /* Increased padding for better UX */
   margin-right: 10px;
   height: 35px;
   width: 500px;
-  border-radius: 25px;
-  /* Rounded the corners */
+  border-radius: 20px;
+  /* This will round the corners */
   border: 1px solid #2d9fd9;
   outline: none;
-  box-sizing: border-box;
-  /* Ensures padding doesn't affect the width */
-  font-size: 16px;
+  /* Remove default outline on focus */
   transition: box-shadow 0.3s ease;
+  /* Add smooth transition */
 }
 
-/* Focus effect on the input */
+/* Add shadow on focus for better UX */
 .nav-container input:focus {
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
 }
 
-/* Search Button Styling */
+/* Button styling */
 .nav-container button {
-  padding: 8px 15px;
+  padding: 8px 12px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 17px;
-  /* Rounded button */
-  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease;
 }
 
-/* Button Hover Effect */
 .nav-container button:hover {
   background-color: #0056b3;
-  transform: scale(1.05);
 }
 
-/* Logout Button Styling */
+/* Logout button */
 .logout-btn {
-  background-color: #ff4b5c;
+  padding: 8px 12px;
+  background-color: #dc3545;
   color: white;
   border: none;
-  padding: 8px 15px;
   border-radius: 17px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease;
 }
 
-/* Logout Button Hover Effect */
 .logout-btn:hover {
-  background-color: #e04250;
-  transform: scale(1.05);
+  background-color: #c82333;
 }
 
-/* Responsive Design for smaller screens */
-@media (max-width: 768px) {
-  .nav-container input {
-    width: 100%;
-    /* Full width on small screens */
-  }
-
-  .nav-container form {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .heading {
-    flex: 1;
-    text-align: left;
-  }
-
-  .logout-btn {
-    display: none;
-    /* Hide the logout button on very small screens */
-  }
+/* Error message styling (optional for error handling in the search) */
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 5px;
 }
