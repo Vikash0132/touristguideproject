@@ -22,16 +22,17 @@ const Dashboard = () => {
           <Tabs activeKey={activeTab} onSelect={handleTabSelect} className="mb-3">
             <Tab eventKey="home" title="Home">
               {/* Home tab content */}
-              <p>Select the trip destination</p>
-              <input type = "text"></input>
+              <p>Go to your dream destination</p>
             </Tab>
             <Tab eventKey="restaurants" title="Restaurants">
               {/* Restaurants tab content */}
-              <p>Here you can find nearby restaurants.</p>
+              <p>Restaurants nearby</p>
+              <input type="text"></input>
             </Tab>
             <Tab eventKey="hotels" title="Hotels">
               {/* Hotels tab content */}
-              <p>Here you can find nearby hotels.</p>
+              <p>Hotels nearyby</p>
+              <input type="text"></input>
             </Tab>
             {/* Add more tabs as needed */}
           </Tabs>
