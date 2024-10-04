@@ -23,11 +23,30 @@ export default function Map({ locations }) {
           }
         },
         (error) => {
-          console.error('Error getting location:', error);
+          console.error('Error getting location:', error.message); // Log the actual error message
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              console.error('User denied the request for Geolocation.');
+              break;
+            case error.POSITION_UNAVAILABLE:
+              console.error('Location information is unavailable.');
+              break;
+            case error.TIMEOUT:
+              console.error('The request to get user location timed out.');
+              break;
+            case error.UNKNOWN_ERROR:
+              console.error('An unknown error occurred.');
+              break;
+            default:
+              console.error('Error occurred.');
+          }
         }
       );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
     }
   }, []);
+
 
   // Initialize the map
   useEffect(() => {
