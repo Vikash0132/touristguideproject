@@ -10,24 +10,22 @@
 
 .category-header {
   text-align: center;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-family: cursive;
 }
 
 .grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  /* 3 columns */
   gap: 20px;
 }
 
-/* Ensure containers are square */
 .grid-item {
-  width: 250px;
+  width: 350px;
   /* Fixed width for square shape */
-  height: 250px;
+  height: 350px;
   /* Fixed height for square shape */
   display: flex;
   justify-content: center;
@@ -42,22 +40,52 @@
   /* Center the image */
 }
 
-/* Specific container styles */
 .Paris {
-  background-image: url('./paris.jpg');
+  height: 350px;
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #333;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  background-image: url(./paris.jpg);
+  background-size: cover;
+  background-position: center;
 }
 
 .ktm {
-  background-image: url('./ktm.jpg');
+  height: 350px;
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #333;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  background-image: url(./ktm.jpg);
+  background-size: cover;
+  background-position: center;
 }
 
 .Italy {
-  background-image: url('./Italy.jpg');
+  height: 350px;
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #333;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  background-image: url(./Italy.jpg);
+  background-size: cover;
+  background-position: center;
 }
 
-/* Optional: You can add hover effect */
 .grid-item:hover {
   transform: scale(1.05);
   /* Slight zoom on hover */
   transition: transform 0.3s ease-in-out;
-}
