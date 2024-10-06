@@ -75,6 +75,7 @@ const Map = ({ searchResults }) => {
       </div>
       <div ref={mapContainerRef} style={{ width: '80%', height: '100%' }} />
     </div>
+
   );
 };
 

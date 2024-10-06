@@ -1,41 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import useAuth from './hooks/useAuth'; // Custom authentication hook
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Navbar from './components/navbar.jsx';
-import Map from './components/map.jsx'; // Your Map component
+import Map from './components/map.jsx; 
 import './App.css';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('authToken'));
-  const [searchResults, setSearchResults] = useState([]); // State for storing search results
-
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    setIsAuthenticated(!!token);  // Set authentication state based on token presence
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    setIsAuthenticated(false);  // Update state after logging out
-  };
+  const { isAuthenticated, logout } = useAuth();  // Using custom hook
+  const [searchResults, setSearchResults] = useState([]);
 
   const handleSearch = (results) => {
-    setSearchResults(results); // Update search results state
+    setSearchResults(results);
   };
 
   return (
     <Router>
       <div className="App">
-        {isAuthenticated && <Navbar onSearch={handleSearch} onLogout={handleLogout} />}
+        {isAuthenticated && <Navbar onSearch={handleSearch} onLogout={logout} />}
         <Routes>
-          {/* Redirect to dashboard if already authenticated */}
           <Route path="/" element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" />} />
-
-          {/* Redirect to login if not authenticated */}
           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
         </Routes>
-        {isAuthenticated && <Map searchResults={searchResults} />} {/* Pass searchResults to Map */}
+        {isAuthenticated && <Map searchResults={searchResults} />} {/* Map only for authenticated users */}
       </div>
     </Router>
   );
