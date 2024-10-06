@@ -14,11 +14,6 @@ const Dashboard = () => {
     <Container fluid>
       <Row>
         <Col>
-          <h1>Dashboard</h1>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
           <Tabs activeKey={activeTab} onSelect={handleTabSelect} className="mb-3">
             <Tab eventKey="home" title="Home">
               {/* Importing Home component here */}

@@ -16,7 +16,7 @@ const Home = () => {
       <div className="category-container">
         <div className="category-header">National</div>
         <div className="grid-container">
-          <div className="Dehradun-">Dehradun</div>
+          <div className="Dehradun">Dehradun</div>
           <div className="Manali">Manali</div>
           <div className="Goa">Goa</div>
         </div>
