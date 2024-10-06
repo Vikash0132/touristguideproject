@@ -5,7 +5,7 @@
 }
 
 .home-tab {
-  padding: 20px;
+  padding: 10px;
 }
 
 /* Category Container */
@@ -14,13 +14,11 @@
 }
 
 .category-header {
-  margin-top: 10px;
   text-align: center;
   font-size: 70px;
   font-weight: bold;
   margin-bottom: 10px;
   font-family: caligraphy;
-  text-decoration: underline;
 }
 
 .grid-container {
