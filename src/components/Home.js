@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <div className="home-tab">
       <div className="category-container">
-        <div className="category-header">I_____nternational</div>
+        <div className="category-header">I_______________nternational</div>
         <div className="grid-container">
           <div className="Paris">Paris</div>
           <div className="ktm">Kathmandu</div>
@@ -14,7 +14,7 @@ const Home = () => {
       </div>
 
       <div className="category-container">
-        <div className="category-header">National</div>
+        <div className="category-header">N______________ational</div>
         <div className="grid-container">
           <div className="Dehradun-">Dehradun</div>
           <div className="Manali">Manali</div>
