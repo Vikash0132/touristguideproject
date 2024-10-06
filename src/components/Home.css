@@ -1,4 +1,9 @@
 /* Container */
+@font-face {
+  font-family: caligraphy;
+  src: url(/public/CampanaScript_PERSONAL_USE_ONLY.otf);
+}
+
 .home-tab {
   padding: 20px;
 }
@@ -13,13 +18,13 @@
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
-  font-family: cursive;
+  font-family: caligraphy;
 }
 
 .grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 40px;
 }
 
 .grid-item {
@@ -37,6 +42,7 @@
   background-size: cover;
   /* Cover to ensure the image fills the container */
   background-position: center;
+  font-family: caligraphy;
   /* Center the image */
 }
 
@@ -46,13 +52,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #333;
   border-radius: 10px;
   font-size: 18px;
   font-weight: bold;
   background-image: url(./paris.jpg);
   background-size: cover;
   background-position: center;
+  font-family: caligraphy;
 }
 
 .ktm {
@@ -61,13 +67,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #333;
   border-radius: 10px;
   font-size: 18px;
   font-weight: bold;
   background-image: url(./ktm.jpg);
   background-size: cover;
   background-position: center;
+  font-family: caligraphy;
 }
 
 .Italy {
@@ -76,13 +82,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #333;
   border-radius: 10px;
   font-size: 18px;
   font-weight: bold;
   background-image: url(./Italy.jpg);
   background-size: cover;
   background-position: center;
+  font-family: caligraphy;
 }
 
 .grid-item:hover {
