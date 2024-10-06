@@ -10,10 +10,11 @@
 
 /* Category Container */
 .category-container {
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .category-header {
+  margin-top: 10px;
   text-align: center;
   font-size: 70px;
   font-weight: bold;
