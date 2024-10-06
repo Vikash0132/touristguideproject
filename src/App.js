@@ -17,7 +17,7 @@ const App = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
-    setIsAuthenticated(false);  // Update state after logging out
+    setIsAuthenticated(false);
   };
 
   const handleSearch = (results) => {
