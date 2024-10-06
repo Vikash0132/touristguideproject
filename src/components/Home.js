@@ -7,9 +7,9 @@ const Home = () => {
       <div className="category-container">
         <div className="category-header">INTERNATIONAL</div>
         <div className="grid-container">
-          <div className="grid-item">PARIS</div>
-          <div className="grid-item">KATHMANDU</div>
-          <div className="grid-item">ITALY</div>
+          <div className="Paris">PARIS</div>
+          <div className="ktm">KATHMANDU</div>
+          <div className="Italy">ITALY</div>
         </div>
       </div>
 
