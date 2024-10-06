@@ -10,20 +10,25 @@
 
 .category-header {
   text-align: center;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   font-family: cursive;
 }
 
 .grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  /* 3 columns */
   gap: 20px;
 }
 
-.Paris {
-  height: 150px;
+/* Ensure containers are square */
+.grid-item {
+  width: 250px;
+  /* Fixed width for square shape */
+  height: 250px;
+  /* Fixed height for square shape */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,32 +36,28 @@
   border-radius: 10px;
   font-size: 18px;
   font-weight: bold;
-  background-image: url(./paris.jpg);
-  background-size: contain;
+  background-size: cover;
+  /* Cover to ensure the image fills the container */
+  background-position: center;
+  /* Center the image */
+}
+
+/* Specific container styles */
+.Paris {
+  background-image: url('./paris.jpg');
 }
 
 .ktm {
-  height: 150px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid #333;
-  border-radius: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  background-image: url(./ktm.jpg);
-  background-size: contain
+  background-image: url('./ktm.jpg');
 }
 
 .Italy {
-  height: 150px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid #333;
-  border-radius: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  background-image: url(./Italy.jpg);
-  background-size: contain
+  background-image: url('./Italy.jpg');
+}
+
+/* Optional: You can add hover effect */
+.grid-item:hover {
+  transform: scale(1.05);
+  /* Slight zoom on hover */
+  transition: transform 0.3s ease-in-out;
 }
