@@ -89,3 +89,22 @@
   transform: scale(1.05);
   /* Slight zoom on hover */
   transition: transform 0.3s ease-in-out;
+}
+
+.Paris:hover {
+  transform: scale(1.05);
+  /* Slight zoom on hover */
+  transition: transform 0.3s ease-in-out;
+}
+
+.ktm:hover {
+  transform: scale(1.05);
+  /* Slight zoom on hover */
+  transition: transform 0.3s ease-in-out;
+}
+
+.Italy:hover {
+  transform: scale(1.05);
+  /* Slight zoom on hover */
+  transition: transform 0.3s ease-in-out;
+}
