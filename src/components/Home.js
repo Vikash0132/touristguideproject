@@ -5,20 +5,20 @@ const Home = () => {
   return (
     <div className="home-tab">
       <div className="category-container">
-        <div className="category-header">INTERNATIONAL</div>
+        <div className="category-header">International</div>
         <div className="grid-container">
-          <div className="Paris">PARIS</div>
-          <div className="ktm">KATHMANDU</div>
-          <div className="Italy">ITALY</div>
+          <div className="Paris">Paris</div>
+          <div className="ktm">Kathmandu</div>
+          <div className="Italy">Italy</div>
         </div>
       </div>
 
       <div className="category-container">
-        <div className="category-header">NATIONAL</div>
+        <div className="category-header">National</div>
         <div className="grid-container">
-          <div className="grid-item">DEHRADUN</div>
-          <div className="grid-item">MANALI</div>
-          <div className="grid-item"></div>
+          <div className="grid-item">Dehradun</div>
+          <div className="grid-item">Manali</div>
+          <div className="grid-item">Goa</div>
         </div>
       </div>
     </div>
