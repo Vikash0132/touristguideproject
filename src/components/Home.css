@@ -118,7 +118,19 @@
   font-family: caligraphy;
 }
 
-.grid-item:hover {
+.Dehradun:hover {
+  transform: scale(1.05);
+  /* Slight zoom on hover */
+  transition: transform 0.3s ease-in-out;
+}
+
+.Manali:hover {
+  transform: scale(1.05);
+  /* Slight zoom on hover */
+  transition: transform 0.3s ease-in-out;
+}
+
+.Goa:hover {
   transform: scale(1.05);
   /* Slight zoom on hover */
   transition: transform 0.3s ease-in-out;
