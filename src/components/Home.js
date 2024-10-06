@@ -1,11 +1,26 @@
 import React from 'react';
+import './home.css';
 
-const Home = () => {
+export default function Home() {
   return (
-    <div>
-      <h2>Home Page</h2>
+    <div className="home-tab">
+      <div className="category-container">
+        <div className="category-header">INTERNATIONAL</div>
+        <div className="grid-container">
+          <div className="grid-item">PARIS</div>
+          <div className="grid-item">KATHMANDU</div>
+          <div className="grid-item">ITALY</div>
+        </div>
+      </div>
+
+      <div className="category-container">
+        <div className="category-header">NATIONAL</div>
+        <div className="grid-container">
+          <div className="grid-item">DEHRADUN</div>
+          <div className="grid-item">MANALI</div>
+          <div className="grid-item"></div>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default Home;
+}
