@@ -4,7 +4,7 @@ import useAuth from './hooks/useAuth'; // Custom authentication hook
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Navbar from './components/navbar.jsx';
-import Map from './components/map.jsx; 
+import Map from './components/map.jsx';
 import './App.css';
 
 const App = () => {
