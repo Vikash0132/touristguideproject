@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Tabs, Tab, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Home from './Home'; // Import Home component
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('home');
 
   const handleTabSelect = (key) => {
     setActiveTab(key);
-    // Update any other components based on the selected tab if needed
   };
 
   return (
@@ -21,20 +21,17 @@ const Dashboard = () => {
         <Col>
           <Tabs activeKey={activeTab} onSelect={handleTabSelect} className="mb-3">
             <Tab eventKey="home" title="Home">
-              {/* Home tab content */}
-              <p>Go to your dream destination</p>
+              {/* Importing Home component here */}
+              <Home />
             </Tab>
             <Tab eventKey="restaurants" title="Restaurants">
-              {/* Restaurants tab content */}
               <p>Restaurants nearby</p>
-              <input type="text"></input>
+              <input type="text" placeholder="Search restaurants..."></input>
             </Tab>
             <Tab eventKey="hotels" title="Hotels">
-              {/* Hotels tab content */}
               <p>Hotels nearby</p>
-              <input type="text"></input>
+              <input type="text" placeholder="Search hotels..."></input>
             </Tab>
-            {/* Add more tabs as needed */}
           </Tabs>
         </Col>
       </Row>

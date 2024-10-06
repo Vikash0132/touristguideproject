@@ -1,7 +1,7 @@
 import React from 'react';
-import './home.css';
+import './home.css'; // Import the CSS specific to this component
 
-export default function Home() {
+const Home = () => {
   return (
     <div className="home-tab">
       <div className="category-container">
@@ -23,4 +23,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default Home;
