@@ -32,6 +32,7 @@
   font-size: 18px;
   font-weight: bold;
   background-image: url(./paris.jpg);
+  background-size: contain;
 }
 
 .ktm {
@@ -44,6 +45,7 @@
   font-size: 18px;
   font-weight: bold;
   background-image: url(./ktm.jpg);
+  background-size: contain
 }
 
 .Italy {
@@ -56,4 +58,5 @@
   font-size: 18px;
   font-weight: bold;
   background-image: url(./Italy.jpg);
+  background-size: contain
 }
