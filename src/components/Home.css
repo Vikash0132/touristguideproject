@@ -175,7 +175,7 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.Goa:hover {
+.Dubai:hover {
   transform: scale(1.05);
   /* Slight zoom on hover */
   transition: transform 0.3s ease-in-out;
