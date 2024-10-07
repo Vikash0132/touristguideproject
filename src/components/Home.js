@@ -10,6 +10,9 @@ const Home = () => {
           <div className="Paris">Paris</div>
           <div className="ktm">Kathmandu</div>
           <div className="Italy">Italy</div>
+          <div className="Thailand">Thailand</div>
+          <div className="Dubai">Dubai</div>
+          <div className="Bali">Bali</div>
         </div>
       </div>
 

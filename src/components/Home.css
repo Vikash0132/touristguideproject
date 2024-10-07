@@ -117,7 +117,70 @@
   font-family: caligraphy;
 }
 
+.Bali {
+  height: 350px;
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 70px;
+  color: white;
+  background-image: url(./bali.jpg);
+  background-size: cover;
+  background-position: center;
+  font-family: caligraphy;
+}
+
+.Dubai {
+  height: 350px;
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 70px;
+  color: white;
+  background-image: url(./Dubai.jpg);
+  background-size: cover;
+  background-position: center;
+  font-family: caligraphy;
+}
+
+.Thailand {
+  height: 350px;
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 70px;
+  color: white;
+  background-image: url(./Thailand.jpg);
+  background-size: cover;
+  background-position: center;
+  font-family: caligraphy;
+}
+
 .Dehradun:hover {
+  transform: scale(1.05);
+  /* Slight zoom on hover */
+  transition: transform 0.3s ease-in-out;
+}
+
+.Thailand:hover {
+  transform: scale(1.05);
+  /* Slight zoom on hover */
+  transition: transform 0.3s ease-in-out;
+}
+
+.Goa:hover {
+  transform: scale(1.05);
+  /* Slight zoom on hover */
+  transition: transform 0.3s ease-in-out;
+}
+
+.Bali:hover {
   transform: scale(1.05);
   /* Slight zoom on hover */
   transition: transform 0.3s ease-in-out;
