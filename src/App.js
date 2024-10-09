@@ -22,6 +22,7 @@ const App = () => {
   return (
     <Router>
       <div className="App">
+        {isAuthenticated && <Navbar onLogout={handleLogout} />}
         <Routes>
           {/* Redirect to dashboard if already authenticated */}
           <Route path="/" element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" />} />
