@@ -1,57 +1,104 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import maplibregl from 'maplibre-gl';
+import axios from 'axios';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 const Hotels = () => {
-  // Static hotel data (you can replace this with actual data later)
-  const [hotels] = useState([
-    { id: 1, name: 'Hotel Grand', address: '123 Street, City A' },
-    { id: 2, name: 'Sunrise Inn', address: '456 Avenue, City B' },
-    { id: 3, name: 'Oceanview Hotel', address: '789 Boulevard, City C' },
-    { id: 4, name: 'Mountain Retreat', address: '101 Parkway, City D' },
-    { id: 5, name: 'Lakeside Lodge', address: '202 Crescent, City E' },
-  ]);
+  const mapContainer = useRef(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [latitude, setLatitude] = useState(28.7041); // Default: New Delhi
+  const [longitude, setLongitude] = useState(77.1025);
+  const [map, setMap] = useState(null);
 
-  const [searchQuery, setSearchQuery] = useState(''); // State for search input
-  const [filteredHotels, setFilteredHotels] = useState(hotels); // State for filtered results
+  useEffect(() => {
+    if (mapContainer.current) {
+      const initializeMap = () => {
+        const mapInstance = new maplibregl.Map({
+          container: mapContainer.current,
+          style: 'https://maps.tilehosting.com/styles/positron/style.json?key=EIhSH3UkZEiWAdBabgXK', // MapTiler style
+          center: [longitude, latitude],
+          zoom: 10,
+        });
+        setMap(mapInstance);
+      };
 
-  // Handle the search logic
-  const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
+      if (!map) initializeMap();
+    }
+  }, [map, latitude, longitude]);
 
-    // Filter hotels based on the search query
-    const filtered = hotels.filter(hotel =>
-      hotel.name.toLowerCase().includes(query)
-    );
-    setFilteredHotels(filtered);
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${searchQuery}`
+      );
+      const locations = response.data;
+      if (locations.length > 0) {
+        const { lat, lon } = locations[0];
+        setLatitude(Number(lat));
+        setLongitude(Number(lon));
+
+        if (map) {
+          map.flyTo({ center: [Number(lon), Number(lat)], zoom: 12 });
+
+          // Remove previous markers
+          document.querySelectorAll('.marker').forEach(marker => marker.remove());
+
+          // Add a marker for the searched location
+          new maplibregl.Marker({ color: '#FF0000' })
+            .setLngLat([lon, lat])
+            .addTo(map)
+            .getElement().classList.add('marker');
+        }
+
+        setSearchResults(locations);
+      } else {
+        setSearchResults([]);
+      }
+    } catch (error) {
+      console.error('Error searching location:', error);
+      setSearchResults([]);
+    }
   };
 
   return (
     <div>
-      <h1>Hotels Nearby</h1>
+      <h1>Search for Locations</h1>
+      <form onSubmit={handleSearch}>
+        <input
+          type="text"
+          placeholder="Enter city or location..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={{ marginBottom: '20px', padding: '10px', width: '300px' }}
+        />
+        <button type="submit" style={{ padding: '10px' }}>
+          Search
+        </button>
+      </form>
 
-      {/* Search bar for hotels */}
-      <input
-        type="text"
-        placeholder="Search hotels..."
-        value={searchQuery}
-        onChange={handleSearch}
-        style={{ marginBottom: '20px', padding: '10px', width: '300px' }}
-      />
+      {/* Map */}
+      <div ref={mapContainer} style={{ width: '100%', height: '500px' }} />
 
       {/* Search Results */}
-      <h2>Search Results</h2>
-      {filteredHotels.length === 0 ? (
-        <p>No results found.</p>
-      ) : (
-        <ul>
-          {filteredHotels.map(hotel => (
-            <li key={hotel.id}>
-              <h3>{hotel.name}</h3>
-              <p>{hotel.address}</p>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div>
+        <h2>Search Results</h2>
+        {searchResults.length === 0 ? (
+          <p>No results found.</p>
+        ) : (
+          <ul>
+            {searchResults.map((location, index) => (
+              <li key={index}>
+                <h3>{location.display_name}</h3>
+                <p>
+                  Lat: {location.lat}, Lon: {location.lon}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };
