@@ -1,96 +1,53 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import maplibregl from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
+import React, { useState } from 'react';
 
 const Hotels = () => {
-  const [hotels, setHotels] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(''); // State for search query
-  const mapContainer = useRef(null);
+  // Static hotel data (you can replace this with actual data later)
+  const [hotels] = useState([
+    { id: 1, name: 'Hotel Grand', address: '123 Street, City A' },
+    { id: 2, name: 'Sunrise Inn', address: '456 Avenue, City B' },
+    { id: 3, name: 'Oceanview Hotel', address: '789 Boulevard, City C' },
+    { id: 4, name: 'Mountain Retreat', address: '101 Parkway, City D' },
+    { id: 5, name: 'Lakeside Lodge', address: '202 Crescent, City E' },
+  ]);
 
-  // Dynamic latitude and longitude
-  const [latitude, setLatitude] = useState(37.7749); // Default latitude
-  const [longitude, setLongitude] = useState(-122.4194); // Default longitude
+  const [searchQuery, setSearchQuery] = useState(''); // State for search input
+  const [filteredHotels, setFilteredHotels] = useState(hotels); // State for filtered results
 
-  const OSM_NOMINATIM_URL = `https://nominatim.openstreetmap.org/search?`;
+  // Handle the search logic
+  const handleSearch = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
 
-  const fetchHotels = async () => {
-    const OSM_NOMINATIM_QUERY = `q=hotel&format=json&limit=10&addressdetails=1&bbox=${longitude - 0.1},${latitude - 0.1},${longitude + 0.1},${latitude + 0.1}`;
-    try {
-      const response = await axios.get(`${OSM_NOMINATIM_URL}${OSM_NOMINATIM_QUERY}`);
-      setHotels(response.data);
-      setLoading(false);
-    } catch (err) {
-      setError(err);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchHotels();
-  }, [latitude, longitude]);
-
-  useEffect(() => {
-    if (mapContainer.current && hotels.length > 0) {
-      const map = new maplibregl.Map({
-        container: mapContainer.current,
-        style: 'https://maps.tilehosting.com/styles/positron/style.json?key=EIhSH3UkZEiWAdBabgXK', // Replace with your MapTiler style URL
-        center: [longitude, latitude],
-        zoom: 14,
-      });
-
-      // Add markers for hotels
-      hotels.forEach(hotel => {
-        if (hotel.lon && hotel.lat) {
-          const marker = new maplibregl.Marker({
-            color: '#FF0000', // Set the color of the marker icon
-          })
-            .setLngLat([hotel.lon, hotel.lat])
-            .addTo(map);
-        }
-      });
-    }
-  }, [hotels, mapContainer]);
-
-  // Handle the search button click
-  const handleSearch = async () => {
-    try {
-      const searchResponse = await axios.get(
-        `${OSM_NOMINATIM_URL}q=${searchQuery}&format=json&limit=1`
-      );
-      if (searchResponse.data.length > 0) {
-        const { lat, lon } = searchResponse.data[0];
-        setLatitude(parseFloat(lat)); // Update latitude with search result
-        setLongitude(parseFloat(lon)); // Update longitude with search result
-      }
-    } catch (error) {
-      console.error('Error fetching location:', error);
-    }
+    // Filter hotels based on the search query
+    const filtered = hotels.filter(hotel =>
+      hotel.name.toLowerCase().includes(query)
+    );
+    setFilteredHotels(filtered);
   };
 
   return (
     <div>
-      {/* Search bar for location */}
+      <h1>Hotels Nearby</h1>
+
+      {/* Search bar for hotels */}
       <input
         type="text"
-        placeholder="Search for a location"
+        placeholder="Search hotels..."
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        onChange={handleSearch}
+        style={{ marginBottom: '20px', padding: '10px', width: '300px' }}
       />
-      <button onClick={handleSearch}>Search</button>
 
-      <div ref={mapContainer} style={{ width: '100%', height: '600px' }} />
-
-      {loading ? (
-        <p>Loading...</p>
+      {/* Search Results */}
+      <h2>Search Results</h2>
+      {filteredHotels.length === 0 ? (
+        <p>No results found.</p>
       ) : (
         <ul>
-          {hotels.map(hotel => (
-            <li key={hotel.osm_id}>
-              <h2>{hotel.display_name}</h2>
-              <p>Lat: {hotel.lat}, Lon: {hotel.lon}</p>
+          {filteredHotels.map(hotel => (
+            <li key={hotel.id}>
+              <h3>{hotel.name}</h3>
+              <p>{hotel.address}</p>
             </li>
           ))}
         </ul>
