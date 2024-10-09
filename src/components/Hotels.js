@@ -7,27 +7,28 @@ const Hotels = () => {
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(''); // State for search query
   const mapContainer = useRef(null);
 
   // Dynamic latitude and longitude
-  const [latitude, setLatitude] = useState(37.7749);
-  const [longitude, setLongitude] = useState(-122.4194);
+  const [latitude, setLatitude] = useState(37.7749); // Default latitude
+  const [longitude, setLongitude] = useState(-122.4194); // Default longitude
 
   const OSM_NOMINATIM_URL = `https://nominatim.openstreetmap.org/search?`;
-  const OSM_NOMINATIM_QUERY = `q=hotel&format=json&limit=10&addressdetails=1&bbox=${longitude - 0.1},${latitude - 0.1},${longitude + 0.1},${latitude + 0.1}`;
+
+  const fetchHotels = async () => {
+    const OSM_NOMINATIM_QUERY = `q=hotel&format=json&limit=10&addressdetails=1&bbox=${longitude - 0.1},${latitude - 0.1},${longitude + 0.1},${latitude + 0.1}`;
+    try {
+      const response = await axios.get(`${OSM_NOMINATIM_URL}${OSM_NOMINATIM_QUERY}`);
+      setHotels(response.data);
+      setLoading(false);
+    } catch (err) {
+      setError(err);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchHotels = async () => {
-      try {
-        const response = await axios.get(`${OSM_NOMINATIM_URL}${OSM_NOMINATIM_QUERY}`);
-        setHotels(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError(err);
-        setLoading(false);
-      }
-    };
-
     fetchHotels();
   }, [latitude, longitude]);
 
@@ -48,20 +49,40 @@ const Hotels = () => {
           })
             .setLngLat([hotel.lon, hotel.lat])
             .addTo(map);
-
-          // Add an icon to the marker
-          const icon = new maplibregl.Marker({
-            color: '#FF0000', // Set the color of the icon
-          }).setIcon(document.createElement('div'));
-          marker.setIcon(icon);
         }
       });
     }
   }, [hotels, mapContainer]);
 
+  // Handle the search button click
+  const handleSearch = async () => {
+    try {
+      const searchResponse = await axios.get(
+        `${OSM_NOMINATIM_URL}q=${searchQuery}&format=json&limit=1`
+      );
+      if (searchResponse.data.length > 0) {
+        const { lat, lon } = searchResponse.data[0];
+        setLatitude(parseFloat(lat)); // Update latitude with search result
+        setLongitude(parseFloat(lon)); // Update longitude with search result
+      }
+    } catch (error) {
+      console.error('Error fetching location:', error);
+    }
+  };
+
   return (
     <div>
+      {/* Search bar for location */}
+      <input
+        type="text"
+        placeholder="Search for a location"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+      <button onClick={handleSearch}>Search</button>
+
       <div ref={mapContainer} style={{ width: '100%', height: '600px' }} />
+
       {loading ? (
         <p>Loading...</p>
       ) : (

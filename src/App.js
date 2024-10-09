@@ -3,12 +3,10 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Navbar from './components/navbar.jsx';
-import Map from './components/map.jsx'; // Your Map component
 import './App.css';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('authToken'));
-  const [searchResults, setSearchResults] = useState([]); // State for storing search results
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -20,9 +18,6 @@ const App = () => {
     setIsAuthenticated(false);
   };
 
-  const handleSearch = (results) => {
-    setSearchResults(results); // Update search results state
-  };
 
   return (
     <Router>
@@ -35,7 +30,7 @@ const App = () => {
           {/* Redirect to login if not authenticated */}
           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
         </Routes>
-        {isAuthenticated && <Map searchResults={searchResults} />} {/* Pass searchResults to Map */}
+        {/*removed map component*/}
       </div>
     </Router>
   );
