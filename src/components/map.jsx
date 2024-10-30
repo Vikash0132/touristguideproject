@@ -3,7 +3,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './map.css';
 
-mapboxgl.accessToken = TCsVxUMcJl3mlo6cnAXL; // Store API key in .env file
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY; // Store API key in .env file
 
 const Map = ({ searchResults }) => {
   const mapContainerRef = useRef(null);
