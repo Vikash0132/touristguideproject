@@ -18,27 +18,29 @@ const Home = () => {
       {/* Show booking layout if a destination is selected */}
       {selectedDestination ? (
         <div className="booking-page">
-          <h1>{selectedDestination}</h1>
-          <div className="map">
-            {/* Place your map component or embed code here */}
-            <p>Map would be displayed here</p>
+          <h1 className="destination-title">{selectedDestination}</h1>
+          <div className="booking-content">
+            <div className="side-panel">
+              <div>
+                <label>From: </label>
+                <input type="text" placeholder="Starting Location" />
+              </div>
+              <div>
+                <label>To: </label>
+                <input type="text" value={selectedDestination} readOnly />
+              </div>
+              <div className="transport-buttons">
+                <button>Bus</button>
+                <button>Flight</button>
+                <button>Train</button>
+              </div>
+              <button onClick={() => setSelectedDestination(null)}>Go Back</button>
+            </div>
+            <div className="map">
+              {/* Place your map component or embed code here */}
+              <p>Map would be displayed here</p>
+            </div>
           </div>
-          <div className="travel-panel">
-            <div>
-              <label>From: </label>
-              <input type="text" placeholder="Starting Location" />
-            </div>
-            <div>
-              <label>To: </label>
-              <input type="text" value={selectedDestination} readOnly />
-            </div>
-            <div className="transport-buttons">
-              <button>Bus</button>
-              <button>Flight</button>
-              <button>Train</button>
-            </div>
-          </div>
-          <button onClick={() => setSelectedDestination(null)}>Go Back</button>
         </div>
       ) : (
         // Default view with destination tiles

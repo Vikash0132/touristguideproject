@@ -1,9 +1,4 @@
 /* Container */
-@font-face {
-  font-family: caligraphy;
-  src: url(/public/CampanaScript_PERSONAL_USE_ONLY.otf);
-}
-
 .home-tab {
   padding: 10px;
 }
@@ -28,7 +23,7 @@
   margin-bottom: 40px;
 }
 
-.Paris {
+.destination-tile {
   height: 350px;
   width: 350px;
   display: flex;
@@ -37,182 +32,134 @@
   border-radius: 10px;
   font-size: 70px;
   color: white;
-  background-image: url(./paris.jpg);
   background-size: cover;
   background-position: center;
   font-family: caligraphy;
+}
+
+.Paris {
+  background-image: url(./paris.jpg);
 }
 
 .Kathmandu {
-  height: 350px;
-  width: 350px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  font-size: 70px;
-  color: white;
   background-image: url(./ktm.jpg);
-  background-size: cover;
-  background-position: center;
-  font-family: caligraphy;
 }
 
 .Italy {
-  height: 350px;
-  width: 350px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  font-size: 70px;
-  color: white;
   background-image: url(./Italy.jpg);
-  background-size: cover;
-  background-position: center;
-  font-family: caligraphy;
 }
 
 .Dehradun {
-  height: 350px;
-  width: 350px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  font-size: 70px;
-  color: white;
   background-image: url(./dehradun.jpg);
-  background-size: cover;
-  background-position: center;
-  font-family: caligraphy;
 }
 
 .Manali {
-  height: 350px;
-  width: 350px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  font-size: 70px;
-  color: white;
   background-image: url(./manali.jpg);
-  background-size: cover;
-  background-position: center;
-  font-family: caligraphy;
 }
 
 .Goa {
-  height: 350px;
-  width: 350px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  font-size: 70px;
-  color: white;
   background-image: url(./goa.jpg);
-  background-size: cover;
-  background-position: center;
-  font-family: caligraphy;
 }
 
 .Bali {
-  height: 350px;
-  width: 350px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  font-size: 70px;
-  color: white;
   background-image: url(./bali.jpg);
-  background-size: cover;
-  background-position: center;
-  font-family: caligraphy;
 }
 
 .Dubai {
-  height: 350px;
-  width: 350px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  font-size: 70px;
-  color: white;
   background-image: url(./Dubai.jpg);
-  background-size: cover;
-  background-position: center;
-  font-family: caligraphy;
 }
 
 .Thailand {
-  height: 350px;
-  width: 350px;
+  background-image: url(./Thailand.jpg);
+}
+
+.destination-tile:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Booking Page Layout */
+.booking-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.destination-title {
+  font-size: 60px;
+  font-family: caligraphy;
+  margin-bottom: 20px;
+}
+
+.booking-content {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Side Panel for Buttons */
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 200px;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.side-panel label {
+  font-size: 18px;
+}
+
+.side-panel input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.transport-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.transport-buttons button {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+}
+
+button:active {
+  background-color: #0056b3;
+}
+
+.go-back-button {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #ddd;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Map Area */
+.map {
+  flex: 1;
+  margin-left: 20px;
+  padding: 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
-  font-size: 70px;
-  color: white;
-  background-image: url(./Thailand.jpg);
-  background-size: cover;
-  background-position: center;
-  font-family: caligraphy;
-}
-
-.Dehradun:hover {
-  transform: scale(1.05);
-  /* Slight zoom on hover */
-  transition: transform 0.3s ease-in-out;
-}
-
-.Thailand:hover {
-  transform: scale(1.05);
-  /* Slight zoom on hover */
-  transition: transform 0.3s ease-in-out;
-}
-
-.Dubai:hover {
-  transform: scale(1.05);
-  /* Slight zoom on hover */
-  transition: transform 0.3s ease-in-out;
-}
-
-.Bali:hover {
-  transform: scale(1.05);
-  /* Slight zoom on hover */
-  transition: transform 0.3s ease-in-out;
-}
-
-.Manali:hover {
-  transform: scale(1.05);
-  /* Slight zoom on hover */
-  transition: transform 0.3s ease-in-out;
-}
-
-.Goa:hover {
-  transform: scale(1.05);
-  /* Slight zoom on hover */
-  transition: transform 0.3s ease-in-out;
-}
-
-.Paris:hover {
-  transform: scale(1.05);
-  /* Slight zoom on hover */
-  transition: transform 0.3s ease-in-out;
-}
-
-.ktm:hover {
-  transform: scale(1.05);
-  /* Slight zoom on hover */
-  transition: transform 0.3s ease-in-out;
-}
-
-.Italy:hover {
-  transform: scale(1.05);
-  /* Slight zoom on hover */
-  transition: transform 0.3s ease-in-out;
+  font-size: 24px;
 }
