@@ -1,9 +1,8 @@
-/* Styles for the side panel */
 .side-panel {
   width: 20%;
   background-color: #f7f7f7;
   padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #ddd;
   overflow-y: auto;
 }
 
@@ -12,21 +11,17 @@
 }
 
 .side-panel ul {
-  list-style: none;
+  list-style-type: none;
   padding: 0;
 }
 
 .side-panel li {
-  margin-bottom: 15px;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  cursor: pointer;
-}
-
-.side-panel li:hover {
-  background-color: #e7e7e7;
+  margin-bottom: 10px;
 }
 
 .marker {
-  cursor: pointer;
+  background-color: red;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
 }
