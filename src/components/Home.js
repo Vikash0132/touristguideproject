@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Map from 'maptiler'; // Replace this with the Map component you set up with MapTiler
+import Map from 'maptiler'; // Ensure this import is correct for your setup
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
@@ -8,17 +8,17 @@ const Home = () => {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    // Initialize the map and set mapRef.current only if it's null
+    // Initialize the map only once when the component mounts
     if (!mapRef.current) {
       mapRef.current = new Map({
-        container: 'map', // ID of the map container in the DOM
+        container: 'map',
         style: 'https://api.maptiler.com/maps/basic/style.json?key=TCsVxUMcJl3mlo6cnAXL',
-        center: [0, 0], // Default center
+        center: [0, 0],
         zoom: 2,
       });
 
+      // Set up geolocation only after the map is loaded
       mapRef.current.on('load', () => {
-        // Add geolocation control only after map has loaded
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -33,7 +33,7 @@ const Home = () => {
                 fromInputRef.current.value = `${latitude.toFixed(3)}, ${longitude.toFixed(3)}`;
               }
 
-              // Draw a line to the selected destination if any
+              // Draw a route if a destination is selected
               if (selectedDestination) {
                 drawRoute([longitude, latitude], getDestinationCoords(selectedDestination));
               }
@@ -45,7 +45,7 @@ const Home = () => {
         }
       });
     }
-  }, [selectedDestination]);
+  }, [selectedDestination]); // Run when selectedDestination changes
 
   const drawRoute = (fromCoords, toCoords) => {
     if (!mapRef.current || !fromCoords || !toCoords) return;
@@ -58,7 +58,7 @@ const Home = () => {
       },
     };
 
-    // Add the route to the map
+    // Add or update the route on the map
     if (mapRef.current.getSource('route')) {
       mapRef.current.getSource('route').setData(route);
     } else {
