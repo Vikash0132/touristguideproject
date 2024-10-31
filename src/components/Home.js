@@ -1,8 +1,22 @@
 import React, { useState } from 'react';
 import './Home.css'; // Import the CSS specific to this component
+import Map from './map'; // Import the Map component
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
+
+  // Placeholder search results for demonstration
+  const searchResults = selectedDestination
+    ? [
+      {
+        place_name: selectedDestination,
+        geometry: {
+          coordinates: [77.1025, 28.7041] // Example coordinates; replace with real data
+        },
+        text: "Sample Location"
+      }
+    ]
+    : [];
 
   const handleClick = (destination) => {
     setSelectedDestination(destination);
@@ -34,11 +48,12 @@ const Home = () => {
                 <button>Flight</button>
                 <button>Train</button>
               </div>
-              <button onClick={() => setSelectedDestination(null)}>Go Back</button>
+              <button onClick={() => setSelectedDestination(null)} className="go-back-button">
+                Go Back
+              </button>
             </div>
-            <div className="map">
-              {/* Place your map component or embed code here */}
-              <p>Map would be displayed here</p>
+            <div className="map-container">
+              <Map searchResults={searchResults} />
             </div>
           </div>
         </div>
