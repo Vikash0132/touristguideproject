@@ -3,7 +3,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './Home.css';
 
-const MAPTILER_API_KEY = "YOUR_MAPTILER_API_KEY"; // Replace with your MapTiler API Key
+const MAPTILER_API_KEY = "TCsVxUMcJl3mlo6cnAXL"; // Replace with your MapTiler API Key
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
