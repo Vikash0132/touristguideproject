@@ -1,79 +1,53 @@
 import React, { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import './map.css';
 
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY; // Store API key in .env file
+mapboxgl.accessToken = 'TCsVxUMcJl3mlo6cnAXL';
 
-const Map = ({ searchResults }) => {
+const Map = ({ destination }) => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
-  const markersRef = useRef([]); // Track markers
 
   useEffect(() => {
     if (!mapRef.current) {
       mapRef.current = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: 'https://api.maptiler.com/maps/streets/style.json?key=TCsVxUMcJl3mlo6cnAXL',
-        center: [77.1025, 28.7041], // Default center [longitude, latitude]
+        style: `https://api.maptiler.com/maps/streets/style.json?key=${mapboxgl.accessToken}`,
+        center: [77.1025, 28.7041], // Default center position [longitude, latitude]
         zoom: 10,
       });
+
+      // Add geolocation control to the map to show live location
+      const geolocateControl = new mapboxgl.GeolocateControl({
+        positionOptions: { enableHighAccuracy: true },
+        trackUserLocation: true,
+        showUserHeading: true,
+      });
+      mapRef.current.addControl(geolocateControl);
+
+      // Trigger geolocation immediately
+      geolocateControl.trigger();
     }
 
-    // Clean up map on unmount
-    return () => {
-      if (mapRef.current) mapRef.current.remove();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (searchResults && searchResults.length > 0 && mapRef.current) {
-      // Clear existing markers
-      markersRef.current.forEach(marker => marker.remove());
-      markersRef.current = [];
-
-      // Add new markers
-      searchResults.forEach((location) => {
-        const marker = new mapboxgl.Marker({ className: 'marker' })
-          .setLngLat([location.geometry.coordinates[0], location.geometry.coordinates[1]])
-          .addTo(mapRef.current);
-
-        const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`<h3>${location.place_name}</h3>`);
-
-        // Show popup on hover
-        marker.getElement().addEventListener('mouseenter', () => popup.addTo(mapRef.current));
-        marker.getElement().addEventListener('mouseleave', () => popup.remove());
-
-        markersRef.current.push(marker);
+    // Update map center to selected destination
+    if (destination) {
+      mapRef.current.flyTo({
+        center: destination.coordinates,
+        zoom: 12,
       });
 
-      // Fit map to markers
-      const bounds = new mapboxgl.LngLatBounds();
-      searchResults.forEach((location) => {
-        bounds.extend([location.geometry.coordinates[0], location.geometry.coordinates[1]]);
-      });
-      mapRef.current.fitBounds(bounds, { padding: 50 });
+      // Add a marker at the destination
+      new mapboxgl.Marker()
+        .setLngLat(destination.coordinates)
+        .addTo(mapRef.current);
     }
-  }, [searchResults]);
+
+    return () => mapRef.current && mapRef.current.remove();
+  }, [destination]);
 
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
-      <div className="side-panel">
-        <h2>Search Results</h2>
-        {searchResults && searchResults.length > 0 ? (
-          <ul>
-            {searchResults.map((location, index) => (
-              <li key={index}>
-                <h3>{location.place_name}</h3>
-                <p>{location.text}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No results found.</p>
-        )}
-      </div>
-      <div ref={mapContainerRef} style={{ width: '80%', height: '100%' }} />
+      <div ref={mapContainerRef} style={{ width: '75%', height: '90vh' }} />
     </div>
   );
 };
