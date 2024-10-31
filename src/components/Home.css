@@ -29,7 +29,7 @@
   margin-top: 10px;
 }
 
-.side-panel .transport-buttons {
+.transport-buttons {
   margin-top: 20px;
 }
 
@@ -82,8 +82,19 @@
   flex: 1;
   text-align: center;
   cursor: pointer;
+  max-width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .destination-tile:hover {
   background-color: #c7d2fe;
+}
+
+.destination-img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
