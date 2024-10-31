@@ -12,7 +12,7 @@ const Home = () => {
     if (!mapRef.current) {
       mapRef.current = new Map({
         container: 'map', // ID of the map container in the DOM
-        style: 'https://api.maptiler.com/maps/basic/style.json?key=YOUR_API_KEY',
+        style: 'https://api.maptiler.com/maps/basic/style.json?key=TCsVxUMcJl3mlo6cnAXL',
         center: [0, 0], // Default center
         zoom: 2,
       });
