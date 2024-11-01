@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import './Home.css'; // Import the CSS specific to this component
-import Map from './map'; // Import the Map component
+import './Home.css';
+import Map from './map';
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
 
-  // Placeholder search results for demonstration
   const searchResults = selectedDestination
     ? [
       {
@@ -23,13 +22,23 @@ const Home = () => {
   };
 
   const destinations = {
-    International: ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"],
-    National: ["Dehradun", "Manali", "Goa"]
+    International: [
+      { name: "Paris", img: "/paris.jpg" },
+      { name: "Kathmandu", img: "/ktm.jpg" },
+      { name: "Italy", img: "/Italy.jpg" },
+      { name: "Thailand", img: "/Thailand.jpg" },
+      { name: "Dubai", img: "/Dubai.jpg" },
+      { name: "Bali", img: "/bali.jpg" }
+    ],
+    National: [
+      { name: "Dehradun", img: "/dehradun.jpg" },
+      { name: "Manali", img: "/manali.jpg" },
+      { name: "Goa", img: "/goa.jpg" }
+    ]
   };
 
   return (
     <div className="home-tab">
-      {/* Show booking layout if a destination is selected */}
       {selectedDestination ? (
         <div className="booking-page">
           <h1 className="destination-title">{selectedDestination}</h1>
@@ -58,7 +67,6 @@ const Home = () => {
           </div>
         </div>
       ) : (
-        // Default view with destination tiles
         <>
           {Object.keys(destinations).map((category) => (
             <div key={category} className="category-container">
@@ -66,12 +74,16 @@ const Home = () => {
               <div className="grid-container">
                 {destinations[category].map((destination) => (
                   <div
-                    key={destination}
-                    className={`destination-tile ${destination}`}
-                    onClick={() => handleClick(destination)}
-                    style={{ cursor: "pointer" }}
+                    key={destination.name}
+                    className="destination-tile"
+                    onClick={() => handleClick(destination.name)}
+                    style={{
+                      backgroundImage: `url(${destination.img})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
+                    }}
                   >
-                    {destination}
+                    <span className="tile-text">{destination.name}</span>
                   </div>
                 ))}
               </div>
