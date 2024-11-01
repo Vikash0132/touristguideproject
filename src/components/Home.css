@@ -1,89 +1,17 @@
-.home-tab {
-  padding: 20px;
-}
-
-.booking-page {
-  display: flex;
-  flex-direction: row;
-}
-
-.destination-title {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.booking-content {
-  display: flex;
-}
-
-.side-panel {
-  width: 250px;
-  background-color: #f7f7f7;
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.side-panel label {
-  font-weight: bold;
-  display: block;
-  margin-top: 10px;
-}
-
-.side-panel .transport-buttons {
+.go-back-button {
   margin-top: 20px;
-}
-
-.transport-buttons button {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 8px;
-  background-color: #3b82f6;
-  color: white;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
   border: none;
   cursor: pointer;
 }
 
-.transport-buttons button:hover {
-  background-color: #2563eb;
+.go-back-button:hover {
+  background-color: #0056b3;
 }
 
 .map-container {
-  flex: 1;
-  margin-left: 20px;
-  height: 400px;
-}
-
-.map {
-  width: 100%;
+  width: 80%;
   height: 100%;
-}
-
-.category-container {
-  margin-bottom: 20px;
-}
-
-.category-header {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.grid-container {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.destination-tile {
-  background-color: #e0e7ff;
-  padding: 15px;
-  margin: 5px;
-  border-radius: 5px;
-  flex: 1;
-  text-align: center;
-  cursor: pointer;
-}
-
-.destination-tile:hover {
-  background-color: #c7d2fe;
 }
