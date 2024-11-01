@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Home.css'; // Import the CSS specific to this component
-import Map from './map';
+import Map from './map'; // Update the import path if necessary
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
@@ -26,7 +26,7 @@ const Home = () => {
 
   const destinations = {
     International: ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"],
-    National: ["Dehradun", "Manali", "Goa"]
+    National: ["Dehradun", "Manali", "Goa"],
   };
 
   return (
@@ -53,8 +53,8 @@ const Home = () => {
               <button onClick={() => setSelectedDestination(null)}>Go Back</button>
             </div>
             <div className="map">
-              {/* Place your map component or embed code here */}
-              <Map destination={selectedDestination} />
+              {/* Insert the map component here */}
+              <Map destination={selectedDestination.coordinates} />
             </div>
           </div>
         </div>
