@@ -1,33 +1,16 @@
 import React, { useState } from 'react';
 import './Home.css'; // Import the CSS specific to this component
-import Map from './map'; // Import the Map component
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
 
   const handleClick = (destination) => {
-    // Coordinates for each destination
-    const coordinates = {
-      Paris: [2.3522, 48.8566],
-      Kathmandu: [85.324, 27.7172],
-      Italy: [12.4964, 41.9028],
-      Thailand: [100.5018, 13.7563],
-      Dubai: [55.2708, 25.2048],
-      Bali: [115.1889, -8.4095],
-      Dehradun: [78.0322, 30.3165],
-      Manali: [77.1887, 32.2396],
-      Goa: [74.1240, 15.2993],
-    };
-
-    setSelectedDestination({
-      name: destination,
-      coordinates: coordinates[destination],
-    });
+    setSelectedDestination(destination);
   };
 
   const destinations = {
     International: ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"],
-    National: ["Dehradun", "Manali", "Goa"],
+    National: ["Dehradun", "Manali", "Goa"]
   };
 
   return (
@@ -35,7 +18,7 @@ const Home = () => {
       {/* Show booking layout if a destination is selected */}
       {selectedDestination ? (
         <div className="booking-page">
-          <h1 className="destination-title">{selectedDestination.name}</h1>
+          <h1 className="destination-title">{selectedDestination}</h1>
           <div className="booking-content">
             <div className="side-panel">
               <div>
@@ -44,7 +27,7 @@ const Home = () => {
               </div>
               <div>
                 <label>To: </label>
-                <input type="text" value={selectedDestination.name} readOnly />
+                <input type="text" value={selectedDestination} readOnly />
               </div>
               <div className="transport-buttons">
                 <button>Bus</button>
@@ -53,8 +36,9 @@ const Home = () => {
               </div>
               <button onClick={() => setSelectedDestination(null)}>Go Back</button>
             </div>
-            <div className="map-container">
-              <Map destination={selectedDestination} />
+            <div className="map">
+              {/* Place your map component or embed code here */}
+              <p>Map would be displayed here</p>
             </div>
           </div>
         </div>
@@ -68,14 +52,11 @@ const Home = () => {
                 {destinations[category].map((destination) => (
                   <div
                     key={destination}
-                    className={`destination-tile`}
+                    className={`destination-tile ${destination}`}
                     onClick={() => handleClick(destination)}
-                    style={{
-                      backgroundImage: `url(/images/${destination}.jpg)`,
-                      cursor: "pointer",
-                    }}
+                    style={{ cursor: "pointer" }}
                   >
-                    <span className="destination-name">{destination}</span>
+                    {destination}
                   </div>
                 ))}
               </div>
