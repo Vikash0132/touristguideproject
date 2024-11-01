@@ -17,26 +17,21 @@ const Map = ({ destination }) => {
         zoom: 10,
       });
 
-      // Add geolocation control to the map to show live location
       const geolocateControl = new mapboxgl.GeolocateControl({
         positionOptions: { enableHighAccuracy: true },
         trackUserLocation: true,
         showUserHeading: true,
       });
       mapRef.current.addControl(geolocateControl);
-
-      // Trigger geolocation immediately
       geolocateControl.trigger();
     }
 
-    // Update map center to selected destination
     if (destination) {
       mapRef.current.flyTo({
         center: destination.coordinates,
         zoom: 12,
       });
 
-      // Add a marker at the destination
       new mapboxgl.Marker()
         .setLngLat(destination.coordinates)
         .addTo(mapRef.current);
@@ -45,11 +40,7 @@ const Map = ({ destination }) => {
     return () => mapRef.current && mapRef.current.remove();
   }, [destination]);
 
-  return (
-    <div style={{ display: 'flex', height: '100vh' }}>
-      <div ref={mapContainerRef} style={{ width: '75%', height: '90vh' }} />
-    </div>
-  );
+  return <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />;
 };
 
 export default Map;
