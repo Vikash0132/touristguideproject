@@ -34,7 +34,7 @@ const Home = () => {
       {/* Show booking layout if a destination is selected */}
       {selectedDestination ? (
         <div className="booking-page">
-          <h1 className="destination-title">{selectedDestination}</h1>
+          <h1 className="destination-title">{selectedDestination.name}</h1>
           <div className="booking-content">
             <div className="side-panel">
               <div>
@@ -43,7 +43,7 @@ const Home = () => {
               </div>
               <div>
                 <label>To: </label>
-                <input type="text" value={selectedDestination} readOnly />
+                <input type="text" value={selectedDestination.name} readOnly />
               </div>
               <div className="transport-buttons">
                 <button>Bus</button>
