@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Home.css'; // Import the CSS specific to this component
-import Map from './map'; // Ensure your Map component is imported
+import Map from './map'; // Update the import path if necessary
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
@@ -53,8 +53,8 @@ const Home = () => {
               <button onClick={() => setSelectedDestination(null)}>Go Back</button>
             </div>
             <div className="map">
-              {/* Pass only the destination coordinates to the Map component */}
-              <Map destination={selectedDestination ? selectedDestination.coordinates : null} />
+              {/* Insert the map component here */}
+              <Map destination={selectedDestination.coordinates} />
             </div>
           </div>
         </div>
