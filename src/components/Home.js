@@ -1,44 +1,21 @@
 import React, { useState } from 'react';
-import './Home.css';
-import Map from './map';
+import './Home.css'; // Import the CSS specific to this component
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
-
-  const searchResults = selectedDestination
-    ? [
-      {
-        place_name: selectedDestination,
-        geometry: {
-          coordinates: [77.1025, 28.7041] // Example coordinates; replace with real data
-        },
-        text: "Sample Location"
-      }
-    ]
-    : [];
 
   const handleClick = (destination) => {
     setSelectedDestination(destination);
   };
 
   const destinations = {
-    International: [
-      { name: "Paris", img: "/paris.jpg" },
-      { name: "Kathmandu", img: "/ktm.jpg" },
-      { name: "Italy", img: "/Italy.jpg" },
-      { name: "Thailand", img: "/Thailand.jpg" },
-      { name: "Dubai", img: "/Dubai.jpg" },
-      { name: "Bali", img: "/bali.jpg" }
-    ],
-    National: [
-      { name: "Dehradun", img: "/dehradun.jpg" },
-      { name: "Manali", img: "/manali.jpg" },
-      { name: "Goa", img: "/goa.jpg" }
-    ]
+    International: ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"],
+    National: ["Dehradun", "Manali", "Goa"]
   };
 
   return (
     <div className="home-tab">
+      {/* Show booking layout if a destination is selected */}
       {selectedDestination ? (
         <div className="booking-page">
           <h1 className="destination-title">{selectedDestination}</h1>
@@ -57,16 +34,16 @@ const Home = () => {
                 <button>Flight</button>
                 <button>Train</button>
               </div>
-              <button onClick={() => setSelectedDestination(null)} className="go-back-button">
-                Go Back
-              </button>
+              <button onClick={() => setSelectedDestination(null)}>Go Back</button>
             </div>
-            <div className="map-container">
-              <Map searchResults={searchResults} />
+            <div className="map">
+              {/* Place your map component or embed code here */}
+              <p>Map would be displayed here</p>
             </div>
           </div>
         </div>
       ) : (
+        // Default view with destination tiles
         <>
           {Object.keys(destinations).map((category) => (
             <div key={category} className="category-container">
@@ -74,16 +51,12 @@ const Home = () => {
               <div className="grid-container">
                 {destinations[category].map((destination) => (
                   <div
-                    key={destination.name}
-                    className="destination-tile"
-                    onClick={() => handleClick(destination.name)}
-                    style={{
-                      backgroundImage: `url(${destination.img})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center'
-                    }}
+                    key={destination}
+                    className={`destination-tile ${destination}`}
+                    onClick={() => handleClick(destination)}
+                    style={{ cursor: "pointer" }}
                   >
-                    <span className="tile-text">{destination.name}</span>
+                    {destination}
                   </div>
                 ))}
               </div>
