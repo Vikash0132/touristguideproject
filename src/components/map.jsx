@@ -17,16 +17,29 @@ const Map = ({ destination }) => {
         zoom: 10,
       });
 
-      // Add geolocation control to the map to show live location
+      // Add geolocation control to the map
       const geolocateControl = new mapboxgl.GeolocateControl({
         positionOptions: { enableHighAccuracy: true },
         trackUserLocation: true,
         showUserHeading: true,
       });
-      mapRef.current.addControl(geolocateControl);
 
-      // Trigger geolocation immediately
-      geolocateControl.trigger();
+      // Ensure geolocation control is triggered after the map loads
+      mapRef.current.on('load', () => {
+        mapRef.current.addControl(geolocateControl);
+        geolocateControl.trigger();
+      });
+
+      // Handle missing images in map style
+      mapRef.current.on('styleimagemissing', (e) => {
+        const id = e.id;
+        if (id === 'office_11' || id === 'atm_11') {
+          // Replace with a fallback image or placeholder
+          const placeholderImage = new Image(20, 20);
+          placeholderImage.src = 'path/to/placeholder.png'; // Replace with an actual path
+          mapRef.current.addImage(id, placeholderImage);
+        }
+      });
     }
 
     // Update map center to selected destination
@@ -42,7 +55,12 @@ const Map = ({ destination }) => {
         .addTo(mapRef.current);
     }
 
-    return () => mapRef.current && mapRef.current.remove();
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+    };
   }, [destination]);
 
   return (
