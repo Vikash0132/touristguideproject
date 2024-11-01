@@ -3,12 +3,13 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './Home.css';
 
-const MAPTILER_API_KEY = "TCsVxUMcJl3mlo6cnAXL"; // Replace with your MapTiler API Key
+const MAPTILER_API_KEY = "YOUR_MAPTILER_API_KEY"; // Replace with your MapTiler API Key
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [fromLocation, setFromLocation] = useState(null);
   const mapRef = useRef(null);
+  const mapInstanceRef = useRef(null); // Track map instance to avoid multiple initializations
 
   const destinations = {
     International: [
@@ -31,9 +32,9 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // Initialize map
-    if (mapRef.current && !mapRef.current.map) {
-      mapRef.current.map = new maplibregl.Map({
+    // Initialize map if not already initialized
+    if (!mapInstanceRef.current && mapRef.current) {
+      mapInstanceRef.current = new maplibregl.Map({
         container: mapRef.current,
         style: `https://api.maptiler.com/maps/streets/style.json?key=${MAPTILER_API_KEY}`,
         center: [77.2090, 28.6139],
@@ -41,37 +42,48 @@ const Home = () => {
       });
     }
 
-    // Fetch user's location
+    // Fetch user's location and set marker on the map
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
         setFromLocation({ latitude, longitude });
-        document.querySelector('#fromInput').value = `${latitude}, ${longitude}`;
 
-        if (mapRef.current.map) {
+        // Ensure map is fully loaded before adding controls or markers
+        if (mapInstanceRef.current && mapInstanceRef.current.isStyleLoaded()) {
+          // Set value in "From" input
+          const fromInput = document.querySelector('#fromInput');
+          if (fromInput) {
+            fromInput.value = `${latitude}, ${longitude}`;
+          }
+
+          // Add user location marker
           new maplibregl.Marker({ color: 'blue' })
             .setLngLat([longitude, latitude])
-            .addTo(mapRef.current.map);
+            .addTo(mapInstanceRef.current);
         }
       },
       (error) => console.error('Error fetching location:', error)
     );
 
-    return () => mapRef.current && mapRef.current.map && mapRef.current.map.remove();
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+      }
+    };
   }, []);
 
   useEffect(() => {
-    if (mapRef.current.map && fromLocation && selectedDestination) {
+    if (mapInstanceRef.current && fromLocation && selectedDestination) {
       const destinationCoords = selectedDestination.coords;
 
       // Remove existing line if any
-      if (mapRef.current.map.getSource('line-source')) {
-        mapRef.current.map.removeLayer('line-layer');
-        mapRef.current.map.removeSource('line-source');
+      if (mapInstanceRef.current.getSource('line-source')) {
+        mapInstanceRef.current.removeLayer('line-layer');
+        mapInstanceRef.current.removeSource('line-source');
       }
 
       // Add line connecting user's location to destination
-      mapRef.current.map.addSource('line-source', {
+      mapInstanceRef.current.addSource('line-source', {
         type: 'geojson',
         data: {
           type: 'Feature',
@@ -85,7 +97,7 @@ const Home = () => {
         },
       });
 
-      mapRef.current.map.addLayer({
+      mapInstanceRef.current.addLayer({
         id: 'line-layer',
         type: 'line',
         source: 'line-source',
@@ -94,7 +106,7 @@ const Home = () => {
       });
 
       // Center map to fit both locations
-      mapRef.current.map.fitBounds([
+      mapInstanceRef.current.fitBounds([
         [fromLocation.longitude, fromLocation.latitude],
         destinationCoords,
       ], { padding: 50 });
