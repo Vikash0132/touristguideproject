@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Home.css'; // Import the CSS specific to this component
-import Map from './map'; // Update the import path if necessary
+import Map from './map';
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
@@ -26,7 +26,7 @@ const Home = () => {
 
   const destinations = {
     International: ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"],
-    National: ["Dehradun", "Manali", "Goa"],
+    National: ["Dehradun", "Manali", "Goa"]
   };
 
   return (
@@ -34,7 +34,7 @@ const Home = () => {
       {/* Show booking layout if a destination is selected */}
       {selectedDestination ? (
         <div className="booking-page">
-          <h1 className="destination-title">{selectedDestination.name}</h1>
+          <h1 className="destination-title">{selectedDestination}</h1>
           <div className="booking-content">
             <div className="side-panel">
               <div>
@@ -43,7 +43,7 @@ const Home = () => {
               </div>
               <div>
                 <label>To: </label>
-                <input type="text" value={selectedDestination.name} readOnly />
+                <input type="text" value={selectedDestination} readOnly />
               </div>
               <div className="transport-buttons">
                 <button>Bus</button>
@@ -53,8 +53,8 @@ const Home = () => {
               <button onClick={() => setSelectedDestination(null)}>Go Back</button>
             </div>
             <div className="map">
-              {/* Insert the map component here */}
-              <Map destination={selectedDestination.coordinates} />
+              {/* Place your map component or embed code here */}
+              <Map destination={selectedDestination} />
             </div>
           </div>
         </div>
