@@ -13,17 +13,17 @@ const Home = () => {
 
   const destinations = {
     International: [
-      { name: "Paris", coords: [2.3522, 48.8566], img: "/paris.jpg" },
-      { name: "Kathmandu", coords: [85.324, 27.7172], img: "/ktm.jpg" },
-      { name: "Italy", coords: [12.4964, 41.9028], img: "/Italy.jpg" },
-      { name: "Thailand", coords: [100.9925, 15.8700], img: "/Thailand.jpg" },
-      { name: "Dubai", coords: [55.2708, 25.2048], img: "/Dubai.jpg" },
-      { name: "Bali", coords: [115.209, -8.3405], img: "/bali.jpg" },
+      { name: "Paris", coords: [2.3522, 48.8566], img: "paris.jpg" },
+      { name: "Kathmandu", coords: [85.324, 27.7172], img: "kathmandu.jpg" },
+      { name: "Italy", coords: [12.4964, 41.9028], img: "italy.jpg" },
+      { name: "Thailand", coords: [100.9925, 15.8700], img: "thailand.jpg" },
+      { name: "Dubai", coords: [55.2708, 25.2048], img: "dubai.jpg" },
+      { name: "Bali", coords: [115.209, -8.3405], img: "bali.jpg" },
     ],
     National: [
-      { name: "Dehradun", coords: [78.0322, 30.3165], img: "/dehradun.jpg" },
-      { name: "Manali", coords: [77.1892, 32.2432], img: "/manali.jpg" },
-      { name: "Goa", coords: [74.1240, 15.2993], img: "/goa.jpg" },
+      { name: "Dehradun", coords: [78.0322, 30.3165], img: "dehradun.jpg" },
+      { name: "Manali", coords: [77.1892, 32.2432], img: "manali.jpg" },
+      { name: "Goa", coords: [74.1240, 15.2993], img: "goa.jpg" },
     ],
   };
 
