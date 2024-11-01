@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Map from 'maptiler'; // Ensure this import is correct for your setup
+import Map from '@maptiler/sdk'; // Ensure this import is correct for your setup
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
