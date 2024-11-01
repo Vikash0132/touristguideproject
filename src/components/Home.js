@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Map } from '@maptiler/sdk'; // Ensure this import is correct for your setup
+import { Map } from '@maptiler/sdk'; // Replace with the correct Maptiler SDK import
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
@@ -8,16 +8,16 @@ const Home = () => {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    // Initialize the map only once when the component mounts
+    // Initialize the map only once on mount
     if (!mapRef.current) {
       mapRef.current = new Map({
-        container: 'map',
+        container: 'map', // ID of the map container in the DOM
         style: 'https://api.maptiler.com/maps/basic/style.json?key=TCsVxUMcJl3mlo6cnAXL',
-        center: [0, 0],
+        center: [0, 0], // Default center
         zoom: 2,
       });
 
-      // Set up geolocation only after the map is loaded
+      // Wait for the map to load before adding controls or setting user location
       mapRef.current.on('load', () => {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
@@ -25,27 +25,23 @@ const Home = () => {
               const { latitude, longitude } = position.coords;
               setUserLocation({ latitude, longitude });
 
-              // Move map to user's location
+              // Move map to user’s location and update the 'From' field
               mapRef.current.flyTo({ center: [longitude, latitude], zoom: 12 });
-
-              // Set the 'From' input field with the user’s location
               if (fromInputRef.current) {
                 fromInputRef.current.value = `${latitude.toFixed(3)}, ${longitude.toFixed(3)}`;
               }
 
-              // Draw a route if a destination is selected
+              // Draw route if a destination is selected
               if (selectedDestination) {
                 drawRoute([longitude, latitude], getDestinationCoords(selectedDestination));
               }
             },
-            (error) => {
-              console.error('Error fetching location:', error);
-            }
+            (error) => console.error('Error fetching location:', error)
           );
         }
       });
     }
-  }, [selectedDestination]); // Run when selectedDestination changes
+  }, [selectedDestination]);
 
   const drawRoute = (fromCoords, toCoords) => {
     if (!mapRef.current || !fromCoords || !toCoords) return;
@@ -58,7 +54,6 @@ const Home = () => {
       },
     };
 
-    // Add or update the route on the map
     if (mapRef.current.getSource('route')) {
       mapRef.current.getSource('route').setData(route);
     } else {
@@ -77,7 +72,7 @@ const Home = () => {
     const coords = {
       Paris: [2.3522, 48.8566],
       Kathmandu: [85.3240, 27.7172],
-      // Add more destinations here
+      // Add more destinations as needed
     };
     return coords[destination];
   };
@@ -91,7 +86,7 @@ const Home = () => {
             <div className="side-panel">
               <div>
                 <label>From: </label>
-                <input type="text" placeholder="Starting Location" ref={fromInputRef} />
+                <input type="text" placeholder="Starting Location" ref={fromInputRef} readOnly />
               </div>
               <div>
                 <label>To: </label>
