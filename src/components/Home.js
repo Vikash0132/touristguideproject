@@ -1,23 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Map } from '@maptiler/sdk'; // Replace with the correct Maptiler SDK import
+import { Map } from '@maptiler/sdk'; // Replace with the correct MapTiler SDK import
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const fromInputRef = useRef(null);
-  const mapRef = useRef(null);
+  const mapContainerRef = useRef(null); // Ref to store map container
+  const mapRef = useRef(null); // Ref to store map instance
 
   useEffect(() => {
-    // Initialize the map only once on mount
-    if (!mapRef.current) {
+    // Only initialize the map after the container has rendered and mapRef is null
+    if (mapContainerRef.current && !mapRef.current) {
       mapRef.current = new Map({
-        container: 'map', // ID of the map container in the DOM
+        container: mapContainerRef.current, // Use ref here instead of ID
         style: 'https://api.maptiler.com/maps/basic/style.json?key=TCsVxUMcJl3mlo6cnAXL',
-        center: [0, 0], // Default center
+        center: [0, 0],
         zoom: 2,
       });
 
-      // Wait for the map to load before adding controls or setting user location
       mapRef.current.on('load', () => {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
@@ -25,13 +25,11 @@ const Home = () => {
               const { latitude, longitude } = position.coords;
               setUserLocation({ latitude, longitude });
 
-              // Move map to user’s location and update the 'From' field
               mapRef.current.flyTo({ center: [longitude, latitude], zoom: 12 });
               if (fromInputRef.current) {
                 fromInputRef.current.value = `${latitude.toFixed(3)}, ${longitude.toFixed(3)}`;
               }
 
-              // Draw route if a destination is selected
               if (selectedDestination) {
                 drawRoute([longitude, latitude], getDestinationCoords(selectedDestination));
               }
@@ -99,7 +97,8 @@ const Home = () => {
               </div>
               <button onClick={() => setSelectedDestination(null)}>Go Back</button>
             </div>
-            <div id="map" style={{ width: '100%', height: '500px' }} />
+            {/* Use ref on div instead of ID */}
+            <div ref={mapContainerRef} style={{ width: '100%', height: '500px' }} />
           </div>
         </div>
       ) : (
