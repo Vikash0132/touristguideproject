@@ -1,4 +1,9 @@
 /* Container */
+@font-face {
+  font-family: caligraphy;
+  src: url(/public/CampanaScript_PERSONAL_USE_ONLY.otf);
+}
+
 .home-tab {
   padding: 10px;
 }
