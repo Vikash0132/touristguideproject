@@ -5,7 +5,22 @@ const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
 
   const handleClick = (destination) => {
-    setSelectedDestination(destination);
+    const coordinates = {
+      Paris: [2.3522, 48.8566],
+      Kathmandu: [85.324, 27.7172],
+      Italy: [12.4964, 41.9028],
+      Thailand: [100.5018, 13.7563],
+      Dubai: [55.2708, 25.2048],
+      Bali: [115.1889, -8.4095],
+      Dehradun: [78.0322, 30.3165],
+      Manali: [77.1887, 32.2396],
+      Goa: [74.124, 15.2993],
+    };
+
+    setSelectedDestination({
+      name: destination,
+      coordinates: coordinates[destination],
+    });
   };
 
   const destinations = {
@@ -38,7 +53,7 @@ const Home = () => {
             </div>
             <div className="map">
               {/* Place your map component or embed code here */}
-              <p>Map would be displayed here</p>
+              <Map destination={selectedDestination} />
             </div>
           </div>
         </div>
