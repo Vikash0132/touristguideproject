@@ -35,85 +35,28 @@
 
 .booking-page {
   display: flex;
-  flex-direction: row;
-  /* Change to row for horizontal layout */
+  flex-direction: column;
   align-items: center;
-  height: 100vh;
-  /* Full viewport height */
-  margin: 0;
-  /* Remove default margins */
 }
 
-/* Side Panel - occupies the left side */
+.booking-content {
+  display: flex;
+}
+
 .side-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 300px;
-  /* Adjust width as needed */
-  padding: 20px;
-  background-color: #f0f0f0;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: 100%;
-  /* Full viewport height */
-}
-
-.side-panel label {
-  font-size: 18px;
-}
-
-.side-panel input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.transport-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.transport-buttons button {
+  width: 200px;
   padding: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #007bff;
-  color: white;
+  background-color: #f2f2f2;
+  margin-right: 10px;
 }
 
-button:active {
-  background-color: #0056b3;
-}
-
-.go-back-button {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #ddd;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-/* Map Area */
 .map {
-  flex: 1;
-  height: 100%;
-  /* Full viewport height */
-  margin-left: 20px;
-  padding: 20px;
-  background-color: #e0e0e0;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
+  width: 600px;
+  height: 400px;
+}
+
+.home-tab {
+  padding: 10px;
 }
 
 /* Category Container */
@@ -189,4 +132,90 @@ button:active {
 .destination-tile:hover {
   transform: scale(1.05);
   transition: transform 0.3s ease-in-out;
+}
+
+/* Booking Page Layout */
+.booking-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.destination-title {
+  font-size: 60px;
+  font-family: caligraphy;
+  margin-bottom: 20px;
+}
+
+.booking-content {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Side Panel for Buttons */
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 200px;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.side-panel label {
+  font-size: 18px;
+}
+
+.side-panel input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.transport-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.transport-buttons button {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+}
+
+button:active {
+  background-color: #0056b3;
+}
+
+.go-back-button {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #ddd;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Map Area */
+.map {
+  flex: 1;
+  margin-left: 20px;
+  padding: 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
 }
