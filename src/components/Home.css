@@ -4,6 +4,64 @@
   src: url(/public/CampanaScript_PERSONAL_USE_ONLY.otf);
 }
 
+.flight-form,
+.ticket {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  background: #f4f4f8;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.ticket {
+  background: #e6f7ff;
+  border-color: #91d5ff;
+}
+
+.ticket h2,
+.flight-form h2 {
+  text-align: center;
+  color: #003a8c;
+}
+
+.ticket p,
+.flight-form label {
+  font-size: 1.1em;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.booking-content {
+  display: flex;
+}
+
+.side-panel input {
+  margin: 5px 0;
+}
+
+.transport-buttons button {
+  margin-right: 10px;
+  padding: 8px 16px;
+}
+
+.map {
+  flex-grow: 1;
+  margin: 10px;
+}
+
+.right-panel ul {
+  list-style: none;
+}
+
 .booking-content {
   display: flex;
   width: 100%;

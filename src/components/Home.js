@@ -10,7 +10,8 @@ const Home = () => {
   const [showFlightForm, setShowFlightForm] = useState(false);
   const [flightDetails, setFlightDetails] = useState({
     passengers: 1,
-    time: ''
+    time: '',
+    date: ''
   });
   const [dummyTicket, setDummyTicket] = useState(null);
 
@@ -97,7 +98,8 @@ const Home = () => {
     setDummyTicket({
       destination: selectedDestination.name,
       passengers: flightDetails.passengers,
-      time: flightDetails.time
+      time: flightDetails.time,
+      date: flightDetails.date
     });
     setShowFlightForm(false);
   };
@@ -125,7 +127,7 @@ const Home = () => {
               />
             </div>
             <div>
-              <label>Flight Time: </label>
+              <label>Departure Time: </label>
               <input
                 type="time"
                 value={flightDetails.time}
@@ -134,15 +136,26 @@ const Home = () => {
                 }
               />
             </div>
-            <button type="submit">Generate Ticket</button>
+            <div>
+              <label>Departure Date: </label>
+              <input
+                type="date"
+                value={flightDetails.date}
+                onChange={(e) =>
+                  setFlightDetails({ ...flightDetails, date: e.target.value })
+                }
+              />
+            </div>
+            <button type="submit">Book Flight</button>
           </form>
         </div>
       ) : dummyTicket ? (
         <div className="ticket">
-          <h2>Dummy Ticket</h2>
-          <p>Destination: {dummyTicket.destination}</p>
-          <p>Passengers: {dummyTicket.passengers}</p>
-          <p>Flight Time: {dummyTicket.time}</p>
+          <h2>Flight Ticket</h2>
+          <p><strong>Destination:</strong> {dummyTicket.destination}</p>
+          <p><strong>Passengers:</strong> {dummyTicket.passengers}</p>
+          <p><strong>Departure Date:</strong> {dummyTicket.date}</p>
+          <p><strong>Departure Time:</strong> {dummyTicket.time}</p>
           <button onClick={() => setDummyTicket(null)}>Back to Booking</button>
         </div>
       ) : selectedDestination ? (
