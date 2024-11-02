@@ -61,6 +61,18 @@ const Home = () => {
     National: ["Dehradun", "Manali", "Goa"]
   };
 
+  const popularPlaces = {
+    Paris: ["Eiffel Tower", "Louvre Museum", "Notre-Dame Cathedral"],
+    Kathmandu: ["Swayambhunath", "Pashupatinath Temple", "Garden of Dreams"],
+    Italy: ["Colosseum", "Leaning Tower of Pisa", "Vatican City"],
+    Thailand: ["Phuket Beach", "Grand Palace", "Phi Phi Islands"],
+    Dubai: ["Burj Khalifa", "Palm Jumeirah", "Dubai Mall"],
+    Bali: ["Ubud Monkey Forest", "Tanah Lot Temple", "Seminyak Beach"],
+    Dehradun: ["Robber's Cave", "Sahastradhara", "Tapkeshwar Temple"],
+    Manali: ["Solang Valley", "Rohtang Pass", "Hidimba Temple"],
+    Goa: ["Baga Beach", "Dudhsagar Falls", "Aguada Fort"]
+  };
+
   return (
     <div className="home-tab">
       {selectedDestination ? (
@@ -88,8 +100,16 @@ const Home = () => {
               </div>
               <button onClick={() => setSelectedDestination(null)}>Go Back</button>
             </div>
+
             <div className="map">
               <Map destination={selectedDestination} startingCoordinates={startingCoordinates} />
+            </div>
+
+            <div className="right-panel">
+              <h3>Popular Places</h3>
+              {popularPlaces[selectedDestination.name]?.map((place) => (
+                <div key={place} className="popular-place">{place}</div>
+              ))}
             </div>
           </div>
         </div>

@@ -4,6 +4,34 @@
   src: url(/public/CampanaScript_PERSONAL_USE_ONLY.otf);
 }
 
+.booking-content {
+  display: flex;
+  width: 100%;
+  max-width: 1400px;
+  /* Adjusted to accommodate the right panel */
+}
+
+/* Right Panel for Popular Places */
+.right-panel {
+  width: 250px;
+  padding: 20px;
+  background-color: #f7f7f7;
+  margin-left: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.right-panel h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.popular-place {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
 .home-tab {
   display: flex;
   flex-direction: column;
