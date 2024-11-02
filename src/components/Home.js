@@ -1,63 +1,85 @@
-import React, { useEffect, useRef, useState } from 'react';
-import maplibregl from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
+import React, { useState } from 'react';
+import './Home.css'; // Import the CSS specific to this component
+import Map from './map';
 
 const Home = () => {
-  const mapContainer = useRef(null);
-  const [latitude, setLatitude] = useState(28.7041); // Default latitude (New Delhi)
-  const [longitude, setLongitude] = useState(77.1025); // Default longitude (New Delhi)
-  const [map, setMap] = useState(null);
+  const [selectedDestination, setSelectedDestination] = useState(null);
 
-  useEffect(() => {
-    // Request user's current location
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-      },
-      (error) => console.error('Error getting location:', error),
-      { enableHighAccuracy: true }
-    );
-  }, []);
+  const handleClick = (destination) => {
+    const coordinates = {
+      Paris: [2.3522, 48.8566],
+      Kathmandu: [85.324, 27.7172],
+      Italy: [12.4964, 41.9028],
+      Thailand: [100.5018, 13.7563],
+      Dubai: [55.2708, 25.2048],
+      Bali: [115.1889, -8.4095],
+      Dehradun: [78.0322, 30.3165],
+      Manali: [77.1887, 32.2396],
+      Goa: [74.124, 15.2993],
+    };
 
-  useEffect(() => {
-    if (mapContainer.current && !map) {
-      // Initialize the map
-      const mapInstance = new maplibregl.Map({
-        container: mapContainer.current,
-        style: 'https://maps.tilehosting.com/styles/positron/style.json?key=EIhSH3UkZEiWAdBabgXK', // MapTiler style URL
-        center: [longitude, latitude],
-        zoom: 10,
-      });
+    setSelectedDestination({
+      name: destination,
+      coordinates: coordinates[destination],
+    });
+  };
 
-      // Add a marker for the user's location
-      new maplibregl.Marker({ color: '#FF0000' })
-        .setLngLat([longitude, latitude])
-        .addTo(mapInstance);
-
-      setMap(mapInstance);
-    }
-
-    // Fly to updated location when latitude or longitude changes
-    if (map) {
-      map.flyTo({ center: [longitude, latitude], zoom: 12 });
-    }
-  }, [mapContainer, map, latitude, longitude]);
+  const destinations = {
+    International: ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"],
+    National: ["Dehradun", "Manali", "Goa"]
+  };
 
   return (
-    <div style={{ display: 'flex', height: '100vh' }}>
-      <div className="side-panel" style={{ width: '300px', padding: '10px', background: '#f2f2f2' }}>
-        <label>From:</label>
-        <input type="text" placeholder="Starting Location" value="Your Location" readOnly />
-        <label>To:</label>
-        <input type="text" placeholder="Destination" readOnly />
-        <div>
-          <button>Bus</button>
-          <button>Flight</button>
-          <button>Train</button>
+    <div className="home-tab">
+      {/* Show booking layout if a destination is selected */}
+      {selectedDestination ? (
+        <div className="booking-page">
+          <h1 className="destination-title">{selectedDestination}</h1>
+          <div className="booking-content">
+            <div className="side-panel">
+              <div>
+                <label>From: </label>
+                <input type="text" placeholder="Starting Location" />
+              </div>
+              <div>
+                <label>To: </label>
+                <input type="text" value={selectedDestination} readOnly />
+              </div>
+              <div className="transport-buttons">
+                <button>Bus</button>
+                <button>Flight</button>
+                <button>Train</button>
+              </div>
+              <button onClick={() => setSelectedDestination(null)}>Go Back</button>
+            </div>
+            <div className="map">
+              {/* Place your map component or embed code here */}
+              <Map destination={selectedDestination} />
+            </div>
+          </div>
         </div>
-      </div>
-      <div ref={mapContainer} style={{ flexGrow: 1, height: '100%' }} />
+      ) : (
+        // Default view with destination tiles
+        <>
+          {Object.keys(destinations).map((category) => (
+            <div key={category} className="category-container">
+              <div className="category-header">{category}</div>
+              <div className="grid-container">
+                {destinations[category].map((destination) => (
+                  <div
+                    key={destination}
+                    className={`destination-tile ${destination}`}
+                    onClick={() => handleClick(destination)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {destination}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 };
