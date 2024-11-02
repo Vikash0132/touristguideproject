@@ -7,6 +7,12 @@ const Home = () => {
   const [startingLocation, setStartingLocation] = useState(null);
   const [startingCoordinates, setStartingCoordinates] = useState(null);
   const [redirectMessage, setRedirectMessage] = useState(null);
+  const [showFlightForm, setShowFlightForm] = useState(false);
+  const [flightDetails, setFlightDetails] = useState({
+    passengers: 1,
+    time: ''
+  });
+  const [dummyTicket, setDummyTicket] = useState(null);
 
   const destinations = {
     International: ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"],
@@ -61,6 +67,8 @@ const Home = () => {
       coordinates: coordinates[destination]
     });
     setRedirectMessage(null);
+    setShowFlightForm(false);
+    setDummyTicket(null);
   };
 
   const handleStartingLocationChange = (event) => {
@@ -79,10 +87,19 @@ const Home = () => {
   const handleTransportClick = (transportType) => {
     if (isInternational && (transportType === 'Bus' || transportType === 'Train')) {
       setRedirectMessage(`${transportType}s don't go that far`);
-    } else {
-      setRedirectMessage(null);
-      // Implement further handling for valid transport types if needed
+    } else if (transportType === 'Flight') {
+      setShowFlightForm(true);
     }
+  };
+
+  const handleFlightFormSubmit = (event) => {
+    event.preventDefault();
+    setDummyTicket({
+      destination: selectedDestination.name,
+      passengers: flightDetails.passengers,
+      time: flightDetails.time
+    });
+    setShowFlightForm(false);
   };
 
   return (
@@ -91,6 +108,42 @@ const Home = () => {
         <div className="redirect-message">
           <h2>{redirectMessage}</h2>
           <button onClick={() => setRedirectMessage(null)}>Go Back</button>
+        </div>
+      ) : showFlightForm ? (
+        <div className="flight-form">
+          <h2>Book Your Flight</h2>
+          <form onSubmit={handleFlightFormSubmit}>
+            <div>
+              <label>Passengers: </label>
+              <input
+                type="number"
+                value={flightDetails.passengers}
+                min="1"
+                onChange={(e) =>
+                  setFlightDetails({ ...flightDetails, passengers: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <label>Flight Time: </label>
+              <input
+                type="time"
+                value={flightDetails.time}
+                onChange={(e) =>
+                  setFlightDetails({ ...flightDetails, time: e.target.value })
+                }
+              />
+            </div>
+            <button type="submit">Generate Ticket</button>
+          </form>
+        </div>
+      ) : dummyTicket ? (
+        <div className="ticket">
+          <h2>Dummy Ticket</h2>
+          <p>Destination: {dummyTicket.destination}</p>
+          <p>Passengers: {dummyTicket.passengers}</p>
+          <p>Flight Time: {dummyTicket.time}</p>
+          <button onClick={() => setDummyTicket(null)}>Back to Booking</button>
         </div>
       ) : selectedDestination ? (
         <div className="booking-page">
