@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Map from './Map';
+import Map from './map';
 
 const Home = () => {
   const [startingCoordinates, setStartingCoordinates] = useState(null);
