@@ -37,13 +37,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.booking-content {
-  display: flex;
-  width: 100%;
-  max-width: 1200px;
-  margin-top: 20px;
+  height: 100vh;
+  /* Full viewport height */
+  margin: 0;
+  /* Remove default margins */
 }
 
 /* Side Panel - occupies the entire left side */
@@ -56,6 +53,8 @@
   background-color: #f0f0f0;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  /* Full viewport height */
 }
 
 .side-panel label {
@@ -102,8 +101,8 @@ button:active {
 /* Map Area */
 .map {
   flex: 1;
-  height: 600px;
-  /* Adjust height as needed */
+  height: 100%;
+  /* Full viewport height */
   margin-left: 20px;
   padding: 20px;
   background-color: #e0e0e0;
