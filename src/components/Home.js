@@ -1,119 +1,58 @@
 import React, { useState, useEffect } from 'react';
-import './Home.css'; // Import the CSS specific to this component
-import Map from './map';
+import axios from 'axios';
+import Map from './Map';
 
 const Home = () => {
-  const [selectedDestination, setSelectedDestination] = useState(null);
-  const [startingLocation, setStartingLocation] = useState(null);
   const [startingCoordinates, setStartingCoordinates] = useState(null);
+  const [destination, setDestination] = useState({
+    name: 'Paris',
+    coordinates: [2.3522, 48.8566], // Default destination (Paris coordinates)
+  });
 
+  // Function to get the live location or set a default if denied
   useEffect(() => {
-    // Get user's live location on load
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const userCoordinates = [position.coords.longitude, position.coords.latitude];
-          setStartingCoordinates(userCoordinates);
-          setStartingLocation("Your Live Location");
-        },
-        (error) => console.error("Error getting location:", error),
-        { enableHighAccuracy: true }
-      );
-    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setStartingCoordinates([
+          position.coords.longitude,
+          position.coords.latitude,
+        ]);
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+        if (error.code === 1) {
+          // If permission denied, set default coordinates (e.g., New York)
+          setStartingCoordinates([-74.006, 40.7128]);
+        }
+      }
+    );
   }, []);
 
-  const handleDestinationClick = (destination) => {
-    const coordinates = {
-      Paris: [2.3522, 48.8566],
-      Kathmandu: [85.324, 27.7172],
-      Italy: [12.4964, 41.9028],
-      Thailand: [100.5018, 13.7563],
-      Dubai: [55.2708, 25.2048],
-      Bali: [115.1889, -8.4095],
-      Dehradun: [78.0322, 30.3165],
-      Manali: [77.1887, 32.2396],
-      Goa: [74.124, 15.2993],
-    };
-
-    setSelectedDestination({
-      name: destination,
-      coordinates: coordinates[destination],
-    });
-  };
-
-  const handleStartingLocationChange = (event) => {
+  // Function to handle input change for the 'From' input box
+  const handleFromInputChange = async (event) => {
     const location = event.target.value;
-    setStartingLocation(location);
-
-    // Update starting coordinates based on input (in a real-world scenario, geocoding would be needed)
-    if (location === "Custom Location") {
-      setStartingCoordinates([12.9716, 77.5946]); // Example custom coordinates, e.g., Bangalore
-    } else if (location === "Your Live Location") {
-      // Reset to user's current live location
-      navigator.geolocation.getCurrentPosition((position) => {
-        setStartingCoordinates([position.coords.longitude, position.coords.latitude]);
-      });
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json&limit=1`
+      );
+      if (response.data.length > 0) {
+        const { lon, lat } = response.data[0];
+        setStartingCoordinates([parseFloat(lon), parseFloat(lat)]);
+      } else {
+        console.error('Location not found');
+      }
+    } catch (error) {
+      console.error('Error fetching coordinates:', error);
     }
-  };
-
-  const destinations = {
-    International: ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"],
-    National: ["Dehradun", "Manali", "Goa"]
   };
 
   return (
-    <div className="home-tab">
-      {selectedDestination ? (
-        <div className="booking-page">
-          <h1 className="destination-title">{selectedDestination.name}</h1>
-          <div className="booking-content">
-            <div className="side-panel">
-              <div>
-                <label>From: </label>
-                <input
-                  type="text"
-                  placeholder="Starting Location"
-                  value={startingLocation || ""}
-                  onChange={handleStartingLocationChange}
-                />
-              </div>
-              <div>
-                <label>To: </label>
-                <input type="text" value={selectedDestination.name} readOnly />
-              </div>
-              <div className="transport-buttons">
-                <button>Bus</button>
-                <button>Flight</button>
-                <button>Train</button>
-              </div>
-              <button onClick={() => setSelectedDestination(null)}>Go Back</button>
-            </div>
-            <div className="map">
-              <Map destination={selectedDestination} startingCoordinates={startingCoordinates} />
-            </div>
-          </div>
-        </div>
-      ) : (
-        <>
-          {Object.keys(destinations).map((category) => (
-            <div key={category} className="category-container">
-              <div className="category-header">{category}</div>
-              <div className="grid-container">
-                {destinations[category].map((destination) => (
-                  <div
-                    key={destination}
-                    className={`destination-tile ${destination}`}
-                    onClick={() => handleDestinationClick(destination)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {destination}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </>
-      )}
+    <div>
+      <label>
+        From:
+        <input type="text" placeholder="Enter starting location" onBlur={handleFromInputChange} />
+      </label>
+      <Map destination={destination} startingCoordinates={startingCoordinates} />
     </div>
   );
 };
