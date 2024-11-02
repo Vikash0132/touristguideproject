@@ -1,55 +1,36 @@
+// Map.js
 import React, { useEffect, useRef } from 'react';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-
-mapboxgl.accessToken = 'EIhSH3UkZEiWAdBabgXK';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 const Map = ({ destination }) => {
-  const mapContainerRef = useRef(null);
-  const mapRef = useRef(null);
+  const mapContainer = useRef(null);
+  const map = useRef(null);
 
   useEffect(() => {
-    if (!mapRef.current) {
-      mapRef.current = new mapboxgl.Map({
-        container: mapContainerRef.current,
-        style: `https://api.maptiler.com/maps/streets/style.json?key=${mapboxgl.accessToken}`,
-        center: [77.1025, 28.7041], // Default center position [longitude, latitude]
-        zoom: 10,
-      });
+    if (map.current) return; // Initialize the map only once
+    map.current = new maplibregl.Map({
+      container: mapContainer.current,
+      style: 'https://api.maptiler.com/maps/basic/style.json?key=EIhSH3UkZEiWAdBabgXK', // Replace with your MapTiler API key
+      center: destination.coordinates,
+      zoom: 10,
+    });
 
-      // Add geolocation control to the map to show live location
-      const geolocateControl = new mapboxgl.GeolocateControl({
-        positionOptions: { enableHighAccuracy: true },
-        trackUserLocation: true,
-        showUserHeading: true,
-      });
-      mapRef.current.addControl(geolocateControl);
+    // Add a marker at the destination
+    new maplibregl.Marker({ color: '#FF0000' })
+      .setLngLat(destination.coordinates)
+      .addTo(map.current);
 
-      // Trigger geolocation immediately
-      geolocateControl.trigger();
+    return () => map.current.remove(); // Clean up the map instance on unmount
+  }, [destination.coordinates]);
+
+  useEffect(() => {
+    if (map.current) {
+      map.current.flyTo({ center: destination.coordinates, zoom: 10 });
     }
+  }, [destination.coordinates]);
 
-    // Update map center to selected destination
-    if (destination) {
-      mapRef.current.flyTo({
-        center: destination.coordinates,
-        zoom: 12,
-      });
-
-      // Add a marker at the destination
-      new mapboxgl.Marker()
-        .setLngLat(destination.coordinates)
-        .addTo(mapRef.current);
-    }
-
-    return () => mapRef.current && mapRef.current.remove();
-  }, [destination]);
-
-  return (
-    <div style={{ display: 'flex', height: '100vh' }}>
-      <div ref={mapContainerRef} style={{ width: '75%', height: '90vh' }} />
-    </div>
-  );
+  return <div ref={mapContainer} style={{ width: '100%', height: '100%' }} />;
 };
 
 export default Map;
