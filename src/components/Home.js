@@ -6,9 +6,13 @@ const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [startingLocation, setStartingLocation] = useState(null);
   const [startingCoordinates, setStartingCoordinates] = useState(null);
+  const [transportMessage, setTransportMessage] = useState(null);
+
+  const isInternational = selectedDestination
+    ? ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"].includes(selectedDestination.name)
+    : false;
 
   useEffect(() => {
-    // Get user's live location on load
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -39,38 +43,34 @@ const Home = () => {
       name: destination,
       coordinates: coordinates[destination],
     });
+    setTransportMessage(null); // Reset message when selecting a new destination
   };
 
   const handleStartingLocationChange = (event) => {
     const location = event.target.value;
     setStartingLocation(location);
 
-    // Update starting coordinates based on input (in a real-world scenario, geocoding would be needed)
     if (location === "Custom Location") {
-      setStartingCoordinates([12.9716, 77.5946]); // Example custom coordinates, e.g., Bangalore
+      setStartingCoordinates([12.9716, 77.5946]); // Example custom coordinates
     } else if (location === "Your Live Location") {
-      // Reset to user's current live location
       navigator.geolocation.getCurrentPosition((position) => {
         setStartingCoordinates([position.coords.longitude, position.coords.latitude]);
       });
     }
   };
 
+  const handleTransportClick = (transportType) => {
+    if (isInternational && (transportType === 'Bus' || transportType === 'Train')) {
+      setTransportMessage(`${transportType}s don't go that far`);
+    } else {
+      setTransportMessage(null);
+      // Add the logic here to handle valid transports, like Flight, if needed
+    }
+  };
+
   const destinations = {
     International: ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"],
     National: ["Dehradun", "Manali", "Goa"]
-  };
-
-  const popularPlaces = {
-    Paris: ["Eiffel Tower", "Louvre Museum", "Notre-Dame Cathedral"],
-    Kathmandu: ["Swayambhunath", "Pashupatinath Temple", "Garden of Dreams"],
-    Italy: ["Colosseum", "Leaning Tower of Pisa", "Vatican City"],
-    Thailand: ["Phuket Beach", "Grand Palace", "Phi Phi Islands"],
-    Dubai: ["Burj Khalifa", "Palm Jumeirah", "Dubai Mall"],
-    Bali: ["Ubud Monkey Forest", "Tanah Lot Temple", "Seminyak Beach"],
-    Dehradun: ["Robber's Cave", "Sahastradhara", "Tapkeshwar Temple"],
-    Manali: ["Solang Valley", "Rohtang Pass", "Hidimba Temple"],
-    Goa: ["Baga Beach", "Dudhsagar Falls", "Aguada Fort"]
   };
 
   return (
@@ -94,22 +94,15 @@ const Home = () => {
                 <input type="text" value={selectedDestination.name} readOnly />
               </div>
               <div className="transport-buttons">
-                <button>Bus</button>
-                <button>Flight</button>
-                <button>Train</button>
+                <button onClick={() => handleTransportClick("Bus")}>Bus</button>
+                <button onClick={() => handleTransportClick("Flight")}>Flight</button>
+                <button onClick={() => handleTransportClick("Train")}>Train</button>
               </div>
+              {transportMessage && <div className="transport-message">{transportMessage}</div>}
               <button onClick={() => setSelectedDestination(null)}>Go Back</button>
             </div>
-
             <div className="map">
               <Map destination={selectedDestination} startingCoordinates={startingCoordinates} />
-            </div>
-
-            <div className="right-panel">
-              <h3>Popular Places</h3>
-              {popularPlaces[selectedDestination.name]?.map((place) => (
-                <div key={place} className="popular-place">{place}</div>
-              ))}
             </div>
           </div>
         </div>
