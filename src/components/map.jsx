@@ -15,7 +15,7 @@ const Map = ({ destination }) => {
     if (!map.current) {
       map.current = new maplibregl.Map({
         container: mapContainer.current,
-        style: 'https://api.maptiler.com/maps/basic/style.json?key=YOUR_MAPTILER_KEY', // Replace with your MapTiler API key
+        style: 'https://api.maptiler.com/maps/basic/style.json?key=EIhSH3UkZEiWAdBabgXK', // Replace with your MapTiler API key
         center: destination.coordinates,
         zoom: 10,
       });
