@@ -8,27 +8,29 @@ const Map = ({ destination }) => {
   const map = useRef(null);
 
   useEffect(() => {
-    if (map.current) return; // Initialize the map only once
-    map.current = new maplibregl.Map({
-      container: mapContainer.current,
-      style: 'https://api.maptiler.com/maps/basic/style.json?key=EIhSH3UkZEiWAdBabgXK', // Replace with your MapTiler API key
-      center: destination.coordinates,
-      zoom: 10,
-    });
+    // Check if destination and coordinates are defined before initializing the map
+    if (!destination || !destination.coordinates) return;
 
-    // Add a marker at the destination
-    new maplibregl.Marker({ color: '#FF0000' })
-      .setLngLat(destination.coordinates)
-      .addTo(map.current);
+    // Initialize map if it hasn't been initialized already
+    if (!map.current) {
+      map.current = new maplibregl.Map({
+        container: mapContainer.current,
+        style: 'https://api.maptiler.com/maps/basic/style.json?key=EIhSH3UkZEiWAdBabgXK', // Replace with your MapTiler API key
+        center: destination.coordinates,
+        zoom: 10,
+      });
 
-    return () => map.current.remove(); // Clean up the map instance on unmount
-  }, [destination.coordinates]);
-
-  useEffect(() => {
-    if (map.current) {
+      // Add a marker at the destination
+      new maplibregl.Marker({ color: '#FF0000' })
+        .setLngLat(destination.coordinates)
+        .addTo(map.current);
+    } else {
+      // If map is already initialized, fly to the new coordinates
       map.current.flyTo({ center: destination.coordinates, zoom: 10 });
     }
-  }, [destination.coordinates]);
+
+    return () => map.current.remove(); // Clean up the map instance on unmount
+  }, [destination]);
 
   return <div ref={mapContainer} style={{ width: '100%', height: '100%' }} />;
 };
