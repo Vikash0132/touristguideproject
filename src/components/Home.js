@@ -7,8 +7,8 @@ const Home = () => {
   const [startingLocation, setStartingLocation] = useState(null);
   const [startingCoordinates, setStartingCoordinates] = useState(null);
   const [redirectMessage, setRedirectMessage] = useState(null);
-  const [showFlightForm, setShowFlightForm] = useState(false);
-  const [flightDetails, setFlightDetails] = useState({
+  const [showBookingForm, setShowBookingForm] = useState(null); // 'Bus', 'Train', or 'Flight'
+  const [bookingDetails, setBookingDetails] = useState({
     passengers: 1,
     time: '',
     date: '',
@@ -34,10 +34,6 @@ const Home = () => {
     Goa: ["Baga Beach", "Fort Aguada", "Basilica of Bom Jesus"]
   };
 
-  const isInternational = selectedDestination
-    ? destinations.International.includes(selectedDestination.name)
-    : false;
-
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -45,7 +41,7 @@ const Home = () => {
           const userCoordinates = [position.coords.longitude, position.coords.latitude];
           setStartingCoordinates(userCoordinates);
           setStartingLocation("Your Live Location");
-          setFlightDetails((prevDetails) => ({
+          setBookingDetails((prevDetails) => ({
             ...prevDetails,
             from: "Your Live Location"
           }));
@@ -74,9 +70,9 @@ const Home = () => {
       coordinates: coordinates[destination]
     });
     setRedirectMessage(null);
-    setShowFlightForm(false);
+    setShowBookingForm(null);
     setDummyTicket(null);
-    setFlightDetails((prevDetails) => ({
+    setBookingDetails((prevDetails) => ({
       ...prevDetails,
       to: destination
     }));
@@ -96,20 +92,21 @@ const Home = () => {
   };
 
   const handleTransportClick = (transportType) => {
-    if (isInternational && (transportType === 'Bus' || transportType === 'Train')) {
+    if (destinations.National.includes(selectedDestination.name)) {
+      setShowBookingForm(transportType);
+    } else {
       setRedirectMessage(`${transportType}s don't go that far`);
-    } else if (transportType === 'Flight') {
-      setShowFlightForm(true);
     }
   };
 
-  const handleFlightFormSubmit = (event) => {
+  const handleBookingFormSubmit = (event) => {
     event.preventDefault();
     setDummyTicket({
-      ...flightDetails,
-      destination: selectedDestination.name
+      ...bookingDetails,
+      destination: selectedDestination.name,
+      transportType: showBookingForm
     });
-    setShowFlightForm(false);
+    setShowBookingForm(null);
   };
 
   return (
@@ -119,26 +116,26 @@ const Home = () => {
           <h2>{redirectMessage}</h2>
           <button onClick={() => setRedirectMessage(null)}>Go Back</button>
         </div>
-      ) : showFlightForm ? (
-        <div className="flight-form">
-          <h2>Book Your Flight</h2>
-          <form onSubmit={handleFlightFormSubmit}>
+      ) : showBookingForm ? (
+        <div className="booking-form">
+          <h2>Book Your {showBookingForm}</h2>
+          <form onSubmit={handleBookingFormSubmit}>
             <div>
               <label>From: </label>
-              <input type="text" value={flightDetails.from} readOnly />
+              <input type="text" value={bookingDetails.from} readOnly />
             </div>
             <div>
               <label>To: </label>
-              <input type="text" value={flightDetails.to} readOnly />
+              <input type="text" value={bookingDetails.to} readOnly />
             </div>
             <div>
               <label>Passengers: </label>
               <input
                 type="number"
-                value={flightDetails.passengers}
+                value={bookingDetails.passengers}
                 min="1"
                 onChange={(e) =>
-                  setFlightDetails({ ...flightDetails, passengers: e.target.value })
+                  setBookingDetails({ ...bookingDetails, passengers: e.target.value })
                 }
               />
             </div>
@@ -146,9 +143,9 @@ const Home = () => {
               <label>Departure Time: </label>
               <input
                 type="time"
-                value={flightDetails.time}
+                value={bookingDetails.time}
                 onChange={(e) =>
-                  setFlightDetails({ ...flightDetails, time: e.target.value })
+                  setBookingDetails({ ...bookingDetails, time: e.target.value })
                 }
               />
             </div>
@@ -156,18 +153,18 @@ const Home = () => {
               <label>Departure Date: </label>
               <input
                 type="date"
-                value={flightDetails.date}
+                value={bookingDetails.date}
                 onChange={(e) =>
-                  setFlightDetails({ ...flightDetails, date: e.target.value })
+                  setBookingDetails({ ...bookingDetails, date: e.target.value })
                 }
               />
             </div>
-            <button type="submit">Book Flight</button>
+            <button type="submit">Book {showBookingForm}</button>
           </form>
         </div>
       ) : dummyTicket ? (
         <div className="ticket">
-          <h2>Flight Ticket</h2>
+          <h2>{dummyTicket.transportType} Ticket</h2>
           <p><strong>From:</strong> {dummyTicket.from}</p>
           <p><strong>To:</strong> {dummyTicket.to}</p>
           <p><strong>Passengers:</strong> {dummyTicket.passengers}</p>
