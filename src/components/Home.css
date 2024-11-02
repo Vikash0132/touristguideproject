@@ -35,7 +35,8 @@
 
 .booking-page {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  /* Change to row for horizontal layout */
   align-items: center;
   height: 100vh;
   /* Full viewport height */
@@ -43,12 +44,13 @@
   /* Remove default margins */
 }
 
-/* Side Panel - occupies the entire left side */
+/* Side Panel - occupies the left side */
 .side-panel {
   display: flex;
   flex-direction: column;
   gap: 15px;
   width: 300px;
+  /* Adjust width as needed */
   padding: 20px;
   background-color: #f0f0f0;
   border-radius: 10px;
