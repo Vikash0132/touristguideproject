@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Home.css'; // Import the CSS specific to this component
-import Map from './Map'; // Import the Map component
+import Map from './map'; // Import the Map component
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
