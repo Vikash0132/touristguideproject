@@ -11,7 +11,9 @@ const Home = () => {
   const [flightDetails, setFlightDetails] = useState({
     passengers: 1,
     time: '',
-    date: ''
+    date: '',
+    from: '',
+    to: ''
   });
   const [dummyTicket, setDummyTicket] = useState(null);
 
@@ -43,6 +45,10 @@ const Home = () => {
           const userCoordinates = [position.coords.longitude, position.coords.latitude];
           setStartingCoordinates(userCoordinates);
           setStartingLocation("Your Live Location");
+          setFlightDetails((prevDetails) => ({
+            ...prevDetails,
+            from: "Your Live Location"
+          }));
         },
         (error) => console.error("Error getting location:", error),
         { enableHighAccuracy: true }
@@ -70,6 +76,10 @@ const Home = () => {
     setRedirectMessage(null);
     setShowFlightForm(false);
     setDummyTicket(null);
+    setFlightDetails((prevDetails) => ({
+      ...prevDetails,
+      to: destination
+    }));
   };
 
   const handleStartingLocationChange = (event) => {
@@ -96,10 +106,8 @@ const Home = () => {
   const handleFlightFormSubmit = (event) => {
     event.preventDefault();
     setDummyTicket({
-      destination: selectedDestination.name,
-      passengers: flightDetails.passengers,
-      time: flightDetails.time,
-      date: flightDetails.date
+      ...flightDetails,
+      destination: selectedDestination.name
     });
     setShowFlightForm(false);
   };
@@ -115,6 +123,14 @@ const Home = () => {
         <div className="flight-form">
           <h2>Book Your Flight</h2>
           <form onSubmit={handleFlightFormSubmit}>
+            <div>
+              <label>From: </label>
+              <input type="text" value={flightDetails.from} readOnly />
+            </div>
+            <div>
+              <label>To: </label>
+              <input type="text" value={flightDetails.to} readOnly />
+            </div>
             <div>
               <label>Passengers: </label>
               <input
@@ -152,7 +168,8 @@ const Home = () => {
       ) : dummyTicket ? (
         <div className="ticket">
           <h2>Flight Ticket</h2>
-          <p><strong>Destination:</strong> {dummyTicket.destination}</p>
+          <p><strong>From:</strong> {dummyTicket.from}</p>
+          <p><strong>To:</strong> {dummyTicket.to}</p>
           <p><strong>Passengers:</strong> {dummyTicket.passengers}</p>
           <p><strong>Departure Date:</strong> {dummyTicket.date}</p>
           <p><strong>Departure Time:</strong> {dummyTicket.time}</p>
