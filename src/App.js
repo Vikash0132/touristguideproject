@@ -18,6 +18,7 @@ const App = () => {
     setIsAuthenticated(false);
   };
 
+
   return (
     <Router>
       <div className="App">
@@ -28,10 +29,8 @@ const App = () => {
 
           {/* Redirect to login if not authenticated */}
           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
-
-          {/* Logout redirection */}
-          {!isAuthenticated && <Route path="*" element={<Navigate to="/" />} />}
         </Routes>
+        {/*removed map component*/}
       </div>
     </Router>
   );
