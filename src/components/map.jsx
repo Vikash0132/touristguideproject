@@ -10,20 +10,17 @@ const Map = ({ destination }) => {
   useEffect(() => {
     if (!destination || !destination.coordinates) return;
 
-    // Initialize the map if it hasn't been already
     if (!map.current) {
+      // Initialize the map
       map.current = new maplibregl.Map({
         container: mapContainer.current,
         style: 'https://api.maptiler.com/maps/basic/style.json?key=EIhSH3UkZEiWAdBabgXK', // Replace with your MapTiler API key
-        center: destination.coordinates,
         zoom: 6,
       });
-    } else {
-      map.current.flyTo({ center: destination.coordinates, zoom: 10 });
     }
 
-    // Add a marker at the destination location
-    new maplibregl.Marker({ color: '#FF0000' })
+    // Add marker for the destination
+    const destinationMarker = new maplibregl.Marker({ color: '#FF0000' })
       .setLngLat(destination.coordinates)
       .addTo(map.current);
 
@@ -33,7 +30,7 @@ const Map = ({ destination }) => {
         (position) => {
           const userCoordinates = [position.coords.longitude, position.coords.latitude];
 
-          // Add a marker for the user's location
+          // Add or update user location marker
           if (userMarker.current) {
             userMarker.current.setLngLat(userCoordinates);
           } else {
@@ -41,6 +38,14 @@ const Map = ({ destination }) => {
               .setLngLat(userCoordinates)
               .addTo(map.current);
           }
+
+          // Create a bounding box that includes both locations
+          const bounds = new maplibregl.LngLatBounds();
+          bounds.extend(userCoordinates);
+          bounds.extend(destination.coordinates);
+
+          // Adjust the map to fit both markers
+          map.current.fitBounds(bounds, { padding: 50 });
 
           // Draw a line between the user's location and the destination
           const route = {
@@ -74,10 +79,16 @@ const Map = ({ destination }) => {
             });
           }
 
-          // Calculate and display distance
+          // Calculate midpoint and distance
+          const midpoint = [
+            (userCoordinates[0] + destination.coordinates[0]) / 2,
+            (userCoordinates[1] + destination.coordinates[1]) / 2,
+          ];
           const distance = calculateDistance(userCoordinates, destination.coordinates);
-          const popup = new maplibregl.Popup()
-            .setLngLat(destination.coordinates)
+
+          // Display distance at the midpoint
+          new maplibregl.Popup({ closeButton: false, closeOnClick: false })
+            .setLngLat(midpoint)
             .setHTML(`<h3>Distance: ${distance.toFixed(2)} km</h3>`)
             .addTo(map.current);
         },
