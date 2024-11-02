@@ -20,16 +20,6 @@ const Dashboard = () => {
               {/* Home tab with imported Home component */}
               <Home />
             </Tab>
-            <Tab eventKey="restaurants" title="Restaurants">
-              <p>Restaurants nearby</p>
-              <input type="text" placeholder="Search restaurants..."></input>
-              <Map /> {/* Displaying Map only in Restaurants tab */}
-            </Tab>
-            <Tab eventKey="hotels" title="Hotels">
-              <p>Hotels nearby</p>
-              <input type="text" placeholder="Search hotels..."></input>
-              <Map /> {/* Displaying Map only in Hotels tab */}
-            </Tab>
           </Tabs>
         </Col>
       </Row>
