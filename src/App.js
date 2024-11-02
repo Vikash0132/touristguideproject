@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Navbar from './components/navbar.jsx';
@@ -7,7 +7,6 @@ import './App.css';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('authToken'));
-  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -17,7 +16,6 @@ const App = () => {
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     setIsAuthenticated(false);
-    navigate('/');  // Redirect to login page after logout
   };
 
   return (
@@ -30,6 +28,9 @@ const App = () => {
 
           {/* Redirect to login if not authenticated */}
           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
+
+          {/* Logout redirection */}
+          {!isAuthenticated && <Route path="*" element={<Navigate to="/" />} />}
         </Routes>
       </div>
     </Router>
