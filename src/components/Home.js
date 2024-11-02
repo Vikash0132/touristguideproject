@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Home.css'; // Import the CSS specific to this component
-import Map from './map';
+import Map from './Map';
 
 const Home = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
+  const [startingLocation, setStartingLocation] = useState(null);
+  const [startingCoordinates, setStartingCoordinates] = useState(null);
 
-  const handleClick = (destination) => {
+  useEffect(() => {
+    // Get user's live location on load
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userCoordinates = [position.coords.longitude, position.coords.latitude];
+          setStartingCoordinates(userCoordinates);
+          setStartingLocation("Your Live Location");
+        },
+        (error) => console.error("Error getting location:", error),
+        { enableHighAccuracy: true }
+      );
+    }
+  }, []);
+
+  const handleDestinationClick = (destination) => {
     const coordinates = {
       Paris: [2.3522, 48.8566],
       Kathmandu: [85.324, 27.7172],
@@ -24,6 +41,21 @@ const Home = () => {
     });
   };
 
+  const handleStartingLocationChange = (event) => {
+    const location = event.target.value;
+    setStartingLocation(location);
+
+    // Update starting coordinates based on input (in a real-world scenario, geocoding would be needed)
+    if (location === "Custom Location") {
+      setStartingCoordinates([12.9716, 77.5946]); // Example custom coordinates, e.g., Bangalore
+    } else if (location === "Your Live Location") {
+      // Reset to user's current live location
+      navigator.geolocation.getCurrentPosition((position) => {
+        setStartingCoordinates([position.coords.longitude, position.coords.latitude]);
+      });
+    }
+  };
+
   const destinations = {
     International: ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"],
     National: ["Dehradun", "Manali", "Goa"]
@@ -38,7 +70,12 @@ const Home = () => {
             <div className="side-panel">
               <div>
                 <label>From: </label>
-                <input type="text" placeholder="Starting Location" />
+                <input
+                  type="text"
+                  placeholder="Starting Location"
+                  value={startingLocation || ""}
+                  onChange={handleStartingLocationChange}
+                />
               </div>
               <div>
                 <label>To: </label>
@@ -52,7 +89,7 @@ const Home = () => {
               <button onClick={() => setSelectedDestination(null)}>Go Back</button>
             </div>
             <div className="map">
-              <Map destination={selectedDestination} />
+              <Map destination={selectedDestination} startingCoordinates={startingCoordinates} />
             </div>
           </div>
         </div>
@@ -66,7 +103,7 @@ const Home = () => {
                   <div
                     key={destination}
                     className={`destination-tile ${destination}`}
-                    onClick={() => handleClick(destination)}
+                    onClick={() => handleDestinationClick(destination)}
                     style={{ cursor: "pointer" }}
                   >
                     {destination}
