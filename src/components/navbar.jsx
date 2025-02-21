@@ -40,7 +40,7 @@ export default function Navbar({ onSearch }) {
         `https://api.maptiler.com/geocoding/${encodeURIComponent(searchQuery)}.json`,
         {
           params: {
-            key: 'TCsVxUMcJl3mlo6cnAXL', // Replace with your MapTiler API key
+            key: process.env.REACT_APP_MAPTILER_KEY, // Replace with your MapTiler API key
             limit: 10, // Limit the number of results
           },
         }
