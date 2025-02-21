@@ -26,26 +26,6 @@ export default function Map({ destination, startingCoordinates }) {
         .setLngLat(userLocation)
         .addTo(map.current);
     }
-
-    // Handle missing images
-    map.current.on('styleimagemissing', (e) => {
-      const id = e.id;
-      if (id === 'hindu' || id === ' ') {
-        // Add a placeholder image or handle the missing image case
-        const img = new Image();
-        img.src = 'path/to/placeholder/image.png'; // Replace with the path to your placeholder image
-        img.onload = () => {
-          if (img.width > 0 && img.height > 0) {
-            map.current.addImage(id, img);
-          } else {
-            console.error('Image has invalid dimensions:', id);
-          }
-        };
-        img.onerror = () => {
-          console.error('Error loading image:', id);
-        };
-      }
-    });
   }, [zoom, userLocation]);
 
   useEffect(() => {
