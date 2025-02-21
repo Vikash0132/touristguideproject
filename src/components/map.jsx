@@ -3,11 +3,11 @@ import * as maptilersdk from '@maptiler/sdk';
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import './map.css';
 
-export default function Map({ searchQuery }) {
+export default function Map({ destination, startingCoordinates }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [userLocation, setUserLocation] = useState(null);
-  const [searchLocation, setSearchLocation] = useState(null);
+  const [userLocation, setUserLocation] = useState(startingCoordinates);
+  const [searchLocation, setSearchLocation] = useState(destination ? destination.coordinates : null);
   const zoom = 14;
   maptilersdk.config.apiKey = 'TCsVxUMcJl3mlo6cnAXL';
 
@@ -17,64 +17,56 @@ export default function Map({ searchQuery }) {
     map.current = new maptilersdk.Map({
       container: mapContainer.current,
       style: maptilersdk.MapStyle.STREETS,
-      center: [80.0409, 12.8230], // Initial center
+      center: userLocation || [80.0409, 12.8230], // Initial center
       zoom: zoom
     });
 
-    // Get user's current location
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setUserLocation({ lat: latitude, lng: longitude });
-
-        new maptilersdk.Marker({ color: "#0000FF" })
-          .setLngLat([longitude, latitude])
-          .addTo(map.current);
-      },
-      (error) => {
-        console.error('Error getting location:', error);
-      },
-      { enableHighAccuracy: true }
-    );
+    if (userLocation) {
+      new maptilersdk.Marker({ color: "#0000FF" })
+        .setLngLat(userLocation)
+        .addTo(map.current);
+    }
 
     // Handle missing images
     map.current.on('styleimagemissing', (e) => {
       const id = e.id;
       if (id === 'hindu' || id === ' ') {
         // Add a placeholder image or handle the missing image case
-        map.current.addImage(id, new Image());
+        const img = new Image();
+        img.src = 'path/to/placeholder/image.png'; // Replace with the path to your placeholder image
+        img.onload = () => {
+          if (img.width > 0 && img.height > 0) {
+            map.current.addImage(id, img);
+          } else {
+            console.error('Image has invalid dimensions:', id);
+          }
+        };
+        img.onerror = () => {
+          console.error('Error loading image:', id);
+        };
       }
     });
-  }, [zoom]);
+  }, [zoom, userLocation]);
 
   useEffect(() => {
-    if (searchQuery) {
-      // Fetch search location coordinates
-      fetch(`https://api.maptiler.com/geocoding/${searchQuery}.json?key=TCsVxUMcJl3mlo6cnAXL`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.features && data.features.length > 0) {
-            const { center } = data.features[0];
-            setSearchLocation({ lat: center[1], lng: center[0] });
+    if (destination) {
+      setSearchLocation(destination.coordinates);
 
-            new maptilersdk.Marker({ color: "#FF0000" })
-              .setLngLat([center[0], center[1]])
-              .addTo(map.current);
+      new maptilersdk.Marker({ color: "#FF0000" })
+        .setLngLat(destination.coordinates)
+        .addTo(map.current);
 
-            map.current.flyTo({ center: [center[0], center[1]], zoom: zoom });
-          }
-        })
-        .catch(error => console.error('Error fetching search location:', error));
+      map.current.flyTo({ center: destination.coordinates, zoom: zoom });
     }
-  }, [searchQuery, zoom]);
+  }, [destination, zoom]);
 
   const calculateDistance = (loc1, loc2) => {
     if (!loc1 || !loc2) return null;
     const R = 6371; // Radius of the Earth in km
-    const dLat = (loc2.lat - loc1.lat) * (Math.PI / 180);
-    const dLng = (loc2.lng - loc1.lng) * (Math.PI / 180);
+    const dLat = (loc2[1] - loc1[1]) * (Math.PI / 180);
+    const dLng = (loc2[0] - loc1[0]) * (Math.PI / 180);
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(loc1.lat * (Math.PI / 180)) * Math.cos(loc2.lat * (Math.PI / 180)) *
+              Math.cos(loc1[1] * (Math.PI / 180)) * Math.cos(loc2[1] * (Math.PI / 180)) *
               Math.sin(dLng / 2) * Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c; // Distance in km

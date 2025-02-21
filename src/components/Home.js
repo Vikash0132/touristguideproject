@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Home.css';
 import Map from './map';
 
-const Home = () => {
+const Home = ({ searchQuery }) => {
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [startingLocation, setStartingLocation] = useState(null);
   const [startingCoordinates, setStartingCoordinates] = useState(null);

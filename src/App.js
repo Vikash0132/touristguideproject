@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Navbar from './components/navbar.jsx';
-import Map from './components/map.jsx';
+import Home from './components/Home';
 import './App.css';
 
 const App = () => {
@@ -34,8 +34,10 @@ const App = () => {
 
           {/* Dashboard page - visible only if authenticated */}
           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
+
+          {/* Home page - visible only if authenticated */}
+          <Route path="/home" element={isAuthenticated ? <Home searchQuery={searchQuery} /> : <Navigate to="/" />} />
         </Routes>
-        {isAuthenticated && <Map searchQuery={searchQuery} />}
       </div>
     </Router>
   );
