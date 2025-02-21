@@ -1,7 +1,15 @@
 /* Container */
 @font-face {
   font-family: caligraphy;
-  src: url(/public/CampanaScript_PERSONAL_USE_ONLY.otf);
+  src: url('/CampanaScript_PERSONAL_USE_ONLY.otf');
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
 }
 
 .flight-form,
@@ -94,6 +102,7 @@ button[type="submit"] {
   display: flex;
   flex-direction: column;
   align-items: left;
+  padding: 20px;
 }
 
 .category-container {
@@ -103,20 +112,23 @@ button[type="submit"] {
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
 }
 
 .destination-tile {
   padding: 20px;
-  background-color: #eee;
-  border-radius: 5px;
+  background-color: #fff;
+  border-radius: 10px;
   text-align: center;
-  transition: background-color 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .destination-tile:hover {
-  background-color: #ddd;
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .booking-page {
@@ -124,11 +136,23 @@ button[type="submit"] {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  background-image: url('../../public/realistic-travel-background-with-elements_52683-77784.avif');
+  background-image: url('%PUBLIC_URL%/realistic-travel-background-with-elements_52683-77784.avif');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   padding: 20px;
+  position: relative;
+}
+
+.booking-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
 }
 
 .booking-content {
@@ -141,34 +165,121 @@ button[type="submit"] {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   gap: 20px; /* Add consistent spacing between elements */
   align-items: flex-start; /* Align items to the top */
+  z-index: 1;
 }
 
 .side-panel {
-  width: 200px;
+  width: 250px;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.side-panel label {
+  font-size: 18px;
+}
+
+.side-panel input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.transport-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.transport-buttons button {
   padding: 10px;
-  background-color: #f2f2f2;
-  margin-right: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
 }
 
-.map {
-  width: 600px;
-  height: 400px;
+.transport-buttons button:hover {
+  background-color: #0056b3;
 }
 
-.home-tab {
-  padding: 10px;
+button:active {
+  background-color: #0056b3;
 }
 
-/* Category Container */
-.category-container {
+.go-back-button {
   margin-top: 20px;
+  padding: 10px;
+  background-color: #ddd;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Map Area */
+.map {
+  flex: 1;
+  height: 400px; /* Fixed height */
+  margin: 0 20px; /* Add horizontal margins */
+  max-width: 600px; /* Limit maximum width */
+  min-width: 300px; /* Ensure minimum width */
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Prevent content from spilling out */
+}
+
+/* Update booking content to better handle the map size */
+.booking-content {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  gap: 20px; /* Add consistent spacing between elements */
+  align-items: flex-start; /* Align items to the top */
+}
+
+/* Adjust right panel width */
+.right-panel {
+  width: 250px;
+  flex-shrink: 0; /* Prevent panel from shrinking */
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.right-panel h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.right-panel ul {
+  list-style: none;
+  padding: 0;
+}
+
+.right-panel li {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
 }
 
 .category-header {
   text-align: center;
-  font-size: 70px;
+  font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 10px;
+  color: #007bff;
   font-family: caligraphy;
 }
 
@@ -234,113 +345,10 @@ button[type="submit"] {
   transition: transform 0.3s ease-in-out;
 }
 
-/* Booking Page Layout */
-.booking-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .destination-title {
-  font-size: 60px;
+  font-size: 3rem;
   font-family: caligraphy;
   margin-bottom: 20px;
   color: #fff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.booking-content {
-  display: flex;
-  width: 100%;
-  max-width: 1200px;
-}
-
-/* Side Panel for Buttons */
-.side-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 250px;
-  flex-shrink: 0; /* Prevent panel from shrinking */
-  padding: 20px;
-  background-color: #f0f0f0;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.side-panel label {
-  font-size: 18px;
-}
-
-.side-panel input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.transport-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.transport-buttons button {
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #007bff;
-  color: white;
-}
-
-button:active {
-  background-color: #0056b3;
-}
-
-.go-back-button {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #ddd;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-/* Map Area */
-.map {
-  flex: 1;
-  height: 400px; /* Fixed height */
-  margin: 0 20px; /* Add horizontal margins */
-  max-width: 600px; /* Limit maximum width */
-  min-width: 300px; /* Ensure minimum width */
-  background-color: #e0e0e0;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* Prevent content from spilling out */
-}
-
-/* Update booking content to better handle the map size */
-.booking-content {
-  display: flex;
-  width: 100%;
-  max-width: 1200px;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  gap: 20px; /* Add consistent spacing between elements */
-  align-items: flex-start; /* Align items to the top */
-}
-
-/* Adjust right panel width */
-.right-panel {
-  width: 250px;
-  flex-shrink: 0; /* Prevent panel from shrinking */
-  padding: 20px;
-  background-color: #f7f7f7;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
