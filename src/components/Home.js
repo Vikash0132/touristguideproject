@@ -46,7 +46,11 @@ const Home = ({ searchQuery }) => {
             from: "Your Live Location"
           }));
         },
-        (error) => console.error("Error getting location:", error),
+        (error) => {
+          console.error("Error getting location:", error);
+          setStartingLocation("Custom Location");
+          setStartingCoordinates([12.9716, 77.5946]); // Default to Bangalore coordinates
+        },
         { enableHighAccuracy: true }
       );
     }
