@@ -11,6 +11,19 @@ const Map = ({ destination, startingCoordinates }) => {
   const zoom = 14;
   maptilersdk.config.apiKey = process.env.REACT_APP_MAPTILER_KEY;
 
+  // Calculate distance between two points
+  const calculateDistance = (loc1, loc2) => {
+    if (!loc1 || !loc2) return null;
+    const R = 6371; // Radius of the Earth in km
+    const dLat = (loc2[1] - loc1[1]) * (Math.PI / 180);
+    const dLng = (loc2[0] - loc1[0]) * (Math.PI / 180);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(loc1[1] * (Math.PI / 180)) * Math.cos(loc2[1] * (Math.PI / 180)) *
+              Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Distance in km
+  };
+
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
@@ -25,10 +38,17 @@ const Map = ({ destination, startingCoordinates }) => {
   useEffect(() => {
     if (!map.current || !userLocation) return;
 
-    // Clear existing markers
+    // Clear existing markers and layers
     const markers = document.getElementsByClassName('maplibregl-marker');
     while(markers[0]) {
       markers[0].parentNode.removeChild(markers[0]);
+    }
+
+    if (map.current.getLayer('route')) {
+      map.current.removeLayer('route');
+    }
+    if (map.current.getSource('route')) {
+      map.current.removeSource('route');
     }
 
     // Add user location marker
@@ -41,6 +61,37 @@ const Map = ({ destination, startingCoordinates }) => {
       new maptilersdk.Marker({ color: "#FF0000" })
         .setLngLat(destination.coordinates)
         .addTo(map.current);
+
+      // Add the line between points
+      map.current.addSource('route', {
+        'type': 'geojson',
+        'data': {
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': [
+              userLocation,
+              destination.coordinates
+            ]
+          }
+        }
+      });
+
+      map.current.addLayer({
+        'id': 'route',
+        'type': 'line',
+        'source': 'route',
+        'layout': {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        'paint': {
+          'line-color': '#888',
+          'line-width': 4,
+          'line-dasharray': [2, 1]
+        }
+      });
 
       // Update map view
       map.current.fitBounds([
@@ -56,9 +107,18 @@ const Map = ({ destination, startingCoordinates }) => {
     setUserLocation(startingCoordinates);
   }, [startingCoordinates]);
 
+  // Calculate distance
+  const distance = destination?.coordinates ? 
+    calculateDistance(userLocation, destination.coordinates) : null;
+
   return (
     <div className="map-wrap">
       <div ref={mapContainer} className="map" />
+      {distance && (
+        <div className="distance-info">
+          Distance: {distance.toFixed(2)} km
+        </div>
+      )}
     </div>
   );
 };
