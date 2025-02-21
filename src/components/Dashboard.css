@@ -15,8 +15,9 @@
 .tab {
   color: white;
   padding: 10px 20px;
-  text-decoration: none;
-  font-size: 18px;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: cursive;
 }
 
 .active-tab {
