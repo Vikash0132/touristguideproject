@@ -65,7 +65,7 @@ const Home = ({ searchQuery }) => {
             `https://api.maptiler.com/geocoding/${encodeURIComponent(searchQuery)}.json`,
             {
               params: {
-                key: process.env.REACT_APP_MAPTILER_KEY,
+                key: 'TCsVxUMcJl3mlo6cnAXL',
                 limit: 1,
               },
             }
