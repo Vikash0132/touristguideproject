@@ -123,10 +123,22 @@ button[type="submit"] {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh;
+  background-image: url('/realistic-travel-background-with-elements_52683-77784.avif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 20px;
 }
 
 .booking-content {
   display: flex;
+  width: 100%;
+  max-width: 1200px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .side-panel {
@@ -231,6 +243,8 @@ button[type="submit"] {
   font-size: 60px;
   font-family: caligraphy;
   margin-bottom: 20px;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .booking-content {

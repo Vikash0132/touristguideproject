@@ -48,11 +48,22 @@ const Home = ({ searchQuery }) => {
           }));
         },
         (error) => {
-          console.error("Error getting location:", error);
-          setStartingLocation("Custom Location");
-          setStartingCoordinates([12.9716, 77.5946]); // Default to Bangalore coordinates
+          // Handle geolocation errors more gracefully
+          console.log("Geolocation error:", error.message);
+          // Default to a fallback location (e.g., Delhi)
+          const defaultCoordinates = [77.2090, 28.6139]; // Delhi coordinates
+          setStartingCoordinates(defaultCoordinates);
+          setStartingLocation("Default Location (Delhi)");
+          setBookingDetails((prevDetails) => ({
+            ...prevDetails,
+            from: "Default Location (Delhi)"
+          }));
         },
-        { enableHighAccuracy: true }
+        { 
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        }
       );
     }
   }, []);
