@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Import axios for API calls
 import './navbar.css';
 
-<<<<<<< HEAD
-=======
 // Debounce function to prevent multiple calls within a short time
 const debounce = (func, delay) => {
   let debounceTimer;
@@ -15,7 +13,6 @@ const debounce = (func, delay) => {
   };
 };
 
->>>>>>> 5195875e58bc3d5a987b4c31dcda81a09443cceb
 export default function Navbar({ onSearch }) {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
@@ -26,7 +23,6 @@ export default function Navbar({ onSearch }) {
 
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
     console.log('Search Query:', searchQuery);
 
     // Example search logic
@@ -34,8 +30,8 @@ export default function Navbar({ onSearch }) {
       onSearch(searchQuery);
     } else {
       console.error('Search query is empty');
-=======
-    if (!searchQuery) return;
+      if (!searchQuery) return;
+    }
 
     // Call the MapTiler Geocoding API
     try {
@@ -52,7 +48,6 @@ export default function Navbar({ onSearch }) {
       onSearch(response.data.features);
     } catch (error) {
       console.error('Error fetching search results:', error);
->>>>>>> 5195875e58bc3d5a987b4c31dcda81a09443cceb
     }
   };
 
