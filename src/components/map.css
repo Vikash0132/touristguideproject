@@ -1,51 +1,43 @@
-.side-panel {
-  width: 250px; /* Fixed width for side panel */
-  flex-shrink: 0; /* Prevent shrinking */
+.booking-content {
+  display: flex;
+  justify-content: center;
+  /* Center the map */
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  padding: 20px;
+}
+
+.side-panel,
+.right-panel {
+  width: 250px;
+  /* Fixed width */
+  flex-shrink: 0;
+  /* Prevent shrinking */
   background-color: #f7f7f7;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  overflow-y: auto;
-}
-
-.side-panel h2 {
-  margin-top: 0;
-}
-
-.side-panel ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.side-panel li {
-  margin-bottom: 10px;
-}
-
-.marker {
-  background-color: red;
-  border-radius: 50%;
-  width: 10px;
-  height: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .map-wrap {
   position: relative;
-  width: 100%;
+  flex-grow: 1;
+  /* Let the map take available space */
+  max-width: 600px;
+  /* Limit max width */
   height: 400px;
   min-height: 300px;
-  max-height: 400px;
-  margin: auto; /* Center the map vertically */
   border-radius: 8px;
   overflow: hidden;
-  flex: 1; /* Allow the map to grow and take available space */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .map {
-  position: absolute;
-  top: 0;
-  bottom: 0;
   width: 100%;
-  height: 100%; /* Change to 100% to fit container */
+  height: 100%;
 }
 
 .distance-info {
@@ -55,27 +47,8 @@
   background-color: white;
   padding: 10px;
   border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 1;
   font-size: 14px;
   font-weight: bold;
-}
-
-/* Add styles for the panels container */
-.booking-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px;
-  width: 100%;
-  padding: 20px;
-}
-
-.right-panel {
-  width: 250px; /* Fixed width for right panel */
-  flex-shrink: 0; /* Prevent shrinking */
-  background-color: #f7f7f7;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
