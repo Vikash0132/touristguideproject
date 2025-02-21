@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './navbar.css';
 
-export default function Navbar() {
+export default function Navbar({ onSearch }) {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
@@ -13,6 +13,13 @@ export default function Navbar() {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     console.log('Search Query:', searchQuery);
+
+    // Example search logic
+    if (searchQuery.trim() !== '') {
+      onSearch(searchQuery);
+    } else {
+      console.error('Search query is empty');
+    }
   };
 
   const handleLogout = () => {

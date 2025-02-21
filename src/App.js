@@ -8,6 +8,7 @@ import './App.css';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('authToken'));
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -19,10 +20,14 @@ const App = () => {
     setIsAuthenticated(false);  // Update the state after logging out
   };
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
   return (
     <Router>
       <div className="App">
-        {isAuthenticated && <Navbar onLogout={handleLogout} />}
+        {isAuthenticated && <Navbar onSearch={handleSearch} onLogout={handleLogout} />}
         <Routes>
           {/* Redirect to login page if not authenticated */}
           <Route path="/" element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" />} />
@@ -30,7 +35,7 @@ const App = () => {
           {/* Dashboard page - visible only if authenticated */}
           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
         </Routes>
-        {isAuthenticated && <Map />}
+        {isAuthenticated && <Map searchQuery={searchQuery} />}
       </div>
     </Router>
   );
