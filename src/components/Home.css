@@ -139,6 +139,8 @@ button[type="submit"] {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  gap: 20px; /* Add consistent spacing between elements */
+  align-items: flex-start; /* Align items to the top */
 }
 
 .side-panel {
@@ -258,7 +260,8 @@ button[type="submit"] {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 200px;
+  width: 250px;
+  flex-shrink: 0; /* Prevent panel from shrinking */
   padding: 20px;
   background-color: #f0f0f0;
   border-radius: 10px;
@@ -309,13 +312,35 @@ button:active {
 /* Map Area */
 .map {
   flex: 1;
-  margin-left: 20px;
-  padding: 20px;
+  height: 400px; /* Fixed height */
+  margin: 0 20px; /* Add horizontal margins */
+  max-width: 600px; /* Limit maximum width */
+  min-width: 300px; /* Ensure minimum width */
   background-color: #e0e0e0;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Prevent content from spilling out */
+}
+
+/* Update booking content to better handle the map size */
+.booking-content {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
+  width: 100%;
+  max-width: 1200px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  gap: 20px; /* Add consistent spacing between elements */
+  align-items: flex-start; /* Align items to the top */
+}
+
+/* Adjust right panel width */
+.right-panel {
+  width: 250px;
+  flex-shrink: 0; /* Prevent panel from shrinking */
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
