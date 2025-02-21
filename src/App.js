@@ -15,11 +15,6 @@ const App = () => {
     setIsAuthenticated(!!token);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    setIsAuthenticated(false);  // Update the state after logging out
-  };
-
   const handleSearch = (query) => {
     setSearchQuery(query);
   };
@@ -27,15 +22,10 @@ const App = () => {
   return (
     <Router>
       <div className="App">
-        {isAuthenticated && <Navbar onSearch={handleSearch} onLogout={handleLogout} />}
+        {isAuthenticated && <Navbar onSearch={handleSearch} />}
         <Routes>
-          {/* Redirect to login page if not authenticated */}
           <Route path="/" element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" />} />
-
-          {/* Dashboard page - visible only if authenticated */}
           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
-
-          {/* Home page - visible only if authenticated */}
           <Route path="/home" element={isAuthenticated ? <Home searchQuery={searchQuery} /> : <Navigate to="/" />} />
         </Routes>
       </div>
