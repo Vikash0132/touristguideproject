@@ -28,6 +28,7 @@ export default function Navbar({ onSearch }) {
     // Example search logic
     if (searchQuery.trim() !== '') {
       onSearch(searchQuery);
+      navigate('/home');
     } else {
       console.error('Search query is empty');
       if (!searchQuery) return;

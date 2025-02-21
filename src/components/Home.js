@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Home.css';
 import Map from './map';
+import axios from 'axios';
 
 const Home = ({ searchQuery }) => {
   const [selectedDestination, setSelectedDestination] = useState(null);
@@ -55,6 +56,38 @@ const Home = ({ searchQuery }) => {
       );
     }
   }, []);
+
+  useEffect(() => {
+    if (searchQuery) {
+      const fetchLocation = async () => {
+        try {
+          const response = await axios.get(
+            `https://api.maptiler.com/geocoding/${encodeURIComponent(searchQuery)}.json`,
+            {
+              params: {
+                key: 'TCsVxUMcJl3mlo6cnAXL',
+                limit: 1,
+              },
+            }
+          );
+          const location = response.data.features[0];
+          if (location) {
+            setSelectedDestination({
+              name: searchQuery,
+              coordinates: location.geometry.coordinates
+            });
+            setBookingDetails((prevDetails) => ({
+              ...prevDetails,
+              to: searchQuery
+            }));
+          }
+        } catch (error) {
+          console.error('Error fetching location:', error);
+        }
+      };
+      fetchLocation();
+    }
+  }, [searchQuery]);
 
   const handleDestinationClick = (destination) => {
     const coordinates = {
@@ -209,7 +242,7 @@ const Home = ({ searchQuery }) => {
             <div className="right-panel">
               <h3>Famous Places</h3>
               <ul>
-                {famousPlaces[selectedDestination.name].map((place, index) => (
+                {famousPlaces[selectedDestination.name]?.map((place, index) => (
                   <li key={index}>{place}</li>
                 ))}
               </ul>
