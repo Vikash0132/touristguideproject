@@ -1,7 +1,7 @@
 /* Container */
 @font-face {
   font-family: caligraphy;
-  src: url('/CampanaScript_PERSONAL_USE_ONLY.otf');
+  src: url('../../public/CampanaScript_PERSONAL_USE_ONLY.otf'); /* Correct path */
 }
 
 body {
@@ -136,7 +136,7 @@ button[type="submit"] {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  background-image: url('%PUBLIC_URL%/realistic-travel-background-with-elements_52683-77784.avif');
+  background-image: url('../../public/realistic-travel-background-with-elements_52683-77784.avif');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
