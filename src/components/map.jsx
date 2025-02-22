@@ -74,6 +74,14 @@ const Map = ({ destination, startingCoordinates }) => {
         });
       }
     });
+
+    // Handle missing images
+    map.current.on('styleimagemissing', (e) => {
+      const id = e.id;
+      if (id === 'hindu') {
+        map.current.addImage(id, new Image());
+      }
+    });
   }, [userLocation, zoom]);
 
   useEffect(() => {
