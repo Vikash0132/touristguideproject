@@ -62,6 +62,7 @@ const Navbar = ({ onSearch }) => {
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     navigate('/');
+    window.location.reload(); // Force a reload to ensure state is reset
   };
 
   return (
