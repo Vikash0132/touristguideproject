@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
@@ -7,6 +7,7 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,8 +17,11 @@ const Login = () => {
     }
   }, [navigate]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
+    if (isSubmitting) return; // Prevent multiple submissions
+
+    setIsSubmitting(true);
     try {
       const response = await axios.post('https://touristguideproject-api.vercel.app/login', {
         username,
@@ -32,8 +36,10 @@ const Login = () => {
     } catch (error) {
       console.error('There was an error logging in!', error);
       setErrorMessage('An error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
-  };
+  }, [username, password, isSubmitting, navigate]);
 
   return (
     <div className="login-container">
@@ -51,7 +57,9 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
-        <button type="submit">Login</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Logging in...' : 'Login'}
+        </button>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </form>
     </div>
