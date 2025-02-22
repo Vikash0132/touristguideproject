@@ -17,6 +17,8 @@ const Home = ({ searchQuery }) => {
     to: ''
   });
   const [dummyTicket, setDummyTicket] = useState(null);
+  const [searchFrequency, setSearchFrequency] = useState({});
+  const [dynamicTiles, setDynamicTiles] = useState([]);
 
   const destinations = {
     International: ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"],
@@ -76,7 +78,7 @@ const Home = ({ searchQuery }) => {
             `https://api.maptiler.com/geocoding/${encodeURIComponent(searchQuery)}.json`,
             {
               params: {
-                key: 'TCsVxUMcJl3mlo6cnAXL',
+                key: process.env.REACT_APP_MAPTILER_KEY,
                 limit: 1,
               },
             }
@@ -91,6 +93,18 @@ const Home = ({ searchQuery }) => {
               ...prevDetails,
               to: searchQuery
             }));
+
+            // Update search frequency
+            setSearchFrequency((prevFrequency) => {
+              const newFrequency = { ...prevFrequency };
+              newFrequency[searchQuery] = (newFrequency[searchQuery] || 0) + 1;
+              return newFrequency;
+            });
+
+            // Fetch image if search frequency is high
+            if (searchFrequency[searchQuery] >= 3) {
+              fetchImage(searchQuery);
+            }
           }
         } catch (error) {
           console.error('Error fetching location:', error);
@@ -98,7 +112,27 @@ const Home = ({ searchQuery }) => {
       };
       fetchLocation();
     }
-  }, [searchQuery]);
+  }, [searchQuery, searchFrequency]);
+
+  const fetchImage = async (location) => {
+    try {
+      const response = await axios.get(`https://api.unsplash.com/search/photos`, {
+        params: {
+          query: location,
+          client_id: 'SBXFhFyeXv_9jzv_uIHDomkMydca_pR2OKF4cddf7Ws'
+        }
+      });
+      const imageUrl = response.data.results[0]?.urls?.small;
+      if (imageUrl) {
+        setDynamicTiles((prevTiles) => [
+          ...prevTiles,
+          { name: location, imageUrl }
+        ]);
+      }
+    } catch (error) {
+      console.error('Error fetching image:', error);
+    }
+  };
 
   const handleDestinationClick = (destination) => {
     const coordinates = {
@@ -279,6 +313,24 @@ const Home = ({ searchQuery }) => {
               </div>
             </div>
           ))}
+          <div className="category-container">
+            <div className="category-header">Frequently Searched</div>
+            <div className="grid-container">
+              {dynamicTiles.map((tile, index) => (
+                <div
+                  key={index}
+                  className="destination-tile"
+                  style={{
+                    backgroundImage: `url(${tile.imageUrl})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }}
+                >
+                  {tile.name}
+                </div>
+              ))}
+            </div>
+          </div>
         </>
       )}
     </div>

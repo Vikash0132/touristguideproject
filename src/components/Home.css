@@ -297,58 +297,9 @@ button:active {
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  font-size: 70px;
-  color: white;
   background-size: cover;
   background-position: center;
-  font-family: caligraphy;
-}
-
-.Paris {
-  background-image: url(./paris.jpg);
-}
-
-.Kathmandu {
-  background-image: url(./ktm.jpg);
-}
-
-.Italy {
-  background-image: url(./Italy.jpg);
-}
-
-.Dehradun {
-  background-image: url(./dehradun.jpg);
-}
-
-.Manali {
-  background-image: url(./manali.jpg);
-}
-
-.Goa {
-  background-image: url(./goa.jpg);
-}
-
-.Bali {
-  background-image: url(./bali.jpg);
-}
-
-.Dubai {
-  background-image: url(./Dubai.jpg);
-}
-
-.Thailand {
-  background-image: url(./Thailand.jpg);
-}
-
-.destination-tile:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease-in-out;
-}
-
-.destination-title {
-  font-size: 3rem;
-  font-family: caligraphy;
-  margin-bottom: 20px;
-  color: #fff;
+  color: white;
+  font-size: 1.5rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
