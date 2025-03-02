@@ -74,25 +74,6 @@ const Map = ({ destination, startingCoordinates }) => {
         });
       }
     });
-
-    // Handle missing images
-    map.current.on('styleimagemissing', (e) => {
-      const id = e.id;
-      if (id === 'hindu') {
-        const img = new Image();
-        img.src = 'path/to/your/image.png'; // Provide a valid image path
-        img.onload = () => {
-          if (img.width > 0 && img.height > 0) {
-            map.current.addImage(id, img);
-          } else {
-            console.error(`Image dimensions are invalid: ${id}`);
-          }
-        };
-        img.onerror = () => {
-          console.error(`Failed to load image: ${id}`);
-        };
-      }
-    });
   }, [userLocation, zoom]);
 
   useEffect(() => {

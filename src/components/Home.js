@@ -19,6 +19,7 @@ const Home = ({ searchQuery }) => {
   const [dummyTicket, setDummyTicket] = useState(null);
   const [searchFrequency, setSearchFrequency] = useState({});
   const [dynamicTiles, setDynamicTiles] = useState([]);
+  const [destinationImages, setDestinationImages] = useState({});
 
   const destinations = {
     International: ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"],
@@ -114,25 +115,31 @@ const Home = ({ searchQuery }) => {
     }
   }, [searchQuery, searchFrequency]);
 
-  const fetchImage = async (location) => {
-    try {
-      const response = await axios.get(`https://api.unsplash.com/search/photos`, {
-        params: {
-          query: location,
-          client_id: 'SBXFhFyeXv_9jzv_uIHDomkMydca_pR2OKF4cddf7Ws'
+  useEffect(() => {
+    const fetchImages = async () => {
+      const newDestinationImages = {};
+      for (const category in destinations) {
+        for (const destination of destinations[category]) {
+          try {
+            const response = await axios.get(`https://api.unsplash.com/search/photos`, {
+              params: {
+                query: destination,
+                client_id: 'SBXFhFyeXv_9jzv_uIHDomkMydca_pR2OKF4cddf7Ws'
+              }
+            });
+            const imageUrl = response.data.results[0]?.urls?.small;
+            if (imageUrl) {
+              newDestinationImages[destination] = imageUrl;
+            }
+          } catch (error) {
+            console.error(`Error fetching image for ${destination}:`, error);
+          }
         }
-      });
-      const imageUrl = response.data.results[0]?.urls?.small;
-      if (imageUrl) {
-        setDynamicTiles((prevTiles) => [
-          ...prevTiles,
-          { name: location, imageUrl }
-        ]);
       }
-    } catch (error) {
-      console.error('Error fetching image:', error);
-    }
-  };
+      setDestinationImages(newDestinationImages);
+    };
+    fetchImages();
+  }, []);
 
   const handleDestinationClick = (destination) => {
     const coordinates = {
@@ -305,7 +312,12 @@ const Home = ({ searchQuery }) => {
                     key={destination}
                     className={`destination-tile ${destination}`}
                     onClick={() => handleDestinationClick(destination)}
-                    style={{ cursor: "pointer" }}
+                    style={{
+                      cursor: "pointer",
+                      backgroundImage: `url(${destinationImages[destination]})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
+                    }}
                   >
                     {destination}
                   </div>
