@@ -136,6 +136,7 @@ const Home = ({ searchQuery }) => {
           }
         }
       }
+      console.log('Fetched images:', newDestinationImages); // Debugging line
       setDestinationImages(newDestinationImages);
     };
     fetchImages();
@@ -314,7 +315,7 @@ const Home = ({ searchQuery }) => {
                     onClick={() => handleDestinationClick(destination)}
                     style={{
                       cursor: "pointer",
-                      backgroundImage: `url(${destinationImages[destination]})`,
+                      backgroundImage: `url(${destinationImages[destination] || ''})`,
                       backgroundSize: 'cover',
                       backgroundPosition: 'center'
                     }}
