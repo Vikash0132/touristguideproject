@@ -9,7 +9,7 @@ const Map = ({ destination, startingCoordinates }) => {
   const [userLocation, setUserLocation] = useState(startingCoordinates);
   const [searchLocation, setSearchLocation] = useState(destination?.coordinates || null);
   const zoom = 14;
-  maptilersdk.config.apiKey = 'TCsVxUMcJl3mlo6cnAXL';
+  maptilersdk.config.apiKey = process.env.REACT_APP_MAPTILER_KEY;
 
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
@@ -79,7 +79,18 @@ const Map = ({ destination, startingCoordinates }) => {
     map.current.on('styleimagemissing', (e) => {
       const id = e.id;
       if (id === 'hindu') {
-        map.current.addImage(id, new Image());
+        const img = new Image();
+        img.src = 'path/to/your/image.png'; // Provide a valid image path
+        img.onload = () => {
+          if (img.width > 0 && img.height > 0) {
+            map.current.addImage(id, img);
+          } else {
+            console.error(`Image dimensions are invalid: ${id}`);
+          }
+        };
+        img.onerror = () => {
+          console.error(`Failed to load image: ${id}`);
+        };
       }
     });
   }, [userLocation, zoom]);
@@ -89,7 +100,7 @@ const Map = ({ destination, startingCoordinates }) => {
 
     // Clear existing markers and layers
     const markers = document.getElementsByClassName('maplibregl-marker');
-    while(markers[0]) {
+    while (markers[0]) {
       markers[0].parentNode.removeChild(markers[0]);
     }
 
@@ -164,13 +175,13 @@ const Map = ({ destination, startingCoordinates }) => {
     const dLat = (loc2[1] - loc1[1]) * (Math.PI / 180);
     const dLng = (loc2[0] - loc1[0]) * (Math.PI / 180);
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(loc1[1] * (Math.PI / 180)) * Math.cos(loc2[1] * (Math.PI / 180)) *
-              Math.sin(dLng / 2) * Math.sin(dLng / 2);
+      Math.cos(loc1[1] * (Math.PI / 180)) * Math.cos(loc2[1] * (Math.PI / 180)) *
+      Math.sin(dLng / 2) * Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c; // Distance in km
   };
 
-  const distance = destination?.coordinates ? 
+  const distance = destination?.coordinates ?
     calculateDistance(userLocation, destination.coordinates) : null;
 
   return (
