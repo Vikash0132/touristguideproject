@@ -103,6 +103,13 @@ const Home = ({ searchQuery }) => {
               return newFrequency;
             });
 
+            // Add to frequently searched tiles
+            setDynamicTiles((prevTiles) => {
+              const newTiles = prevTiles.filter(tile => tile.name !== searchQuery);
+              newTiles.unshift({ name: searchQuery, imageUrl: destinationImages[searchQuery] || '' });
+              return newTiles;
+            });
+
             // Fetch image if search frequency is high
             if (searchFrequency[searchQuery] >= 3) {
               fetchImage(searchQuery);
@@ -119,7 +126,7 @@ const Home = ({ searchQuery }) => {
       };
       fetchLocation();
     }
-  }, [searchQuery, searchFrequency, famousPlacesList]);
+  }, [searchQuery, searchFrequency, famousPlacesList, destinationImages]);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -356,6 +363,24 @@ const Home = ({ searchQuery }) => {
         </div>
       ) : (
         <>
+          <div className="category-container">
+            <div className="category-header">Frequently Searched</div>
+            <div className="grid-container">
+              {dynamicTiles.map((tile, index) => (
+                <div
+                  key={index}
+                  className="destination-tile"
+                  style={{
+                    backgroundImage: `url(${tile.imageUrl})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }}
+                >
+                  {tile.name}
+                </div>
+              ))}
+            </div>
+          </div>
           {Object.keys(destinations).map((category) => (
             <div key={category} className="category-container">
               <div className="category-header">{category}</div>
@@ -378,24 +403,6 @@ const Home = ({ searchQuery }) => {
               </div>
             </div>
           ))}
-          <div className="category-container">
-            <div className="category-header">Frequently Searched</div>
-            <div className="grid-container">
-              {dynamicTiles.map((tile, index) => (
-                <div
-                  key={index}
-                  className="destination-tile"
-                  style={{
-                    backgroundImage: `url(${tile.imageUrl})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  }}
-                >
-                  {tile.name}
-                </div>
-              ))}
-            </div>
-          </div>
         </>
       )}
     </div>
