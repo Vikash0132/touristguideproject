@@ -243,10 +243,14 @@ const Home = ({ searchQuery }) => {
   };
 
   const handleTransportClick = (transportType) => {
-    if (destinations.National.includes(selectedDestination.name)) {
+    if (destinations.International.includes(selectedDestination.name)) {
+      if (transportType === "Flight") {
+        setShowBookingForm(transportType);
+      } else {
+        setRedirectMessage(`${transportType}s are not available for international destinations.`);
+      }
+    } else if (destinations.National.includes(selectedDestination.name)) {
       setShowBookingForm(transportType);
-    } else {
-      setRedirectMessage(`${transportType}s don't go that far`);
     }
   };
 
@@ -260,7 +264,8 @@ const Home = ({ searchQuery }) => {
     setShowBookingForm(null);
   };
 
-  const handleGoBack = () => {
+  const handleGoBack = (event) => {
+    event.preventDefault();
     setSelectedDestination(null);
     setFamousPlacesList([]);
   };
@@ -347,9 +352,15 @@ const Home = ({ searchQuery }) => {
                 <input type="text" value={selectedDestination.name} readOnly />
               </div>
               <div className="transport-buttons">
-                <button onClick={() => handleTransportClick("Bus")}>Bus</button>
-                <button onClick={() => handleTransportClick("Flight")}>Flight</button>
-                <button onClick={() => handleTransportClick("Train")}>Train</button>
+                {destinations.International.includes(selectedDestination.name) ? (
+                  <button onClick={() => handleTransportClick("Flight")}>Flight</button>
+                ) : (
+                  <>
+                    <button onClick={() => handleTransportClick("Bus")}>Bus</button>
+                    <button onClick={() => handleTransportClick("Flight")}>Flight</button>
+                    <button onClick={() => handleTransportClick("Train")}>Train</button>
+                  </>
+                )}
               </div>
               <button onClick={handleGoBack}>Go Back</button>
             </div>
