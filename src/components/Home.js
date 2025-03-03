@@ -142,6 +142,26 @@ const Home = ({ searchQuery }) => {
     fetchImages();
   }, []);
 
+  const fetchImage = async (query) => {
+    try {
+      const response = await axios.get(`https://api.unsplash.com/search/photos`, {
+        params: {
+          query: query,
+          client_id: 'SBXFhFyeXv_9jzv_uIHDomkMydca_pR2OKF4cddf7Ws'
+        }
+      });
+      const imageUrl = response.data.results[0]?.urls?.small;
+      if (imageUrl) {
+        setDestinationImages((prevImages) => ({
+          ...prevImages,
+          [query]: imageUrl
+        }));
+      }
+    } catch (error) {
+      console.error(`Error fetching image for ${query}:`, error);
+    }
+  };
+
   const handleDestinationClick = (destination) => {
     const coordinates = {
       Paris: [2.3522, 48.8566],
