@@ -54,7 +54,7 @@ const Home = ({ searchQuery }) => {
           // Handle geolocation errors more gracefully
           console.log("Geolocation error:", error.message);
           // Default to a fallback location (e.g., Delhi)
-          const defaultCoordinates = [77.2090, 28.6139]; // Delhi coordinates
+          const defaultCoordinates = [12.82471694902229, 80.04533400320442]; // Delhi coordinates
           setStartingCoordinates(defaultCoordinates);
           setStartingLocation("Default Location (Delhi)");
           setBookingDetails((prevDetails) => ({
