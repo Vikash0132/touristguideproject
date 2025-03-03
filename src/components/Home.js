@@ -108,8 +108,10 @@ const Home = ({ searchQuery }) => {
               fetchImage(searchQuery);
             }
 
-            // Fetch famous places for the searched destination
-            fetchFamousPlaces(searchQuery);
+            // Fetch famous places for the searched destination if not already fetched
+            if (!famousPlacesList.length) {
+              fetchFamousPlaces(searchQuery);
+            }
           }
         } catch (error) {
           console.error('Error fetching location:', error);
@@ -117,7 +119,7 @@ const Home = ({ searchQuery }) => {
       };
       fetchLocation();
     }
-  }, [searchQuery, searchFrequency]);
+  }, [searchQuery, searchFrequency, famousPlacesList]);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -177,7 +179,7 @@ const Home = ({ searchQuery }) => {
           origin: '*'
         }
       });
-      const places = response.data.query.search.map(place => place.title);
+      const places = response.data.query.search.slice(0, 5).map(place => place.title);
       setFamousPlacesList(places);
     } catch (error) {
       console.error(`Error fetching famous places for ${destination}:`, error);
@@ -208,6 +210,9 @@ const Home = ({ searchQuery }) => {
       ...prevDetails,
       to: destination
     }));
+
+    // Fetch famous places for the clicked destination
+    fetchFamousPlaces(destination);
   };
 
   const handleStartingLocationChange = (event) => {
