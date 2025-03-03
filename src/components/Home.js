@@ -20,6 +20,7 @@ const Home = ({ searchQuery }) => {
   const [searchFrequency, setSearchFrequency] = useState({});
   const [dynamicTiles, setDynamicTiles] = useState([]);
   const [destinationImages, setDestinationImages] = useState({});
+  const [famousPlacesList, setFamousPlacesList] = useState([]);
 
   const destinations = {
     International: ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"],
@@ -106,6 +107,9 @@ const Home = ({ searchQuery }) => {
             if (searchFrequency[searchQuery] >= 3) {
               fetchImage(searchQuery);
             }
+
+            // Fetch famous places for the searched destination
+            fetchFamousPlaces(searchQuery);
           }
         } catch (error) {
           console.error('Error fetching location:', error);
@@ -159,6 +163,24 @@ const Home = ({ searchQuery }) => {
       }
     } catch (error) {
       console.error(`Error fetching image for ${query}:`, error);
+    }
+  };
+
+  const fetchFamousPlaces = async (destination) => {
+    try {
+      const response = await axios.get(`https://en.wikipedia.org/w/api.php`, {
+        params: {
+          action: 'query',
+          list: 'search',
+          srsearch: `famous places in ${destination}`,
+          format: 'json',
+          origin: '*'
+        }
+      });
+      const places = response.data.query.search.map(place => place.title);
+      setFamousPlacesList(places);
+    } catch (error) {
+      console.error(`Error fetching famous places for ${destination}:`, error);
     }
   };
 
@@ -217,6 +239,11 @@ const Home = ({ searchQuery }) => {
       transportType: showBookingForm
     });
     setShowBookingForm(null);
+  };
+
+  const handleGoBack = () => {
+    setSelectedDestination(null);
+    setFamousPlacesList([]);
   };
 
   return (
@@ -305,7 +332,7 @@ const Home = ({ searchQuery }) => {
                 <button onClick={() => handleTransportClick("Flight")}>Flight</button>
                 <button onClick={() => handleTransportClick("Train")}>Train</button>
               </div>
-              <button onClick={() => setSelectedDestination(null)}>Go Back</button>
+              <button onClick={handleGoBack}>Go Back</button>
             </div>
 
             <div className="map">
@@ -315,7 +342,7 @@ const Home = ({ searchQuery }) => {
             <div className="right-panel">
               <h3>Famous Places</h3>
               <ul>
-                {famousPlaces[selectedDestination.name]?.map((place, index) => (
+                {famousPlacesList.map((place, index) => (
                   <li key={index}>{place}</li>
                 ))}
               </ul>
