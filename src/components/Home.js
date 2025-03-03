@@ -73,6 +73,11 @@ const Home = ({ searchQuery }) => {
   }, []);
 
   useEffect(() => {
+    const storedTiles = JSON.parse(localStorage.getItem('frequentlySearched')) || [];
+    setDynamicTiles(storedTiles.slice(0, 3));
+  }, []);
+
+  useEffect(() => {
     if (searchQuery) {
       const fetchLocation = async () => {
         try {
@@ -107,7 +112,9 @@ const Home = ({ searchQuery }) => {
             setDynamicTiles((prevTiles) => {
               const newTiles = prevTiles.filter(tile => tile.name !== searchQuery);
               newTiles.unshift({ name: searchQuery, imageUrl: destinationImages[searchQuery] || '' });
-              return newTiles;
+              const limitedTiles = newTiles.slice(0, 3);
+              localStorage.setItem('frequentlySearched', JSON.stringify(limitedTiles));
+              return limitedTiles;
             });
 
             // Fetch image if search frequency is high
