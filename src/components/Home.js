@@ -388,10 +388,12 @@ const Home = ({ searchQuery }) => {
                 <div
                   key={index}
                   className="destination-tile"
+                  onClick={() => handleDestinationClick(tile.name)}
                   style={{
                     backgroundImage: `url(${tile.imageUrl})`,
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center'
+                    backgroundPosition: 'center',
+                    cursor: 'pointer'
                   }}
                 >
                   {tile.name}
