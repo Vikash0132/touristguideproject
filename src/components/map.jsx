@@ -66,12 +66,13 @@ const Map = ({ destination, startingCoordinates }) => {
           }
         });
 
-        // Fit bounds to show both points
-        map.current.fitBounds([
-          userLocation,
-          destination.coordinates
-        ], {
-          padding: 50
+        // Fit bounds to show the entire path without zooming out too much
+        const bounds = new maptilersdk.LngLatBounds();
+        bounds.extend(userLocation);
+        bounds.extend(destination.coordinates);
+        map.current.fitBounds(bounds, {
+          padding: 50,
+          maxZoom: 10 // Limit the maximum zoom level to avoid zooming out too much
         });
       }
     });
@@ -138,11 +139,12 @@ const Map = ({ destination, startingCoordinates }) => {
       });
 
       // Update map view
-      map.current.fitBounds([
-        userLocation,
-        destination.coordinates
-      ], {
-        padding: 50
+      const bounds = new maptilersdk.LngLatBounds();
+      bounds.extend(userLocation);
+      bounds.extend(destination.coordinates);
+      map.current.fitBounds(bounds, {
+        padding: 50,
+        maxZoom: 10 // Limit the maximum zoom level to avoid zooming out too much
       });
     }
   }, [userLocation, destination]);
