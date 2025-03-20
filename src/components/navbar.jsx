@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import axios for API calls
 import './navbar.css';
 
 const Navbar = ({ onSearch }) => {
@@ -8,23 +9,18 @@ const Navbar = ({ onSearch }) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
 
-  // List of destinations - you can move this to a separate config file
-  const allDestinations = [
-    "Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali",
-    "Dehradun", "Manali", "Goa"
-  ];
-
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     const query = e.target.value;
     setSearchQuery(query);
 
-    // Filter suggestions based on input
     if (query.trim() !== '') {
-      const filtered = allDestinations.filter(destination =>
-        destination.toLowerCase().includes(query.toLowerCase())
-      );
-      setSuggestions(filtered);
-      setShowSuggestions(true);
+      try {
+        const response = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`);
+        setSuggestions(response.data);
+        setShowSuggestions(true);
+      } catch (error) {
+        console.error('Error fetching suggestions:', error);
+      }
     } else {
       setSuggestions([]);
       setShowSuggestions(false);
@@ -32,8 +28,8 @@ const Navbar = ({ onSearch }) => {
   };
 
   const handleSuggestionClick = (suggestion) => {
-    setSearchQuery(suggestion);
-    onSearch(suggestion);
+    setSearchQuery(suggestion.display_name);
+    onSearch(suggestion.display_name);
     setShowSuggestions(false);
     navigate('/home');
   };
@@ -47,7 +43,6 @@ const Navbar = ({ onSearch }) => {
     }
   };
 
-  // Close suggestions when clicking outside
   useEffect(() => {
     const handleClickOutside = () => {
       setShowSuggestions(false);
@@ -62,7 +57,7 @@ const Navbar = ({ onSearch }) => {
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     navigate('/');
-    window.location.reload(); // Force a reload to ensure state is reset
+    window.location.reload();
   };
 
   return (
@@ -94,7 +89,7 @@ const Navbar = ({ onSearch }) => {
                   key={index}
                   onClick={() => handleSuggestionClick(suggestion)}
                 >
-                  {suggestion}
+                  {suggestion.display_name}
                 </li>
               ))}
             </ul>
