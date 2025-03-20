@@ -60,9 +60,9 @@ const Map = ({ destination, startingCoordinates }) => {
             'line-cap': 'round'
           },
           'paint': {
-            'line-color': '#888',
+            'line-color': '#0000FF', // Change to blue color
             'line-width': 4,
-            'line-dasharray': [2, 1]
+            'line-dasharray': [] // Remove dash array for solid line
           }
         });
 
@@ -132,9 +132,9 @@ const Map = ({ destination, startingCoordinates }) => {
           'line-cap': 'round'
         },
         'paint': {
-          'line-color': '#888',
+          'line-color': '#0000FF', // Change to blue color
           'line-width': 4,
-          'line-dasharray': [2, 1]
+          'line-dasharray': [] // Remove dash array for solid line
         }
       });
 
