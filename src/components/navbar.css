@@ -114,6 +114,7 @@
   z-index: 1000;
   max-height: 200px;
   overflow-y: auto;
+  color: black;
 }
 
 .suggestions-list li {
