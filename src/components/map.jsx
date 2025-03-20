@@ -76,15 +76,6 @@ const Map = ({ destination, startingCoordinates }) => {
       }
     });
 
-    // Enable manual zoom and pan
-    map.current.on('zoomend', () => {
-      map.current.setZoom(map.current.getZoom());
-    });
-
-    map.current.on('moveend', () => {
-      map.current.setCenter(map.current.getCenter());
-    });
-
   }, [userLocation, zoom]);
 
   useEffect(() => {
