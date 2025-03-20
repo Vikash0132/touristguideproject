@@ -42,7 +42,7 @@
 
 .nav-container input[type="text"] {
   flex: 1;
-  min-width: 200px;
+  min-width: 80%;
 }
 
 /* Add shadow on focus for better UX */
