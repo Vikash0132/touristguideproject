@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import './Home.css';
-import Map from './map';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import "./Home.css";
+import Map from "./map"; // Import the Map component
+import axios from "axios";
 
 const Home = ({ searchQuery }) => {
   const [selectedDestination, setSelectedDestination] = useState(null);
@@ -11,10 +11,10 @@ const Home = ({ searchQuery }) => {
   const [showBookingForm, setShowBookingForm] = useState(null); // 'Bus', 'Train', or 'Flight'
   const [bookingDetails, setBookingDetails] = useState({
     passengers: 1,
-    time: '',
-    date: '',
-    from: '',
-    to: ''
+    time: "",
+    date: "",
+    from: "",
+    to: "",
   });
   const [dummyTicket, setDummyTicket] = useState(null);
   const [searchFrequency, setSearchFrequency] = useState({});
@@ -24,7 +24,7 @@ const Home = ({ searchQuery }) => {
 
   const destinations = {
     International: ["Paris", "Kathmandu", "Italy", "Thailand", "Dubai", "Bali"],
-    National: ["Dehradun", "Manali", "Goa"]
+    National: ["Dehradun", "Manali", "Goa"],
   };
 
   const famousPlaces = {
@@ -36,19 +36,22 @@ const Home = ({ searchQuery }) => {
     Bali: ["Uluwatu Temple", "Tegallalang Rice Terrace", "Monkey Forest"],
     Dehradun: ["Robber's Cave", "Sahastradhara", "Tapkeshwar Temple"],
     Manali: ["Solang Valley", "Rohtang Pass", "Hidimba Temple"],
-    Goa: ["Baga Beach", "Fort Aguada", "Basilica of Bom Jesus"]
+    Goa: ["Baga Beach", "Fort Aguada", "Basilica of Bom Jesus"],
   };
 
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const userCoordinates = [position.coords.longitude, position.coords.latitude];
+          const userCoordinates = [
+            position.coords.longitude,
+            position.coords.latitude,
+          ];
           setStartingCoordinates(userCoordinates);
           setStartingLocation("Your Live Location");
           setBookingDetails((prevDetails) => ({
             ...prevDetails,
-            from: "Your Live Location"
+            from: "Your Live Location",
           }));
         },
         (error) => {
@@ -60,20 +63,21 @@ const Home = ({ searchQuery }) => {
           setStartingLocation("Default Location (Delhi)");
           setBookingDetails((prevDetails) => ({
             ...prevDetails,
-            from: "Default Location (Delhi)"
+            from: "Default Location (Delhi)",
           }));
         },
-        { 
+        {
           enableHighAccuracy: true,
           timeout: 5000,
-          maximumAge: 0
+          maximumAge: 0,
         }
       );
     }
   }, []);
 
   useEffect(() => {
-    const storedTiles = JSON.parse(localStorage.getItem('frequentlySearched')) || [];
+    const storedTiles =
+      JSON.parse(localStorage.getItem("frequentlySearched")) || [];
     setDynamicTiles(storedTiles.slice(0, 3));
   }, []);
 
@@ -82,7 +86,9 @@ const Home = ({ searchQuery }) => {
       const fetchLocation = async () => {
         try {
           const response = await axios.get(
-            `https://api.maptiler.com/geocoding/${encodeURIComponent(searchQuery)}.json`,
+            `https://api.maptiler.com/geocoding/${encodeURIComponent(
+              searchQuery
+            )}.json`,
             {
               params: {
                 key: process.env.REACT_APP_MAPTILER_KEY,
@@ -94,11 +100,11 @@ const Home = ({ searchQuery }) => {
           if (location) {
             setSelectedDestination({
               name: searchQuery,
-              coordinates: location.geometry.coordinates
+              coordinates: location.geometry.coordinates,
             });
             setBookingDetails((prevDetails) => ({
               ...prevDetails,
-              to: searchQuery
+              to: searchQuery,
             }));
 
             // Update search frequency
@@ -110,10 +116,18 @@ const Home = ({ searchQuery }) => {
 
             // Add to frequently searched tiles
             setDynamicTiles((prevTiles) => {
-              const newTiles = prevTiles.filter(tile => tile.name !== searchQuery);
-              newTiles.unshift({ name: searchQuery, imageUrl: destinationImages[searchQuery] || '' });
+              const newTiles = prevTiles.filter(
+                (tile) => tile.name !== searchQuery
+              );
+              newTiles.unshift({
+                name: searchQuery,
+                imageUrl: destinationImages[searchQuery] || "",
+              });
               const limitedTiles = newTiles.slice(0, 3);
-              localStorage.setItem('frequentlySearched', JSON.stringify(limitedTiles));
+              localStorage.setItem(
+                "frequentlySearched",
+                JSON.stringify(limitedTiles)
+              );
               return limitedTiles;
             });
 
@@ -128,7 +142,7 @@ const Home = ({ searchQuery }) => {
             }
           }
         } catch (error) {
-          console.error('Error fetching location:', error);
+          console.error("Error fetching location:", error);
         }
       };
       fetchLocation();
@@ -141,12 +155,15 @@ const Home = ({ searchQuery }) => {
       for (const category in destinations) {
         for (const destination of destinations[category]) {
           try {
-            const response = await axios.get(`https://api.unsplash.com/search/photos`, {
-              params: {
-                query: destination,
-                client_id: 'SBXFhFyeXv_9jzv_uIHDomkMydca_pR2OKF4cddf7Ws'
+            const response = await axios.get(
+              `https://api.unsplash.com/search/photos`,
+              {
+                params: {
+                  query: destination,
+                  client_id: "SBXFhFyeXv_9jzv_uIHDomkMydca_pR2OKF4cddf7Ws",
+                },
               }
-            });
+            );
             const imageUrl = response.data.results[0]?.urls?.small;
             if (imageUrl) {
               newDestinationImages[destination] = imageUrl;
@@ -156,7 +173,7 @@ const Home = ({ searchQuery }) => {
           }
         }
       }
-      console.log('Fetched images:', newDestinationImages); // Debugging line
+      console.log("Fetched images:", newDestinationImages); // Debugging line
       setDestinationImages(newDestinationImages);
     };
     fetchImages();
@@ -164,17 +181,20 @@ const Home = ({ searchQuery }) => {
 
   const fetchImage = async (query) => {
     try {
-      const response = await axios.get(`https://api.unsplash.com/search/photos`, {
-        params: {
-          query: query,
-          client_id: 'SBXFhFyeXv_9jzv_uIHDomkMydca_pR2OKF4cddf7Ws'
+      const response = await axios.get(
+        `https://api.unsplash.com/search/photos`,
+        {
+          params: {
+            query: query,
+            client_id: "SBXFhFyeXv_9jzv_uIHDomkMydca_pR2OKF4cddf7Ws",
+          },
         }
-      });
+      );
       const imageUrl = response.data.results[0]?.urls?.small;
       if (imageUrl) {
         setDestinationImages((prevImages) => ({
           ...prevImages,
-          [query]: imageUrl
+          [query]: imageUrl,
         }));
       }
     } catch (error) {
@@ -186,14 +206,16 @@ const Home = ({ searchQuery }) => {
     try {
       const response = await axios.get(`https://en.wikipedia.org/w/api.php`, {
         params: {
-          action: 'query',
-          list: 'search',
+          action: "query",
+          list: "search",
           srsearch: `famous places in ${destination}`,
-          format: 'json',
-          origin: '*'
-        }
+          format: "json",
+          origin: "*",
+        },
       });
-      const places = response.data.query.search.slice(0, 5).map(place => place.title);
+      const places = response.data.query.search
+        .slice(0, 5)
+        .map((place) => place.title);
       setFamousPlacesList(places);
     } catch (error) {
       console.error(`Error fetching famous places for ${destination}:`, error);
@@ -210,19 +232,19 @@ const Home = ({ searchQuery }) => {
       Bali: [115.1889, -8.4095],
       Dehradun: [78.0322, 30.3165],
       Manali: [77.1887, 32.2396],
-      Goa: [74.124, 15.2993]
+      Goa: [74.124, 15.2993],
     };
 
     setSelectedDestination({
       name: destination,
-      coordinates: coordinates[destination]
+      coordinates: coordinates[destination],
     });
     setRedirectMessage(null);
     setShowBookingForm(null);
     setDummyTicket(null);
     setBookingDetails((prevDetails) => ({
       ...prevDetails,
-      to: destination
+      to: destination,
     }));
 
     // Fetch famous places for the clicked destination
@@ -237,7 +259,10 @@ const Home = ({ searchQuery }) => {
       setStartingCoordinates([12.9716, 77.5946]);
     } else if (location === "Your Live Location") {
       navigator.geolocation.getCurrentPosition((position) => {
-        setStartingCoordinates([position.coords.longitude, position.coords.latitude]);
+        setStartingCoordinates([
+          position.coords.longitude,
+          position.coords.latitude,
+        ]);
       });
     }
   };
@@ -247,7 +272,9 @@ const Home = ({ searchQuery }) => {
       if (transportType === "Flight") {
         setShowBookingForm(transportType);
       } else {
-        setRedirectMessage(`${transportType}s are not available for international destinations.`);
+        setRedirectMessage(
+          `${transportType}s are not available for international destinations.`
+        );
       }
     } else if (destinations.National.includes(selectedDestination.name)) {
       setShowBookingForm(transportType);
@@ -259,7 +286,7 @@ const Home = ({ searchQuery }) => {
     setDummyTicket({
       ...bookingDetails,
       destination: selectedDestination.name,
-      transportType: showBookingForm
+      transportType: showBookingForm,
     });
     setShowBookingForm(null);
   };
@@ -296,7 +323,10 @@ const Home = ({ searchQuery }) => {
                 value={bookingDetails.passengers}
                 min="1"
                 onChange={(e) =>
-                  setBookingDetails({ ...bookingDetails, passengers: e.target.value })
+                  setBookingDetails({
+                    ...bookingDetails,
+                    passengers: e.target.value,
+                  })
                 }
               />
             </div>
@@ -326,11 +356,21 @@ const Home = ({ searchQuery }) => {
       ) : dummyTicket ? (
         <div className="ticket">
           <h2>{dummyTicket.transportType} Ticket</h2>
-          <p><strong>From:</strong> {dummyTicket.from}</p>
-          <p><strong>To:</strong> {dummyTicket.to}</p>
-          <p><strong>Passengers:</strong> {dummyTicket.passengers}</p>
-          <p><strong>Departure Date:</strong> {dummyTicket.date}</p>
-          <p><strong>Departure Time:</strong> {dummyTicket.time}</p>
+          <p>
+            <strong>From:</strong> {dummyTicket.from}
+          </p>
+          <p>
+            <strong>To:</strong> {dummyTicket.to}
+          </p>
+          <p>
+            <strong>Passengers:</strong> {dummyTicket.passengers}
+          </p>
+          <p>
+            <strong>Departure Date:</strong> {dummyTicket.date}
+          </p>
+          <p>
+            <strong>Departure Time:</strong> {dummyTicket.time}
+          </p>
           <button onClick={() => setDummyTicket(null)}>Back to Booking</button>
         </div>
       ) : selectedDestination ? (
@@ -352,22 +392,33 @@ const Home = ({ searchQuery }) => {
                 <input type="text" value={selectedDestination.name} readOnly />
               </div>
               <div className="transport-buttons">
-                {destinations.International.includes(selectedDestination.name) ? (
-                  <button onClick={() => handleTransportClick("Flight")}>Flight</button>
+                {destinations.International.includes(
+                  selectedDestination.name
+                ) ? (
+                  <button onClick={() => handleTransportClick("Flight")}>
+                    Flight
+                  </button>
                 ) : (
                   <>
-                    <button onClick={() => handleTransportClick("Bus")}>Bus</button>
-                    <button onClick={() => handleTransportClick("Flight")}>Flight</button>
-                    <button onClick={() => handleTransportClick("Train")}>Train</button>
+                    <button onClick={() => handleTransportClick("Bus")}>
+                      Bus
+                    </button>
+                    <button onClick={() => handleTransportClick("Flight")}>
+                      Flight
+                    </button>
+                    <button onClick={() => handleTransportClick("Train")}>
+                      Train
+                    </button>
                   </>
                 )}
               </div>
               <button onClick={handleGoBack}>Go Back</button>
             </div>
 
-            <div className="map">
-              <Map destination={selectedDestination} startingCoordinates={startingCoordinates} />
-            </div>
+            <Map
+              destination={selectedDestination}
+              startingCoordinates={startingCoordinates}
+            />
 
             <div className="right-panel">
               <h3>Famous Places</h3>
@@ -391,9 +442,9 @@ const Home = ({ searchQuery }) => {
                   onClick={() => handleDestinationClick(tile.name)}
                   style={{
                     backgroundImage: `url(${tile.imageUrl})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    cursor: 'pointer'
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    cursor: "pointer",
                   }}
                 >
                   {tile.name}
@@ -412,9 +463,11 @@ const Home = ({ searchQuery }) => {
                     onClick={() => handleDestinationClick(destination)}
                     style={{
                       cursor: "pointer",
-                      backgroundImage: `url(${destinationImages[destination] || ''})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center'
+                      backgroundImage: `url(${
+                        destinationImages[destination] || ""
+                      })`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
                     }}
                   >
                     {destination}
@@ -430,4 +483,3 @@ const Home = ({ searchQuery }) => {
 };
 
 export default Home;
-//hellow
