@@ -1,13 +1,13 @@
 /* Container */
 @font-face {
   font-family: caligraphy;
-  src: url('../../public/CampanaScript_PERSONAL_USE_ONLY.otf'); /* Correct path */
+  src: url("../../public/CampanaScript_PERSONAL_USE_ONLY.otf"); /* Correct path */
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f4f9;
   color: #333;
 }
@@ -96,7 +96,7 @@ button[type="submit"] {
 .home-tab {
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: center;
   padding: 20px;
 }
 
@@ -108,7 +108,7 @@ button[type="submit"] {
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  gap: 50px;
 }
 
 .destination-tile {
@@ -131,7 +131,7 @@ button[type="submit"] {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  background-image: url('../../public/realistic-travel-background-with-elements_52683-77784.avif');
+  background-image: url("../../public/realistic-travel-background-with-elements_52683-77784.avif");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -140,7 +140,7 @@ button[type="submit"] {
 }
 
 .booking-page::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -271,7 +271,7 @@ button:active {
 
 .category-header {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 5rem;
   font-weight: bold;
   margin-bottom: 10px;
   color: #007bff;
@@ -295,7 +295,8 @@ button:active {
   background-size: cover;
   background-position: center;
   color: white;
-  font-size: 1.5rem;
+  font-size: 4rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   background-color: #ccc; /* Fallback color */
+  font-family: "caligraphy";
 }

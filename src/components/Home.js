@@ -122,6 +122,7 @@ const Home = ({ searchQuery }) => {
               newTiles.unshift({
                 name: searchQuery,
                 imageUrl: destinationImages[searchQuery] || "",
+                coordinates: location.geometry.coordinates, // Store coordinates
               });
               const limitedTiles = newTiles.slice(0, 3);
               localStorage.setItem(
@@ -223,21 +224,24 @@ const Home = ({ searchQuery }) => {
   };
 
   const handleDestinationClick = (destination) => {
-    const coordinates = {
-      Paris: [2.3522, 48.8566],
-      Kathmandu: [85.324, 27.7172],
-      Italy: [12.4964, 41.9028],
-      Thailand: [100.5018, 13.7563],
-      Dubai: [55.2708, 25.2048],
-      Bali: [115.1889, -8.4095],
-      Dehradun: [78.0322, 30.3165],
-      Manali: [77.1887, 32.2396],
-      Goa: [74.124, 15.2993],
-    };
+    const selectedTile = dynamicTiles.find((tile) => tile.name === destination);
+    const coordinates = selectedTile
+      ? selectedTile.coordinates
+      : {
+          Paris: [2.3522, 48.8566],
+          Kathmandu: [85.324, 27.7172],
+          Italy: [12.4964, 41.9028],
+          Thailand: [100.5018, 13.7563],
+          Dubai: [55.2708, 25.2048],
+          Bali: [115.1889, -8.4095],
+          Dehradun: [78.0322, 30.3165],
+          Manali: [77.1887, 32.2396],
+          Goa: [74.124, 15.2993],
+        }[destination];
 
     setSelectedDestination({
       name: destination,
-      coordinates: coordinates[destination],
+      coordinates: coordinates,
     });
     setRedirectMessage(null);
     setShowBookingForm(null);
