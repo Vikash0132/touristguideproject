@@ -100,7 +100,6 @@ button[type="submit"] {
   padding: 0px;
   background-image: url("../../public/embroidorybackground.jpg");
   background-size: contain;
-  background-repeat: no-repeat;
 }
 
 .category-container {
