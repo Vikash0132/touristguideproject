@@ -97,8 +97,10 @@ button[type="submit"] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 0px;
   background-image: url("../../public/embroidorybackground.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .category-container {
