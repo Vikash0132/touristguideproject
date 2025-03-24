@@ -99,7 +99,7 @@ button[type="submit"] {
   align-items: center;
   padding: 0px;
   background-image: url("../../public/embroidorybackground.jpg");
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
 }
 
