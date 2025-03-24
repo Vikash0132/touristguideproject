@@ -222,7 +222,7 @@ const Home = ({ searchQuery }) => {
       console.error(`Error fetching famous places for ${destination}:`, error);
     }
   };
-
+  //reverted to 7a3e7c45bc69462b26aa4cc96baf3d7712b972f8
   const handleDestinationClick = (destination) => {
     const selectedTile = dynamicTiles.find((tile) => tile.name === destination);
     const coordinates = selectedTile
