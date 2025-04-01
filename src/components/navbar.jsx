@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios for API calls
-import './navbar.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./navbar.css";
 
 const Navbar = ({ onSearch }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
@@ -13,13 +13,15 @@ const Navbar = ({ onSearch }) => {
     const query = e.target.value;
     setSearchQuery(query);
 
-    if (query.trim() !== '') {
+    if (query.trim() !== "") {
       try {
-        const response = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`);
+        const response = await axios.get(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${query}`
+        );
         setSuggestions(response.data);
         setShowSuggestions(true);
       } catch (error) {
-        console.error('Error fetching suggestions:', error);
+        console.error("Error fetching suggestions:", error);
       }
     } else {
       setSuggestions([]);
@@ -31,15 +33,15 @@ const Navbar = ({ onSearch }) => {
     setSearchQuery(suggestion.display_name);
     onSearch(suggestion.display_name);
     setShowSuggestions(false);
-    navigate('/home');
+    navigate("/home");
   };
 
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
-    if (searchQuery.trim() !== '') {
+    if (searchQuery.trim() !== "") {
       onSearch(searchQuery);
       setShowSuggestions(false);
-      navigate('/home');
+      navigate("/home");
     }
   };
 
@@ -48,15 +50,15 @@ const Navbar = ({ onSearch }) => {
       setShowSuggestions(false);
     };
 
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    navigate('/');
+    localStorage.removeItem("authToken");
+    navigate("/");
     window.location.reload();
   };
 
@@ -75,7 +77,7 @@ const Navbar = ({ onSearch }) => {
               onChange={handleSearch}
               onClick={(e) => {
                 e.stopPropagation();
-                if (searchQuery.trim() !== '') {
+                if (searchQuery.trim() !== "") {
                   setShowSuggestions(true);
                 }
               }}
@@ -95,7 +97,17 @@ const Navbar = ({ onSearch }) => {
             </ul>
           )}
         </div>
-        <button onClick={handleLogout} className="logout-btn">Logout</button>
+        <button
+          onClick={() =>
+            window.open("https://your-hosted-lm-detection-app.com", "_blank")
+          }
+          className="landmark-detection-btn"
+        >
+          Landmark Detection
+        </button>
+        <button onClick={handleLogout} className="logout-btn">
+          Logout
+        </button>
       </div>
     </nav>
   );
