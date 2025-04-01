@@ -11,6 +11,12 @@
 }
 
 /* Logo/Heading */
+.heading {
+  background-color: black; /* Black background for Touristo */
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
 .heading h1 {
   font-size: 24px;
   margin: 0;
@@ -32,8 +38,8 @@
 }
 
 .search-container input {
-  flex-grow: 1;
-  padding: 8px 12px;
+  flex-grow: 1; /* Expand the search bar */
+  padding: 10px 15px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 20px 0 0 20px;
@@ -41,7 +47,7 @@
 }
 
 .search-container button {
-  padding: 8px 16px;
+  padding: 10px 20px;
   font-size: 16px;
   background-color: #28a745; /* Green button */
   color: white;
@@ -82,8 +88,8 @@
 /* Buttons */
 .landmark-detection-btn,
 .logout-btn {
-  padding: 8px 16px;
-  font-size: 16px;
+  padding: 6px 12px; /* Smaller buttons */
+  font-size: 14px;
   background-color: #17a2b8; /* Teal button */
   color: white;
   border: none;
