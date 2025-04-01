@@ -27,7 +27,7 @@
 .search-container {
   display: flex;
   align-items: center;
-  flex-grow: 1;
+  flex-grow: 1; /* Allow the search container to take up available space */
   margin: 0 20px;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .search-container input {
-  flex-grow: 1; /* Expand the search bar */
+  flex-grow: 1; /* Expand the input field to take up most of the space */
   padding: 10px 15px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -97,6 +97,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-left: 10px;
+  width: 150px;
 }
 
 .landmark-detection-btn:hover {
