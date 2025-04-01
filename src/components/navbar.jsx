@@ -99,7 +99,7 @@ const Navbar = ({ onSearch }) => {
         </div>
         <button
           onClick={() =>
-            window.open("https://your-hosted-lm-detection-app.com", "_blank")
+            window.open("https://landmarkdetection.streamlit.app/", "_blank")
           }
           className="landmark-detection-btn"
         >

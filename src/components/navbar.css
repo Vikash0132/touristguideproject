@@ -1,137 +1,90 @@
-/* Container styling */
+/* General Navbar Styles */
 .nav-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: linear-gradient(90deg, #007bff, #0056b3);
+  justify-content: space-between;
+  background-color: #007bff; /* Blue background */
   padding: 10px 20px;
   color: white;
-  border-bottom: 1px solid #dee2e6;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Heading styling */
-.heading {
+/* Logo/Heading */
+.heading h1 {
+  font-size: 24px;
   margin: 0;
-  padding: 0;
-  background-color: black;
   color: white;
-  text-align: center;
 }
 
-.heading > h1 {
-  padding: 20px;
-  margin: 0;
-}
-
-/* Form styling */
-.nav-container form {
+/* Search Container */
+.search-container {
   display: flex;
   align-items: center;
-  gap: 10px;
-}
-
-/* Input styling (Search Bar) */
-.nav-container input {
-  padding: 8px 15px;
-  font-size: 16px;
-  border: 1px solid #ced4da;
-  border-radius: 20px;
-  outline: none;
-  transition: box-shadow 0.3s ease;
-}
-
-.nav-container input[type="text"] {
-  flex: 1;
-  min-width: 80%;
-}
-
-/* Add shadow on focus for better UX */
-.nav-container input:focus {
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
-}
-
-/* Button styling */
-.nav-container button {
-  padding: 8px 12px;
-  font-size: 16px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.nav-container button:hover {
-  background-color: #218838;
-}
-
-/* Logout button */
-.logout-btn {
-  padding: 8px 12px;
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 150px;
-}
-
-.logout-btn:hover {
-  background-color: #c82333;
-}
-
-/* Error message styling (optional for error handling in the search) */
-.error-message {
-  color: red;
-  font-size: 0.9rem;
-  margin-top: 5px;
-}
-
-/* Add these styles to your existing navbar.css */
-
-.search-container {
-  position: relative;
-  flex: 1;
-  max-width: 500px;
+  flex-grow: 1;
   margin: 0 20px;
 }
 
+.search-container form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-container input {
+  flex-grow: 1;
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 20px 0 0 20px;
+  outline: none;
+}
+
+.search-container button {
+  padding: 8px 16px;
+  font-size: 16px;
+  background-color: #28a745; /* Green button */
+  color: white;
+  border: none;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-container button:hover {
+  background-color: #218838;
+}
+
+/* Suggestions List */
 .suggestions-list {
   position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
   background-color: white;
-  border: 1px solid #ddd;
-  border-top: none;
-  border-radius: 0 0 4px 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+  width: calc(100% - 40px);
   z-index: 1000;
+  list-style: none;
+  padding: 0;
   max-height: 200px;
   overflow-y: auto;
-  color: black;
 }
 
 .suggestions-list li {
-  padding: 10px 15px;
+  padding: 8px 12px;
   cursor: pointer;
-  transition: background-color 0.2s;
 }
 
 .suggestions-list li:hover {
-  background-color: #f0f0f0;
+  background-color: #f1f1f1;
 }
 
-/* Add styles for the Landmark Detection button */
-.landmark-detection-btn {
-  padding: 8px 12px;
+/* Buttons */
+.landmark-detection-btn,
+.logout-btn {
+  padding: 8px 16px;
   font-size: 16px;
-  background-color: #17a2b8;
+  background-color: #17a2b8; /* Teal button */
   color: white;
   border: none;
   border-radius: 20px;
@@ -142,4 +95,32 @@
 
 .landmark-detection-btn:hover {
   background-color: #138496;
+}
+
+.logout-btn {
+  background-color: #dc3545; /* Red button */
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-container {
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  .landmark-detection-btn,
+  .logout-btn {
+    margin-left: 0;
+    margin-top: 10px;
+    width: 100%;
+  }
 }
